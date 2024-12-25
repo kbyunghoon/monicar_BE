@@ -1,0 +1,5 @@
+rootProject.name = 'monicar'
+include 'monicar-emulator'
+include 'monicar-control-center'
+include 'monicar-collector'
+
