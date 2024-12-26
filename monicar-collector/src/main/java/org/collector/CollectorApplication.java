@@ -1,22 +1,17 @@
 package org.collector;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.common.TestBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.common.TestBean;
-
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 
 @SpringBootApplication(scanBasePackages = {"org.collector", "org.common"})
+@RequiredArgsConstructor
 public class CollectorApplication {
 
     private final TestBean testBean;
-
-    @Autowired
-    public CollectorApplication(TestBean testBean) {
-        this.testBean = testBean;
-    }
 
     @PostConstruct
     public void dependencyTest() {
