@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @AllArgsConstructor
+@Builder
 @Getter
-public class CtrList {
-    private String ctrId;
-    private String ctrCd;
-    private String ctrVal;
+public class ControlData {
+    private String controlId;
+    private String controlCode;
+    private String cycleInfoTransmitTerm;
 }
