@@ -7,6 +7,10 @@ plugins {
 allprojects {
     group = 'B6F2'
     version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 subprojects {
@@ -24,10 +28,6 @@ subprojects {
         compileOnly {
             extendsFrom annotationProcessor
         }
-    }
-
-    repositories {
-        mavenCentral()
     }
 
     dependencies {
