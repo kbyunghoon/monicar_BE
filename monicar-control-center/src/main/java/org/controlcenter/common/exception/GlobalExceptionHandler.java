@@ -23,90 +23,89 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    /**
-     * BusinessException 처리
-     *
-     * @param e 발생한 BusinessException 인스턴스
-     * @return HTTP 상태 코드와 함께 BaseResponse 형식의 오류 응답
-     */
-    @ExceptionHandler(BusinessException.class)
-    protected ResponseEntity<BaseResponse<Void>> handleBusinessException(final BusinessException e) {
-        return ResponseEntity
-                .status(e.getErrorCode().getStatus())
-                .body(BaseResponse.fail(e.getErrorCode()));
-    }
+	/**
+	 * BusinessException 처리
+	 *
+	 * @param e 발생한 BusinessException 인스턴스
+	 * @return HTTP 상태 코드와 함께 BaseResponse 형식의 오류 응답
+	 */
+	@ExceptionHandler(BusinessException.class)
+	protected ResponseEntity<BaseResponse<Void>> handleBusinessException(final BusinessException e) {
+		return ResponseEntity
+			.status(e.getErrorCode().getStatus())
+			.body(BaseResponse.fail(e.getErrorCode()));
+	}
 
-    /**
-     * 일반적인 모든 예외 처리 (Exception)
-     */
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<BaseResponse<Void>> handleGeneralException(final Exception e) {
-        log.error("Unhandled Exception 발생: {}", e.getMessage(), e);
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(BaseResponse.fail(ErrorCode.INTERNAL_SERVER_ERROR));
-    }
+	/**
+	 * 일반적인 모든 예외 처리 (Exception)
+	 */
+	@ExceptionHandler(Exception.class)
+	protected ResponseEntity<BaseResponse<Void>> handleGeneralException(final Exception e) {
+		log.error("Unhandled Exception 발생: {}", e.getMessage(), e);
+		return ResponseEntity
+			.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(BaseResponse.fail(ErrorCode.INTERNAL_SERVER_ERROR));
+	}
 
-    /**
-     * enum 타입이 일치하지 않을 때 발생하는 예외 처리
-     * RequestParam 으로 전달된 enum 타입의 값이 맞지 않을 때 주로 발생
-     */
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<BaseResponse<String>> handleMethodArgumentTypeMismatchException(
-            MethodArgumentTypeMismatchException e) {
-        log.error("MethodArgumentTypeMismatchException 예외 처리: {}", e.getMessage(), e);
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(BaseResponse.fail(ErrorCode.INVALID_DATE));
-    }
+	/**
+	 * enum 타입이 일치하지 않을 때 발생하는 예외 처리
+	 * RequestParam 으로 전달된 enum 타입의 값이 맞지 않을 때 주로 발생
+	 */
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	protected ResponseEntity<BaseResponse<String>> handleMethodArgumentTypeMismatchException(
+		MethodArgumentTypeMismatchException e) {
+		log.error("MethodArgumentTypeMismatchException 예외 처리: {}", e.getMessage(), e);
+		return ResponseEntity
+			.status(HttpStatus.BAD_REQUEST)
+			.body(BaseResponse.fail(ErrorCode.INVALID_DATE));
+	}
 
-    // @Valid 실패 (개별)
-    @ExceptionHandler(HandlerMethodValidationException.class)
-    public ResponseEntity<BaseResponse<String>> handleValidationException(HandlerMethodValidationException e) {
-        // Validation 실패 메시지 추출
-        String errorMessage = e.getAllErrors()
-                .stream()
-                .findFirst()
-                .map(MessageSourceResolvable::getDefaultMessage)
-                .orElse("입력한 값의 형식이 유효하지 않습니다.");
+	// @Valid 실패 (개별)
+	@ExceptionHandler(HandlerMethodValidationException.class)
+	public ResponseEntity<BaseResponse<String>> handleValidationException(HandlerMethodValidationException e) {
+		// Validation 실패 메시지 추출
+		String errorMessage = e.getAllErrors()
+			.stream()
+			.findFirst()
+			.map(MessageSourceResolvable::getDefaultMessage)
+			.orElse("입력한 값의 형식이 유효하지 않습니다.");
 
-        // 에러 응답 반환
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponse.fail(errorMessage));
-    }
+		// 에러 응답 반환
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(BaseResponse.fail(errorMessage));
+	}
 
-    // @Valid 실패
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<BaseResponse<String>> handleValidationException(MethodArgumentNotValidException e) {
-        // 첫 번째 FieldError 추출
-        FieldError firstError = e.getBindingResult().getFieldErrors().getFirst();
-        String errorMessage = firstError.getDefaultMessage();
+	// @Valid 실패
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<BaseResponse<String>> handleValidationException(MethodArgumentNotValidException e) {
+		FieldError firstError = e.getBindingResult().getFieldErrors().getFirst();
+		String errorMessage = firstError.getDefaultMessage();
 
-        // 첫 번째 에러 메시지 반환
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(BaseResponse.fail(errorMessage));
-    }
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(BaseResponse.fail(errorMessage));
+	}
 
-    /**
-     * 요청에 필수적인 Path Variable이 없을 때 발생하는 예외 처리
-     */
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<BaseResponse<Void>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        log.error("HttpMessageNotReadableException 예외 처리 : {}", e.getMessage(), e);
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(BaseResponse.fail(ErrorCode.EMPTY_PATH_VARIABLE));
-    }
+	/**
+	 * 요청에 필수적인 Path Variable이 없을 때 발생하는 예외 처리
+	 */
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<BaseResponse<Void>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+		log.error("HttpMessageNotReadableException 예외 처리 : {}", e.getMessage(), e);
+		return ResponseEntity
+			.status(HttpStatus.BAD_REQUEST)
+			.body(BaseResponse.fail(ErrorCode.EMPTY_PATH_VARIABLE));
+	}
 
-    /**
-     * 지원되지 않는 HTTP 메서드로 요청할 때 발생하는 예외 처리
-     */
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    protected ResponseEntity<BaseResponse<Void>> handleHttpRequestMethodNotSupportedException(
-            final HttpRequestMethodNotSupportedException e) {
-        log.error("HttpRequestMethodNotSupportedException 예외 처리 : {}", e.getMessage(), e);
-        return ResponseEntity
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .body(BaseResponse.fail(ErrorCode.METHOD_NOT_ALLOWED));
-    }
+	/**
+	 * 지원되지 않는 HTTP 메서드로 요청할 때 발생하는 예외 처리
+	 */
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	protected ResponseEntity<BaseResponse<Void>> handleHttpRequestMethodNotSupportedException(
+		final HttpRequestMethodNotSupportedException e) {
+		log.error("HttpRequestMethodNotSupportedException 예외 처리 : {}", e.getMessage(), e);
+		return ResponseEntity
+			.status(HttpStatus.METHOD_NOT_ALLOWED)
+			.body(BaseResponse.fail(ErrorCode.METHOD_NOT_ALLOWED));
+	}
 
 }
