@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Builder
-@Getter
-public class GeoPointData {
+public class GeoPoint {
     private String geoPointId;
     private String updateStatus;
     private String geoGroupId;

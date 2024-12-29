@@ -1,4 +1,4 @@
-package org.emulator.domain.dto;
+package org.emulator.infrastructure.external.command;
 
 /**
  * 차량의 제어 정보 데이터를 담는 레코드
@@ -7,7 +7,7 @@ package org.emulator.domain.dto;
  * @param ctrCd 제어 정보 코드 - 주기정보 전송 주기 코드 (‘05’ 고정)
  * @param ctrVal 제어 정보 값 - 주기정보 전송 주기(단위: 초) (60, 120 . .)
  */
-public record CtrListDto (
+public record CtrList(
     String ctrId,
     String ctrCd,
     String ctrVal

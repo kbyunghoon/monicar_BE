@@ -1,21 +1,20 @@
 package org.emulator.infrastructure.repository;
 
 import org.emulator.application.port.EmulatorRepository;
-import org.emulator.domain.VehicleGlobalData;
+import org.emulator.domain.VehicleInfo;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryEmulatorRepository implements EmulatorRepository {
-    private VehicleGlobalData vehicleGlobalData = new VehicleGlobalData();
+    private VehicleInfo vehicleInfo = new VehicleInfo();
 
-    @Override
-    public VehicleGlobalData getVehicleInfo() {
-        return vehicleGlobalData;
-    }
+	@Override
+	public int getTotalDistance() {
+		return vehicleInfo.getTotalDistance();
+	}
 
-    @Override
-    public VehicleGlobalData save(VehicleGlobalData vehicleGlobalData) {
-        this.vehicleGlobalData = vehicleGlobalData;
-        return this.vehicleGlobalData;
-    }
+	@Override
+	public String getGpsStatus() {
+		return vehicleInfo.getGpsStatus();
+	}
 }
