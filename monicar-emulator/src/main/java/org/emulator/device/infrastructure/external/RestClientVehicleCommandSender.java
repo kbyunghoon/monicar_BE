@@ -1,6 +1,5 @@
 package org.emulator.device.infrastructure.external;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.common.dto.CommonResponse;

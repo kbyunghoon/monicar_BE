@@ -1,7 +1,5 @@
 package org.emulator.device.infrastructure.external;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +8,8 @@ import org.emulator.device.common.HeaderUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class RestClientFactory {

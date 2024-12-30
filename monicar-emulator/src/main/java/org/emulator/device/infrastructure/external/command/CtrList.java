@@ -8,7 +8,8 @@ package org.emulator.device.infrastructure.external.command;
  * @param ctrVal 제어 정보 값 - 주기정보 전송 주기(단위: 초) (60, 120 . .)
  */
 public record CtrList(
-    String ctrId,
-    String ctrCd,
-    String ctrVal
-) {}
+	String ctrId,
+	String ctrCd,
+	String ctrVal
+) {
+}
