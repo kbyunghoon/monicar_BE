@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.common.dto.CommonResponse;
 import org.emulator.application.port.VehicleCommandSender;
-import org.emulator.common.RequestUtil;
+import org.emulator.common.HeaderName;
+import org.emulator.common.HeaderUtils;
+import org.emulator.common.RequestUtils;
 import org.emulator.domain.OnInfo;
 import org.emulator.infrastructure.external.command.OnCommand;
 import org.springframework.stereotype.Component;
@@ -21,12 +23,9 @@ public class RestClientVehicleCommandSender implements VehicleCommandSender {
 	public CommonResponse sendOnCommand(OnInfo onInfo) {
 		RestClient restClient = restClientService.getRestClient(UrlPathEnum.CONTROL_CENTER);
 
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Timestamp", RequestUtil.getCurrentTimestamp());
-		headers.put("TUID", RequestUtil.generateTUID());
-
 		// body: onInfo - onCommand 매핑
 		OnCommand onCommand = OnCommand.of(onInfo);
+		Map<String, String> headers = HeaderUtils.additionalHeaders(HeaderName.TIMESTAMP, HeaderName.TUID);
 
 		return restClientService.post(
 			restClient,

@@ -11,6 +11,6 @@ public enum UrlPathEnum {
 	}
 
 	public String getApiUrl() {
-		return "http://localhost:8080/" + path + "/";
+		return "http://localhost:8090/api/v1" + path + "/";
 	}
 }

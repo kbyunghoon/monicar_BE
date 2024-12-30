@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController
+@RestController("/api/v1/emulator")
 public class VehicleController {
 	private final VehicleService vehicleService;
 
-	@PostMapping("/keyOn")
+	@PostMapping("/key-on")
 	public void keyOn() {
 		vehicleService.onVehicle();
 	}

@@ -1,7 +1,9 @@
 package org.emulator.infrastructure.external;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.emulator.common.RequestUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 

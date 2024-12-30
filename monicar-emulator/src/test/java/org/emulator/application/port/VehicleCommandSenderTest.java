@@ -13,6 +13,7 @@ public class VehicleCommandSenderTest {
 	private final VehicleCommandSender vehicleCommandSender = new VehicleCommandSender() {
 		@Override
 		public CommonResponse sendOnCommand(OnInfo onInfo) {
+
 			return new CommonResponse("000", "Success", "01234567890");
 		}
 	};

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.emulator.common.HeaderUtil;
+import org.emulator.common.HeaderUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -21,16 +21,9 @@ public class RestClientFactory {
 		Arrays.stream(UrlPathEnum.values()).forEach(apiUrl -> {
 			restClients.put(apiUrl, RestClient.builder()
 				.baseUrl(apiUrl.getApiUrl())
-				.defaultHeaders(HeaderUtil.defaultHeaders())
+				.defaultHeaders(HeaderUtils.defaultHeaders())
 				.build());
 		});
-
-		for (UrlPathEnum apiUrl : UrlPathEnum.values()) {
-			restClients.put(apiUrl, RestClient.builder()
-				.baseUrl(apiUrl.getApiUrl())
-				.defaultHeaders(HeaderUtil.defaultHeaders())
-				.build());
-		}
 
 		return restClients;
 	}

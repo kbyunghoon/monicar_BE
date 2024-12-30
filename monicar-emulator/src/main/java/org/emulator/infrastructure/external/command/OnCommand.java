@@ -37,6 +37,13 @@ public record OnCommand(
 	String spd,
 	String sum
 ) {
+	public static final int DIRECTION_MIN = 0;
+	public static final int DIRECTION_MAX = 365;
+	public static final int SPEED_MIN = 0;
+	public static final int SPEED_MAX = 255;
+	public static final int TOTAL_DISTANCE_MIN = 0;
+	public static final int TOTAL_DISTANCE_MAX = 9999999;
+
 	public static OnCommand of(OnInfo onInfo) {
 		DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
@@ -44,15 +51,13 @@ public record OnCommand(
 			? onInfo.getOnTime().format(DATE_TIME_FORMATTER)
 			: "";
 
-		String offTime = (onInfo.getOffTime() != null)
-			? onInfo.getOffTime().format(DATE_TIME_FORMATTER)
-			: "";
+		String offTime = "";
 
-		String lat = String.format("%.6f", onInfo.getLatitude());
-		String lon = String.format("%.6f", onInfo.getLongitude());
-		String ang = String.valueOf(Math.min(Math.max(onInfo.getDirection(), 0), 365));
-		String spd = String.valueOf(Math.min(Math.max(onInfo.getSpeed(), 0), 255));
-		String sum = String.valueOf(Math.min(Math.max(onInfo.getTotalDistance(), 0), 9999999));
+		String lat = String.valueOf(onInfo.getLatitude());
+		String lon = String.valueOf(onInfo.getLongitude());
+		String ang = String.valueOf(Math.min(Math.max(onInfo.getDirection(), DIRECTION_MIN), DIRECTION_MAX));
+		String spd = String.valueOf(Math.min(Math.max(onInfo.getSpeed(), SPEED_MIN), SPEED_MAX));
+		String sum = String.valueOf(Math.min(Math.max(onInfo.getTotalDistance(), TOTAL_DISTANCE_MIN), TOTAL_DISTANCE_MAX));
 
 		return new OnCommand(
 			VehicleConstant.VEHICLE_NUM,
@@ -62,7 +67,7 @@ public record OnCommand(
 			VehicleConstant.DEVICE_ID,
 			onTime,
 			offTime,
-			onInfo.getGpsStatus(),
+			onInfo.getGpsStatus().toString(),
 			lat,
 			lon,
 			ang,

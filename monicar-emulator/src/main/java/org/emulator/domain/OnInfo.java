@@ -11,16 +11,22 @@ import lombok.Getter;
 @Builder
 public class OnInfo {
 	private LocalDateTime onTime;
-	@Builder.Default
-	private LocalDateTime offTime = null;
-	private String gpsStatus;
-	@Builder.Default
-	private double latitude = 0;
-	@Builder.Default
-	private double longitude = 0;
-	@Builder.Default
-	private int direction = 0;
-	@Builder.Default
-	private int speed = 0;
+	private LocalDateTime offTime;
+	private GpsStatus gpsStatus;
+	private long latitude;
+	private long longitude;
+	private int direction;
+	private int speed;
 	private int totalDistance;
+
+	public static OnInfo createOnInfo(
+		LocalDateTime onTime,
+		GpsStatus gpsStatus,
+		long latitude,
+		long longitude,
+		int totalDistance
+	) {
+		return new OnInfo(
+			onTime, null, gpsStatus, latitude, longitude, 0, 0, totalDistance);
+	}
 }

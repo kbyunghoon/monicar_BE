@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 에뮬레이터 전역 데이터를 관리하는 클래스
  *
- * @field vehicleStartTime 시동 ON 데이터 이력 목록
- * @field vehicleStopTime  시동 OFF 시간 이력 목록
+ * @field vehicleOnInfoList 시동 ON 데이터 이력 목록
+ * @field vehicleOffInfoList  시동 OFF 시간 이력 목록
  */
 public class VehicleInfo {
 	private String vehicleNumber;
