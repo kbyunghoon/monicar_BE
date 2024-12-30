@@ -1,7 +1,12 @@
 package org.emulator.infrastructure.external.command;
 
+import java.time.format.DateTimeFormatter;
+
+import org.emulator.common.VehicleConstant;
+import org.emulator.domain.OnInfo;
+
 /**
- * 차량의 시동 ON / OFF 상태에서 전달하는 데이터를 담는 레코드
+ * 차량의 시동 ON / OFF 상태에서 전달하는 데이터를 담는 Dto
  *
  * @param mdn 차량 번호 - 차량을 식별하는 고유 번호
  * @param tid 터미널 아이디 - 터미널 장치의 고유 식별자
@@ -18,17 +23,56 @@ package org.emulator.infrastructure.external.command;
  * @param sum 누적 주행 거리 - 차량의 현재 총 주행 거리
  */
 public record OnCommand(
-        String mdn,
-        String tid,
-        String mid,
-        String pv,
-        String did,
-        String onTime,
-        String offTime,
-        String gcd,
-        String lat,
-        String lon,
-        String ang,
-        String spd,
-        String sum
-) {}
+	String mdn,
+	String tid,
+	String mid,
+	String pv,
+	String did,
+	String onTime,
+	String offTime,
+	String gcd,
+	String lat,
+	String lon,
+	String ang,
+	String spd,
+	String sum
+) {
+	public static final int DIRECTION_MIN = 0;
+	public static final int DIRECTION_MAX = 365;
+	public static final int SPEED_MIN = 0;
+	public static final int SPEED_MAX = 255;
+	public static final int TOTAL_DISTANCE_MIN = 0;
+	public static final int TOTAL_DISTANCE_MAX = 9999999;
+
+	public static OnCommand of(OnInfo onInfo) {
+		DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+		String onTime = (onInfo.getOnTime() != null)
+			? onInfo.getOnTime().format(DATE_TIME_FORMATTER)
+			: "";
+
+		String offTime = "";
+
+		String lat = String.valueOf(onInfo.getLatitude());
+		String lon = String.valueOf(onInfo.getLongitude());
+		String ang = String.valueOf(Math.min(Math.max(onInfo.getDirection(), DIRECTION_MIN), DIRECTION_MAX));
+		String spd = String.valueOf(Math.min(Math.max(onInfo.getSpeed(), SPEED_MIN), SPEED_MAX));
+		String sum = String.valueOf(Math.min(Math.max(onInfo.getTotalDistance(), TOTAL_DISTANCE_MIN), TOTAL_DISTANCE_MAX));
+
+		return new OnCommand(
+			VehicleConstant.VEHICLE_NUM,
+			VehicleConstant.TERMINAL_ID,
+			VehicleConstant.MANUFACTURER_ID,
+			VehicleConstant.PACKET_VERSION,
+			VehicleConstant.DEVICE_ID,
+			onTime,
+			offTime,
+			onInfo.getGpsStatus().toString(),
+			lat,
+			lon,
+			ang,
+			spd,
+			sum
+		);
+	}
+}

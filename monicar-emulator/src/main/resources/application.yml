@@ -4,3 +4,11 @@ server:
 spring:
   application:
     name: monicar-emulator
+
+logging:
+  level:
+    org:
+      apache:
+        hc:
+          client5:
+            http=DEBUG:
