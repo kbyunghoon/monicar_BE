@@ -1,7 +1,8 @@
 package org.emulator.application.port;
 
 import org.common.dto.CommonResponse;
-import org.emulator.domain.OnInfo;
+import org.emulator.device.application.port.VehicleCommandSender;
+import org.emulator.device.domain.OnInfo;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
