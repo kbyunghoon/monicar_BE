@@ -33,7 +33,7 @@ public class CycleInfo {
 	private int sum;
 	private int bat;
 
-	public static double convertToSixDecimalPlaces(Double value) {
-		return value / 100000.0;
+	public static double convertToSixDecimalPlaces(String value) {
+		return Double.parseDouble(value) / 100000.0;
 	}
 }
