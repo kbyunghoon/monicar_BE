@@ -1,9 +1,9 @@
 package org.emulator.device.domain;
 
-import org.emulator.device.common.VehicleConstant;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.emulator.device.common.VehicleConstant;
 
 /**
  * 에뮬레이터 전역 데이터를 관리하는 클래스
@@ -26,7 +26,7 @@ public class VehicleInfo {
 	private int totalDistance;
 	private String gpsStatus;
 
-    public OnInfo addOnInfo(OnInfo data) {
+	public OnInfo addOnInfo(OnInfo data) {
 		if (vehicleOnInfoList == null) {
 			vehicleOnInfoList = new ArrayList<>();
 		}

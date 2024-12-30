@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryEmulatorRepository implements EmulatorRepository {
-    private VehicleInfo vehicleInfo = new VehicleInfo();
+	private VehicleInfo vehicleInfo = new VehicleInfo();
 
 	@Override
 	public int getTotalDistance() {
