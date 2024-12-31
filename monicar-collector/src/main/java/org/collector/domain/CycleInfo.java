@@ -34,6 +34,6 @@ public class CycleInfo {
 	private int bat;
 
 	public static double convertToSixDecimalPlaces(String value) {
-		return Double.parseDouble(value) / 100000.0;
+		return Double.parseDouble(value) / 1000000.0;
 	}
 }
