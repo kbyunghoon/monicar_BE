@@ -2,7 +2,7 @@ package org.emulator.device.infrastructure.external.command;
 
 import java.time.format.DateTimeFormatter;
 
-import org.emulator.device.common.VehicleConstant;
+import org.emulator.device.VehicleConstant;
 import org.emulator.device.domain.OnInfo;
 
 /**

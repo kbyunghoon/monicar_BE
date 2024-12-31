@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.common.dto.CommonResponse;
 import org.emulator.device.application.port.VehicleCommandSender;
-import org.emulator.device.common.HeaderName;
-import org.emulator.device.common.HeaderUtils;
+import org.emulator.device.infrastructure.util.HeaderName;
+import org.emulator.device.infrastructure.util.HeaderUtils;
 import org.emulator.device.domain.OnInfo;
 import org.emulator.device.infrastructure.external.command.OnCommand;
 import org.springframework.stereotype.Component;
