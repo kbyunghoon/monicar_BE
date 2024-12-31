@@ -18,7 +18,6 @@ public class VehicleInfo {
 	private final String packetVersion = VehicleConstant.PACKET_VERSION;
 	private final String deviceId = VehicleConstant.DEVICE_ID;
 	private List<OffInfo> vehicleOffInfoList;
-	private ControlInfo controlInfo;
 	private GeoPoint geoPoint;
 	private int totalDistance;
 
