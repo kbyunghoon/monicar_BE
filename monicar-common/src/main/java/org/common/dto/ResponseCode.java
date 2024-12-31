@@ -1,5 +1,8 @@
 package org.common.dto;
 
+import lombok.Getter;
+
+@Getter
 public enum ResponseCode {
 	SUCCESS("000"),
 	INVALID_ACCESS_PATH("100"),
