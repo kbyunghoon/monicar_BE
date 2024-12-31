@@ -2,6 +2,7 @@ package org.emulator.application.port;
 
 import org.common.dto.CommonResponse;
 import org.emulator.device.application.port.VehicleCommandSender;
+import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class VehicleCommandSenderTest {
 		LocalDateTime now = LocalDateTime.now();
 		OnInfo onInfo = OnInfo.builder()
 			.onTime(now)
-			.gpsStatus("A")
+			.gpsStatus(GpsStatus.A)
 			.totalDistance(5000)
 			.build();
 		CommonResponse response = vehicleCommandSender.sendOnCommand(onInfo);

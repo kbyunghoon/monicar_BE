@@ -10,6 +10,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class OnInfo {
+	private static final long MIL = 1000_000;
+
 	private LocalDateTime onTime;
 	private LocalDateTime offTime;
 	private GpsStatus gpsStatus;
@@ -22,11 +24,13 @@ public class OnInfo {
 	public static OnInfo createOnInfo(
 		LocalDateTime onTime,
 		GpsStatus gpsStatus,
-		long latitude,
-		long longitude,
+		double latitude,
+		double longitude,
 		int totalDistance
 	) {
+		long lat = (long) (latitude * MIL);
+		long lon =(long) (longitude * MIL);
 		return new OnInfo(
-			onTime, null, gpsStatus, latitude, longitude, 0, 0, totalDistance);
+			onTime, null, gpsStatus, lat, lon, 0, 0, totalDistance);
 	}
 }

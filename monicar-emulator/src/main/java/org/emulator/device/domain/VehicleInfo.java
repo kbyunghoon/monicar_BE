@@ -3,7 +3,7 @@ package org.emulator.device.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emulator.device.common.VehicleConstant;
+import org.emulator.device.VehicleConstant;
 
 /**
  * 에뮬레이터 전역 데이터를 관리하는 클래스
@@ -17,29 +17,12 @@ public class VehicleInfo {
 	private final String manufacturerId = VehicleConstant.MANUFACTURER_ID;
 	private final String packetVersion = VehicleConstant.PACKET_VERSION;
 	private final String deviceId = VehicleConstant.DEVICE_ID;
-	private List<OnInfo> vehicleOnInfoList;
 	private List<OffInfo> vehicleOffInfoList;
-
 	private ControlInfo controlInfo;
 	private GeoPoint geoPoint;
-
 	private int totalDistance;
-	private String gpsStatus;
-
-	public OnInfo addOnInfo(OnInfo data) {
-		if (vehicleOnInfoList == null) {
-			vehicleOnInfoList = new ArrayList<>();
-		}
-		vehicleOnInfoList.add(data);
-
-		return data;
-	}
 
 	public int getTotalDistance() {
 		return totalDistance;
-	}
-
-	public String getGpsStatus() {
-		return gpsStatus;
 	}
 }
