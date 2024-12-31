@@ -19,15 +19,13 @@ import lombok.RequiredArgsConstructor;
 public class VehicleService {
 	private final EmulatorRepository emulatorRepository;
 	private final LocationReceiver locationReceiver;
-	private final LocationEventPublisher locationEventPublisher;
+	// private final LocationEventPublisher locationEventPublisher; // 추후 주기 정보를 이벤트로 쏠 때
 	private final VehicleCommandSender vehicleCommandSender;
 
 	public void onVehicle() {
-		// 큐에서 on 관련 데이터 가져오기
-		Gps onLocation = locationReceiver.getOnLocation();
+		Gps onLocation = locationReceiver.getLocation();
 
-		// 가져와서 OnInfo 생성
-		OnInfo onInfo = OnInfo.createOnInfo(
+		OnInfo onInfo = OnInfo.create(
 			LocalDateTime.now(),
 			GpsStatus.A,
 			onLocation.lat(),

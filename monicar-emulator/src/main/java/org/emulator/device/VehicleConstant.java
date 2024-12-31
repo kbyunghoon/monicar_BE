@@ -10,6 +10,8 @@ public final class VehicleConstant {
 	public static final String CONTROL_CODE = "05";
 	public static final String DFW_VERSION = "LTE 1.2";
 
+	public static final long MIL = 1000_000;
+
 	private VehicleConstant() {
 		throw new AssertionError();
 	}
