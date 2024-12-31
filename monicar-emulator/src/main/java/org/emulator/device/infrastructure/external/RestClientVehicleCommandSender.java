@@ -1,9 +1,11 @@
 package org.emulator.device.infrastructure.external;
 
+import java.util.List;
 import java.util.Map;
 
 import org.common.dto.CommonResponse;
 import org.emulator.device.application.port.VehicleCommandSender;
+import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.infrastructure.util.HeaderName;
 import org.emulator.device.infrastructure.util.HeaderUtils;
 import org.emulator.device.domain.OnInfo;
@@ -31,5 +33,10 @@ public class RestClientVehicleCommandSender implements VehicleCommandSender {
 			headers,
 			CommonResponse.class
 		);
+	}
+
+	@Override
+	public CommonResponse sendCycleCommand(List<CycleInfo> cycleInfos) {
+		return null;
 	}
 }
