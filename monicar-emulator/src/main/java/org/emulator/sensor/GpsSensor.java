@@ -1,5 +1,6 @@
 package org.emulator.sensor;
 
+import org.emulator.device.infrastructure.SensorTracker;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class GpsSensor {
 	private final SensorDetector sensorDetector;
+	private final SensorTracker sensorTracker;
 
 	@Async
 	public void activate() {
@@ -18,5 +20,7 @@ public class GpsSensor {
 
 		// 스케쥴링 작업을 통한 GPS 데이터 수집
 		sensorDetector.detect();
+		// 스케쥴링 작업을 통한 GPS 데이터 변환 및 전송
+		sensorTracker.track();
 	}
 }

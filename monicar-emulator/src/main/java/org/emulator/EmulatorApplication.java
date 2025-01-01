@@ -1,6 +1,6 @@
 package org.emulator;
 
-import org.emulator.device.application.VehicleService;
+import org.emulator.device.infrastructure.GpsTracker;
 import org.emulator.sensor.GpsSensor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,17 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication(scanBasePackages = {"org.emulator", "org.common"})
 public class EmulatorApplication {
 	private final GpsSensor gpsSensor;
-	private final VehicleService vehicleService;
 
-	public EmulatorApplication(GpsSensor gpsSensor, VehicleService vehicleService) {
+	public EmulatorApplication(GpsSensor gpsSensor, GpsTracker gpsTracker) {
 		this.gpsSensor = gpsSensor;
-		this.vehicleService = vehicleService;
 	}
 
 	@PostConstruct
 	public void initSensor() {
 		gpsSensor.activate();
-		vehicleService.trackVehicle();
 	}
 
 	public static void main(String[] args) {
