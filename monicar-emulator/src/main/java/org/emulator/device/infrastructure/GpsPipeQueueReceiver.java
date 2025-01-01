@@ -1,5 +1,6 @@
 package org.emulator.device.infrastructure;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import lombok.AllArgsConstructor;
@@ -15,13 +16,13 @@ import org.springframework.stereotype.Component;
 public class GpsPipeQueueReceiver implements LocationReceiver {
 	private final ConcurrentLinkedQueue<Gps> gpsPipeQueue;
 
-	@Retryable(maxAttempts = 10, backoff = @Backoff(delay = 3000))
+	@Retryable(maxAttempts = 1, backoff = @Backoff(delay = 3000))
 	@Override
 	public Gps getLocation() {
-		Gps location = gpsPipeQueue.poll();
-		if (location == null)
-			throw new NullPointerException("No Gps data found. Check sensor");
-		return location;
+		return Objects.requireNonNull(
+			gpsPipeQueue.poll(),
+			"No Gps data found. Check sensor"
+		);
 	}
 
 	@Override

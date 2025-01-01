@@ -29,7 +29,15 @@ public class OnInfo {
 	) {
 		long lat = (long)(latitude * VehicleConstant.MIL);
 		long lon = (long)(longitude * VehicleConstant.MIL);
+
 		return new OnInfo(
-			onTime, null, gpsStatus, lat, lon, 0, 0, totalDistance);
+			onTime,
+			null,
+			gpsStatus,
+			lat,
+			lon,
+			0,
+			0,
+			totalDistance);
 	}
 }

@@ -32,6 +32,14 @@ public class CycleInfo {
 		long lat = (long)(latitude * VehicleConstant.MIL);
 		long lon = (long)(longitude * VehicleConstant.MIL);
 		return new CycleInfo(
-			oTime, gpsStatus, lat, lon, direction, speed, totalDistance, battery);
+			oTime,
+			gpsStatus,
+			lat,
+			lon,
+			direction,
+			speed,
+			totalDistance,
+			battery
+		);
 	}
 }

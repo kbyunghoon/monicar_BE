@@ -34,7 +34,8 @@ public class VehicleService {
 			GpsStatus.A,
 			onLocation.lat(),
 			onLocation.lon(),
-			emulatorRepository.getTotalDistance());
+			emulatorRepository.getTotalDistance()
+		);
 
 		CommonResponse response = vehicleCommandSender.sendOnCommand(onInfo);
 	}

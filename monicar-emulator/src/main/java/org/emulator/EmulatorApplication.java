@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EmulatorApplication {
 	private final GpsSensor gpsSensor;
 
-	public EmulatorApplication(GpsSensor gpsSensor, GpsTracker gpsTracker) {
+	public EmulatorApplication(GpsSensor gpsSensor) {
 		this.gpsSensor = gpsSensor;
 	}
 
