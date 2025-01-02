@@ -12,24 +12,31 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.emulator.device.application.port.LocationReceiver;
+import org.emulator.device.application.port.TransmissionTimeProvider;
 import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.pipe.Gps;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class GpsTracker implements SensorTracker{
+public class GpsTracker implements SensorTracker {
 	private final LocationReceiver locationReceiver;
+	@Qualifier("emulatorTransmissionTimeProvider")
+	private final TransmissionTimeProvider timeProvider;
+
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 
 	@Scheduled(initialDelay = 3000, fixedDelay = 1000)
 	@Override
 	public void track() {
-		if (cycleInfos.size() > 10) {
-			List<CycleInfo> sending = pollFromDeque(10);
+		int time = timeProvider.getTransmissionTime();
+
+		if (cycleInfos.size() > time) {
+			List<CycleInfo> sending = pollFromDeque(time);
 			// vehicleCommandSender.sendCycleCommand(sending);
 			log.info("[Thread: {}] {}", Thread.currentThread().getName(), "sending!");
 		}
@@ -43,10 +50,10 @@ public class GpsTracker implements SensorTracker{
 			GpsStatus.A,
 			location.lat(),
 			location.lon(),
-			270,
-			100,
-			10000,
-			100
+			270, // 방향 연산 값
+			100, // 속도 연산 값
+			10000, // 누적 거리 연산 값
+			100 // 배터리
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "waiting..");
@@ -54,8 +61,8 @@ public class GpsTracker implements SensorTracker{
 
 	public List<CycleInfo> pollFromDeque(int size) {
 		List<CycleInfo> result = new ArrayList<>();
-		for (int i = 0; i < size && !cycleInfos.isEmpty(); i++) {
-			result.add(cycleInfos.pollFirst()); // pollFirst()로 맨 앞에서부터 제거
+		while (!cycleInfos.isEmpty() && result.size() < size) {
+			result.add(cycleInfos.pollFirst());
 		}
 		return result;
 	}

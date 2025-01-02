@@ -11,6 +11,8 @@ import org.emulator.device.VehicleConstant;
 @AllArgsConstructor
 @Getter
 public class OnInfo {
+	private static final int DEFAULT_ZERO = 0;
+
 	private LocalDateTime onTime;
 	private LocalDateTime offTime;
 	private GpsStatus gpsStatus;
@@ -36,8 +38,8 @@ public class OnInfo {
 			gpsStatus,
 			lat,
 			lon,
-			0,
-			0,
+			DEFAULT_ZERO,
+			DEFAULT_ZERO,
 			totalDistance);
 	}
 }
