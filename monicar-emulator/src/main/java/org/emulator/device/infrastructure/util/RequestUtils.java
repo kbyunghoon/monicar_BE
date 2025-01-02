@@ -1,4 +1,4 @@
-package org.emulator.device.common;
+package org.emulator.device.infrastructure.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

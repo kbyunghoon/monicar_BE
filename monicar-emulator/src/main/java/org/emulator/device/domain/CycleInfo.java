@@ -3,43 +3,43 @@ package org.emulator.device.domain;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 import org.emulator.device.VehicleConstant;
 
 @AllArgsConstructor
 @Getter
-public class OnInfo {
-	private static final int DEFAULT_ZERO = 0;
-
-	private LocalDateTime onTime;
-	private LocalDateTime offTime;
+public class CycleInfo {
+	private LocalDateTime oTime;
 	private GpsStatus gpsStatus;
 	private long latitude;
 	private long longitude;
 	private int direction;
 	private int speed;
 	private int totalDistance;
+	private int battery;
 
-	public static OnInfo create(
-		LocalDateTime onTime,
+	public static CycleInfo create(
+		LocalDateTime oTime,
 		GpsStatus gpsStatus,
 		double latitude,
 		double longitude,
-		int totalDistance
+		int direction,
+		int speed,
+		int totalDistance,
+		int battery
 	) {
 		long lat = (long)(latitude * VehicleConstant.MIL);
 		long lon = (long)(longitude * VehicleConstant.MIL);
-
-		return new OnInfo(
-			onTime,
-			null,
+		return new CycleInfo(
+			oTime,
 			gpsStatus,
 			lat,
 			lon,
-			DEFAULT_ZERO,
-			DEFAULT_ZERO,
-			totalDistance);
+			direction,
+			speed,
+			totalDistance,
+			battery
+		);
 	}
 }

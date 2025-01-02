@@ -2,11 +2,11 @@ package org.emulator.device.infrastructure.external.command;
 
 import java.time.format.DateTimeFormatter;
 
-import org.emulator.device.common.VehicleConstant;
+import org.emulator.device.VehicleConstant;
 import org.emulator.device.domain.OnInfo;
 
 /**
- * 차량의 시동 ON / OFF 상태에서 전달하는 데이터를 담는 Dto
+ * 차량의 시동 ON / OFF 상태에서 전달하는 데이터를 담는 레코드
  *
  * @param mdn     차량 번호 - 차량을 식별하는 고유 번호
  * @param tid     터미널 아이디 - 터미널 장치의 고유 식별자
@@ -47,12 +47,8 @@ public record OnCommand(
 	public static OnCommand of(OnInfo onInfo) {
 		DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-		String onTime = (onInfo.getOnTime() != null)
-			? onInfo.getOnTime().format(DATE_TIME_FORMATTER)
-			: "";
-
+		String onTime = onInfo.getOnTime().format(DATE_TIME_FORMATTER);
 		String offTime = "";
-
 		String lat = String.valueOf(onInfo.getLatitude());
 		String lon = String.valueOf(onInfo.getLongitude());
 		String ang = String.valueOf(Math.min(Math.max(onInfo.getDirection(), DIRECTION_MIN), DIRECTION_MAX));

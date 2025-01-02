@@ -5,6 +5,4 @@ package org.emulator.device.application.port;
  */
 public interface EmulatorRepository {
 	int getTotalDistance();
-
-	String getGpsStatus();
 }
