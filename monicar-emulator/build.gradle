@@ -3,6 +3,8 @@ dependencies {
     implementation 'org.springframework:spring-aspects'
     implementation 'org.springframework.retry:spring-retry'
 
+    testImplementation 'org.mock-server:mockserver-netty:5.15.0'
+
     implementation project(':monicar-common')
 }
 

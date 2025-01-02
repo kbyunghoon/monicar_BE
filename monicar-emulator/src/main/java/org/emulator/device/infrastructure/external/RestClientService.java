@@ -1,7 +1,9 @@
 package org.emulator.device.infrastructure.external;
 
+import java.io.InputStream;
 import java.util.Map;
 
+import org.common.dto.CommonResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -19,18 +21,19 @@ public class RestClientService {
 		return restClients.get(path);
 	}
 
-	public <T> T post(
+	public CommonResponse post(
 		RestClient restClient,
+		String endPoint,
 		Object body,
-		Map<String, String> headers,
-		Class<T> responseType
+		Map<String, String> headers
 	) {
 		return restClient.post()
+			.uri(uriBuilder -> uriBuilder.path(endPoint).build())
 			.headers(header -> headers.forEach(header::add))
 			.body(body)
 			.exchange((request, response) -> {
-				String responseBody = response.getBody().toString();
-				return objectMapper.readValue(responseBody, responseType);
+				InputStream responseBody = response.getBody();
+				return objectMapper.readValue(responseBody, CommonResponse.class);
 			});
 	}
 }
