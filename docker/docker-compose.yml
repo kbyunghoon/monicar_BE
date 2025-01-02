@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql:8.0.36
+    container_name: monicar_mysql
+    volumes:
+      - ./volumes/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DEV_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DEV_MYSQL_DATABASE_NAME}
+      MYSQL_USER: ${DEV_MYSQL_USER}
+      MYSQL_PASSWORD: ${DEV_MYSQL_PASSWORD}
+      TZ: ${DEV_MYSQL_TIME_ZONE}
+    networks:
+      - monicar
+networks:
+  monicar:

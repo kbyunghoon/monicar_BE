@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 운영 파일 ###
+application-prod.yml
+
+### 환경설정 파일
+docker/.env
+
+### 도커 volumes 파일
+/docker/volumes

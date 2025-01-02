@@ -1,0 +1,29 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: monicar-control-center
+
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:/schema/init-schema.sql
+      data-locations: classpath:/data/init-data.sql
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/monicar_db
+    username: local_user
+    password: local_password
