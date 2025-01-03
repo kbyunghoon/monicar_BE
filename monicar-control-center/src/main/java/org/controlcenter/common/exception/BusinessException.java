@@ -1,8 +1,8 @@
 package org.controlcenter.common.exception;
 
-import org.controlcenter.dto.ErrorCode;
-
 import lombok.Getter;
+
+import org.controlcenter.common.response.code.ErrorCode;
 
 @Getter
 public class BusinessException extends RuntimeException {
