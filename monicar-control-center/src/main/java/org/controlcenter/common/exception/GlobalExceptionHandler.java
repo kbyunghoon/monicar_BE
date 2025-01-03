@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(BusinessException.class)
 	protected BaseResponse<Void> handleBusinessException(final BusinessException e) {
+		log.error("Business Exception 발생: {}", e.getMessage(), e);
 		return BaseResponse.fail(e.getErrorCode());
 	}
 
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
 	protected BaseResponse<String> handleMethodArgumentTypeMismatchException(
 		MethodArgumentTypeMismatchException e) {
 		log.error("MethodArgumentTypeMismatchException 예외 처리: {}", e.getMessage(), e);
-		return BaseResponse.fail(ErrorCode.INVALID_DATE);
+		return BaseResponse.fail(ErrorCode.INVALID_TYPE_VALUE);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -58,6 +59,8 @@ public class GlobalExceptionHandler {
 		List<String> errors = fieldErrors.stream()
 			.map(fieldError -> String.format("%s : %s", fieldError.getField(), fieldError.getDefaultMessage()))
 			.toList();
+
+		log.error("Business Exception 발생: {}", errors);
 
 		return BaseResponse.fail(errors);
 	}
