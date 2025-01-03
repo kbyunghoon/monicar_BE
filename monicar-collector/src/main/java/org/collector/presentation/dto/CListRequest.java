@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record CListRequest(
 	@NotNull(message = "발생시간은 필수 입력값입니다.")
-	@JsonFormat(pattern = "yyyyMMddHHmm")
+	@JsonFormat(pattern = "yyyyMMddHHmmss")
 	LocalDateTime interval_at,
 
 	@NotNull(message = "유효하지 않은 GPS상태 값이 입력되었습니다.")
