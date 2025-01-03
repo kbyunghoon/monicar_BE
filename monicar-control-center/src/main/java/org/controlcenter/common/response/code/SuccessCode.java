@@ -1,4 +1,4 @@
-package org.controlcenter.dto;
+package org.controlcenter.common.response.code;
 
 import org.springframework.http.HttpStatus;
 
