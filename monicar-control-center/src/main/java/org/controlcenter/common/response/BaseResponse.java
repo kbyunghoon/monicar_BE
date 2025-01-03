@@ -32,16 +32,30 @@ public class BaseResponse<T> {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private final Integer errorCode;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private final Long timestamp;
+
 	public static <T> BaseResponse<T> success(SuccessCode code, T data) {
-		return new BaseResponse<>(true, code.getMessage(), null, data, null);
+		return BaseResponse.<T>builder()
+			.isSuccess(true)
+			.message(code.getMessage())
+			.result(data)
+			.build();
 	}
 
 	public static <T> BaseResponse<T> success(T data) {
-		return new BaseResponse<>(true, SuccessCode.OK.getMessage(), null, data, null);
+		return BaseResponse.<T>builder()
+			.isSuccess(true)
+			.message(SuccessCode.OK.getMessage())
+			.result(data)
+			.build();
 	}
 
 	public static <T> BaseResponse<T> success(SuccessCode code) {
-		return new BaseResponse<>(true, code.getMessage(), null, null, null);
+		return BaseResponse.<T>builder()
+			.isSuccess(true)
+			.message(code.getMessage())
+			.build();
 	}
 
 	public static BaseResponse<Void> success() {
@@ -49,10 +63,20 @@ public class BaseResponse<T> {
 	}
 
 	public static <T> BaseResponse<T> fail(ErrorCode code) {
-		return new BaseResponse<>(false, null, List.of(code.getMessage()), null, code.getCode());
+		return BaseResponse.<T>builder()
+			.isSuccess(false)
+			.errorMessage(List.of(code.getMessage()))
+			.errorCode(code.getCode())
+			.timestamp(System.currentTimeMillis())
+			.build();
 	}
 
 	public static <T> BaseResponse<T> fail(List<String> errorMessages) {
-		return new BaseResponse<>(false, null, errorMessages, null, 1000);
+		return BaseResponse.<T>builder()
+			.isSuccess(false)
+			.errorMessage(errorMessages)
+			.errorCode(1000)
+			.timestamp(System.currentTimeMillis())
+			.build();
 	}
 }
