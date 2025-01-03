@@ -29,9 +29,9 @@ public class RestClientVehicleCommandSender implements VehicleCommandSender {
 
 		return restClientService.post(
 			restClient,
+			"key-on",
 			onCommand,
-			headers,
-			CommonResponse.class
+			headers
 		);
 	}
 
