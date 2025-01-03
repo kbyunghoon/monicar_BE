@@ -17,17 +17,20 @@ import lombok.Getter;
  */
 @Getter
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseResponse<T> {
 	private final Boolean isSuccess;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private final String message;
-	private final List<String> errMsg;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private final List<String> errorMessage;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private final T result;
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private final Integer code;
+	private final Integer errorCode;
 
 	public static <T> BaseResponse<T> success(SuccessCode code, T data) {
 		return new BaseResponse<>(true, code.getMessage(), null, data, null);
