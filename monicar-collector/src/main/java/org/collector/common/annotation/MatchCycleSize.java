@@ -13,7 +13,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = CycleCountValidator.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CycleCount {
+public @interface MatchCycleSize {
 	String message() default "cCnt(주기정보 개수)와 cList(주기정보리스트)의 개수가 일치해야합니다.";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};

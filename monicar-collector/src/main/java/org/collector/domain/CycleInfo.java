@@ -1,5 +1,9 @@
 package org.collector.domain;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 import org.collector.presentation.dto.GCD;
 
 import jakarta.persistence.Entity;
@@ -19,21 +23,23 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CycleInfo {
+public class CycleInfo implements Serializable {
+	@Serial
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	private int sec;
 	@Enumerated(EnumType.STRING)
 	private GCD gcd;
-	private double lat;
-	private double lon;
+	private BigDecimal lat;
+	private BigDecimal lon;
 	private int ang;
 	private int spd;
 	private int sum;
 	private int bat;
 
-	public static double convertToSixDecimalPlaces(String value) {
-		return Double.parseDouble(value) / 1000000.0;
+	public static BigDecimal convertToSixDecimalPlaces(Double value) {
+		return BigDecimal.valueOf(value / 1000000.0);
 	}
 }

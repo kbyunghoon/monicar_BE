@@ -3,7 +3,7 @@ package org.collector.presentation.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.collector.common.annotation.CycleCount;
+import org.collector.common.annotation.MatchCycleSize;
 import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@CycleCount
+@MatchCycleSize
 public record CycleInfoRequest(
 	@NotNull(message = "차량 번호는 필수 입력값입니다.")
 	Long mdn,
