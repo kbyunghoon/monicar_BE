@@ -36,7 +36,6 @@ public class GpsTracker implements SensorTracker {
 	@Override
 	public void track() {
 		int time = timeProvider.getTransmissionTime();
-		int totalDistance = emulatorRepository.getTotalDistance();
 
 		if (cycleInfos.size() > time) {
 			List<CycleInfo> cycleInfoList = pollFromDeque(time);
@@ -69,7 +68,7 @@ public class GpsTracker implements SensorTracker {
 			GpsStatus.A,
 			direction,
 			speed,
-			totalDistance + distance
+			emulatorRepository.getTotalDistance() + distance
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
