@@ -27,9 +27,7 @@ public class GpsTracker implements SensorTracker {
 	private final LocationReceiver locationReceiver;
 	private final EmulatorRepository emulatorRepository;
 	private final TransmissionTimeProvider timeProvider;
-	private final ApplicationCycleInfoEventPublisher applicationEventPublisher;
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
-
 
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 	private CycleInfo recentCycleInfo;
@@ -38,11 +36,13 @@ public class GpsTracker implements SensorTracker {
 	@Override
 	public void track() {
 		int time = timeProvider.getTransmissionTime();
+		int totalDistance = emulatorRepository.getTotalDistance();
 
 		if (cycleInfos.size() > time) {
 			List<CycleInfo> cycleInfoList = pollFromDeque(time);
 
 			CycleInfoListCommand message = CycleInfoListCommand.from(cycleInfoList);
+
 			cycleInfoEventPublisher.publishEvent(message);
 		}
 
@@ -53,7 +53,7 @@ public class GpsTracker implements SensorTracker {
 				GpsStatus.A,
 				0,
 				0,
-				0
+				totalDistance
 			);
 			cycleInfos.offerLast(currentCycleInfo);
 			recentCycleInfo = currentCycleInfo;
@@ -69,12 +69,12 @@ public class GpsTracker implements SensorTracker {
 			GpsStatus.A,
 			direction,
 			speed,
-			distance
+			totalDistance + distance
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
 
-		emulatorRepository.updateTotalDistance(distance);
+		emulatorRepository.plusTotalDistance(distance);
 
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "collecting data. . .");
 	}
