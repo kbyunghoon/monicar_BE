@@ -14,8 +14,6 @@ public class Direction {
 	}
 
 	public Direction(int value) {
-		if (value < DIRECTION_MIN || value > DIRECTION_MAX)
-			throw new IllegalArgumentException("direction out of range");
-		this.value = value;
+		this.value = Math.clamp(value, DIRECTION_MIN, DIRECTION_MAX);
 	}
 }

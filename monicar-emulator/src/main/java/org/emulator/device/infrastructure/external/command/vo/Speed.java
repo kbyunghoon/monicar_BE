@@ -14,8 +14,6 @@ public class Speed {
 	}
 
 	public Speed(int value) {
-		if (value < SPEED_MIN || value > SPEED_MAX)
-			throw new IllegalArgumentException("speed out of range");
-		this.value = value;
+		this.value = Math.clamp(value, SPEED_MIN, SPEED_MAX);
 	}
 }

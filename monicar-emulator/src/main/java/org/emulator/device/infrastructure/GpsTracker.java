@@ -53,7 +53,7 @@ public class GpsTracker implements SensorTracker {
 				GpsStatus.A,
 				0,
 				0,
-				totalDistance
+				0
 			);
 			cycleInfos.offerLast(currentCycleInfo);
 			recentCycleInfo = currentCycleInfo;

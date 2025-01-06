@@ -14,8 +14,6 @@ public class TotalDistance {
 	}
 
 	public TotalDistance(int value) {
-		if (value < TOTAL_DISTANCE_MIN || value > TOTAL_DISTANCE_MAX)
-			throw new IllegalArgumentException("totalDistance out of range");
-		this.value = value;
+		this.value = Math.clamp(value, TOTAL_DISTANCE_MIN, TOTAL_DISTANCE_MAX);
 	}
 }
