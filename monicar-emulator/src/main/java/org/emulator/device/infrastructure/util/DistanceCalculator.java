@@ -8,10 +8,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Component
-public class DistanceCalculator implements Calculator {
+public class DistanceCalculator implements MovementCalculator {
 	private static final double EARTH_RADIUS = 6371000.0;
+	private static final int EQUAL = 0;
+	private static final int DISTANCE_MIN = 0;
 	private static final int DISTANCE_MAX = 9_999_999;
-	public static final int LAT_LON_SCALE = 1_000_000;
+	private static final int LAT_LON_SCALE = 1_000_000;
 
 	/**
 	 * Haversine 공식 (지구 표면상 두 점 사이의 최단 거리를 구하는 공식) 을 사용하여 두 지점 간의 거리를 계산
@@ -30,8 +32,8 @@ public class DistanceCalculator implements Calculator {
 		double lat2 = curInfo.location().lat();
 		double lon2 = curInfo.location().lon();
 
-		if (Double.compare(lat1, lat2) == 0 && Double.compare(lon1, lon2) == 0) {
-			return 0;
+		if (Double.compare(lat1, lat2) == EQUAL && Double.compare(lon1, lon2) == EQUAL) {
+			return DISTANCE_MIN;
 		}
 		double dLat = Math.toRadians(lat2 - lat1);
 		double dLon = Math.toRadians(lon2 - lon1);

@@ -13,7 +13,7 @@ import org.emulator.device.application.port.TransmissionTimeProvider;
 import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.infrastructure.external.command.CycleInfoListCommand;
-import org.emulator.device.infrastructure.util.Calculator;
+import org.emulator.device.infrastructure.util.MovementCalculator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class GpsTracker implements SensorTracker {
 	private final TransmissionTimeProvider timeProvider;
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
 
-	private final Map<String, Calculator> calculators;
+	private final Map<String, MovementCalculator> calculators;
 
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 	private CycleInfo recentCycleInfo;
@@ -85,17 +85,17 @@ public class GpsTracker implements SensorTracker {
 	}
 
 	private int getDirection(CycleInfo preInfo, GpsTime curInfo) {
-		Calculator directionCalculator = calculators.get("directionCalculator");
+		MovementCalculator directionCalculator = calculators.get("directionCalculator");
 		return directionCalculator.calculate(preInfo, curInfo);
 	}
 
 	private int getSpeed(CycleInfo preInfo, GpsTime curInfo) {
-		Calculator speedCalculator = calculators.get("speedCalculator");
+		MovementCalculator speedCalculator = calculators.get("speedCalculator");
 		return speedCalculator.calculate(preInfo, curInfo);
 	}
 
 	private int getDistance(CycleInfo preInfo, GpsTime curInfo) {
-		Calculator distanceCalculator = calculators.get("distanceCalculator");
+		MovementCalculator distanceCalculator = calculators.get("distanceCalculator");
 		return distanceCalculator.calculate(preInfo, curInfo);
 	}
 }
