@@ -6,5 +6,5 @@ package org.emulator.device.application.port;
 public interface EmulatorRepository {
 	int getTotalDistance();
 
-	int plusTotalDistance(int distance);
+	int updateTotalDistance(int distance);
 }
