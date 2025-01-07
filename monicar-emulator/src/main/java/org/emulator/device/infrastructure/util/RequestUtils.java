@@ -14,4 +14,8 @@ public final class RequestUtils {
 	public static String generateTUID() {
 		return UUID.randomUUID().toString();
 	}
+
+	private RequestUtils() {
+		throw new IllegalAccessError("Utility class");
+	}
 }
