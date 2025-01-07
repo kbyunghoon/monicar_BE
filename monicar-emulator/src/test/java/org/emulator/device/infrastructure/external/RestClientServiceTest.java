@@ -7,6 +7,7 @@ import static org.mockserver.model.HttpResponse.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.common.dto.CommonResponse;
+import org.emulator.config.JacksonConfig;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
 import org.emulator.device.infrastructure.external.command.OnCommand;
@@ -25,19 +26,21 @@ import org.springframework.web.client.RestClient;
 
 import java.time.LocalDateTime;
 
+@DisplayName("RestClientService 요청 테스트")
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = RestClientFactory.class)
+@ContextConfiguration(classes = {RestClientFactory.class, JacksonConfig.class})
 class RestClientServiceTest {
 
 	@Autowired
 	private RestClientService restClientService;
+	@Autowired
+	private ObjectMapper mapper;
 
 	private ClientAndServer mockServer;
 
-	private ObjectMapper mapper = new ObjectMapper();
 
 	@BeforeEach
-	public void setUP() {
+	public void setUp() {
 		mockServer = ClientAndServer.startClientAndServer(8081);
 	}
 
@@ -46,12 +49,12 @@ class RestClientServiceTest {
 		mockServer.stop();
 	}
 
-	@DisplayName("시동 on 요청 성공 테스트입니다")
+	@DisplayName("post 성공 테스트")
 	@Test
 	void postKeyOn() throws Exception {
 		//given
 		RestClient restClient = restClientService.getRestClient(UrlPathEnum.CONTROL_CENTER);
-		OnCommand command = OnCommand.of(OnInfo.create(LocalDateTime.now(), GpsStatus.A, 20.111111, 30.111111, 5000));
+		OnCommand command = OnCommand.from(OnInfo.create(LocalDateTime.now(), GpsStatus.A, 20.111111, 30.111111, 5000));
 		CommonResponse expected = new CommonResponse("000", "Success", "01234567890");
 
 		mockServer.when(

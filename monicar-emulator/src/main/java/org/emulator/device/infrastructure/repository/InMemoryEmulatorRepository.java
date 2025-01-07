@@ -12,4 +12,9 @@ public class InMemoryEmulatorRepository implements EmulatorRepository {
 	public int getTotalDistance() {
 		return vehicleInfo.getTotalDistance();
 	}
+
+	@Override
+	public int plusTotalDistance(int distance) {
+		return vehicleInfo.plusTotalDistance(distance);
+	}
 }
