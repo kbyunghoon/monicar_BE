@@ -27,9 +27,7 @@ public class GpsTracker implements SensorTracker {
 	private final LocationReceiver locationReceiver;
 	private final TransmissionTimeProvider timeProvider;
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
-
 	private final Map<String, MovementCalculator> calculators;
-
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 	private CycleInfo recentCycleInfo;
 
