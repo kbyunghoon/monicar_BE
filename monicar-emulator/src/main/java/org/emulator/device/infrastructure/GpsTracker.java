@@ -1,20 +1,19 @@
 package org.emulator.device.infrastructure;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.emulator.device.application.port.CycleInfoEventPublisher;
-import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.device.application.port.TransmissionTimeProvider;
 import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.infrastructure.external.command.CycleInfoListCommand;
-import org.emulator.device.infrastructure.util.Calculator;
+import org.emulator.device.infrastructure.util.MovementCalculator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class GpsTracker implements SensorTracker {
 	private final LocationReceiver locationReceiver;
-	private final EmulatorRepository emulatorRepository;
 	private final TransmissionTimeProvider timeProvider;
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
-
+	private final Map<String, MovementCalculator> calculators;
 	private final Deque<CycleInfo> cycleInfos = new LinkedList<>();
 	private CycleInfo recentCycleInfo;
 
@@ -60,21 +58,15 @@ public class GpsTracker implements SensorTracker {
 			return;
 		}
 
-		int direction = getDirection(recentCycleInfo, currentLocation);
-		int distance = getDistance(recentCycleInfo, currentLocation);
-		int speed = getSpeed(distance, recentCycleInfo, currentLocation);
-
 		CycleInfo currentCycleInfo = CycleInfo.create(
 			currentLocation,
 			GpsStatus.A,
-			direction,
-			speed,
-			emulatorRepository.getTotalDistance() + distance
+			getDirection(recentCycleInfo, currentLocation),
+			getSpeed(recentCycleInfo, currentLocation),
+			getDistance(recentCycleInfo, currentLocation)
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
-
-		emulatorRepository.plusTotalDistance(distance);
 
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "collecting data. . .");
 	}
@@ -90,26 +82,18 @@ public class GpsTracker implements SensorTracker {
 		return result;
 	}
 
-	private int getDistance(CycleInfo preInfo, GpsTime curInfo) {
-		return Calculator.calculateDistance(
-			preInfo.getGeo().getLatitude(),
-			preInfo.getGeo().getLongitude(),
-			curInfo.location().lat(),
-			curInfo.location().lon()
-		);
-	}
-
-	private int getSpeed(int distance, CycleInfo preInfo, GpsTime curInfo) {
-		Duration duration = Duration.between(preInfo.getIntervalAt(), curInfo.intervalAt());
-		return Calculator.calculateSpeed(distance, duration.toMillis());
-	}
-
 	private int getDirection(CycleInfo preInfo, GpsTime curInfo) {
-		return Calculator.calculateDirection(
-			preInfo.getGeo().getLatitude(),
-			preInfo.getGeo().getLongitude(),
-			curInfo.location().lat(),
-			curInfo.location().lon()
-		);
+		MovementCalculator directionCalculator = calculators.get("directionCalculator");
+		return directionCalculator.calculate(preInfo, curInfo);
+	}
+
+	private int getSpeed(CycleInfo preInfo, GpsTime curInfo) {
+		MovementCalculator speedCalculator = calculators.get("speedCalculator");
+		return speedCalculator.calculate(preInfo, curInfo);
+	}
+
+	private int getDistance(CycleInfo preInfo, GpsTime curInfo) {
+		MovementCalculator distanceCalculator = calculators.get("distanceCalculator");
+		return distanceCalculator.calculate(preInfo, curInfo);
 	}
 }
