@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.emulator.device.application.port.CycleInfoEventPublisher;
 import org.emulator.device.application.port.EmulatorRepository;
@@ -81,7 +82,10 @@ public class GpsTracker implements SensorTracker {
 	private List<CycleInfo> pollFromDeque(int size) {
 		List<CycleInfo> result = new ArrayList<>();
 		while (!cycleInfos.isEmpty() && result.size() < size) {
-			result.add(cycleInfos.pollFirst());
+			CycleInfo cycleInfo = cycleInfos.pollFirst();
+			if (Objects.nonNull(cycleInfo)) {
+				result.add(cycleInfo);
+			}
 		}
 		return result;
 	}

@@ -3,6 +3,7 @@ package org.emulator.device.infrastructure.external.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import lombok.Builder;
@@ -23,8 +24,9 @@ public record CycleInfoListCommand(
 	public static CycleInfoListCommand from(List<CycleInfo> cycleInfoList) {
 		FixedVehicleInfo fixedInfo = FixedVehicleInfo.getInstance();
 		List<CycleInfoCommand> cycleList = cycleInfoList.stream()
-			.map(CycleInfoCommand::from)
-			.collect(Collectors.toCollection(ArrayList::new)
+				.filter(Objects::nonNull)
+				.map(CycleInfoCommand::from)
+				.collect(Collectors.toCollection(ArrayList::new)
 			);
 
 		return CycleInfoListCommand.builder()
