@@ -22,7 +22,7 @@ public class DrivingLogController {
 	private final DrivingLogService drivingLogService;
 
 	@GetMapping
-	public BaseResponse<PageResponse<DrivingLogResponse>> list(
+	public BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
 		@RequestParam(required = false, defaultValue = "") String keyword,
 		@PageableDefault(size = 10) Pageable pageable
 	) {
