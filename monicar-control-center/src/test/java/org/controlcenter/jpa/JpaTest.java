@@ -34,6 +34,7 @@ import org.controlcenter.notice.infrastructure.jpa.entity.NoticeEntity;
 import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.domain.VehicleEventType;
 import org.controlcenter.vehicle.domain.VehicleInformation;
+import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.domain.VehicleType;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleEventJpaRepository;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationJpaRepository;
@@ -323,6 +324,7 @@ public class JpaTest {
 			.pv(999)
 			.did(999)
 			.sum(999)
+			.status(VehicleStatus.IN_OPERATION)
 			.deletedAt(null)
 			.build();
 		vehicleInformationJpaRepository.save(VehicleInformationEntity.from(vehicleInformation));
@@ -347,7 +349,8 @@ public class JpaTest {
 			() -> assertThat(savedVehicleInformation.getMid()).isEqualTo(999),
 			() -> assertThat(savedVehicleInformation.getPv()).isEqualTo(999),
 			() -> assertThat(savedVehicleInformation.getDid()).isEqualTo(999),
-			() -> assertThat(savedVehicleInformation.getSum()).isEqualTo(999)
+			() -> assertThat(savedVehicleInformation.getSum()).isEqualTo(999),
+			() -> assertThat(savedVehicleInformation.getStatus()).isEqualTo(VehicleStatus.IN_OPERATION)
 		);
 	}
 

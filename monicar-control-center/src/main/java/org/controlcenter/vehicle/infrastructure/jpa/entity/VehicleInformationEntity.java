@@ -3,6 +3,7 @@ package org.controlcenter.vehicle.infrastructure.jpa.entity;
 import java.time.LocalDateTime;
 
 import org.controlcenter.vehicle.domain.VehicleInformation;
+import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,6 +44,9 @@ public class VehicleInformationEntity {
 
 	private Integer sum;
 
+	@Enumerated(value = EnumType.STRING)
+	private VehicleStatus status;
+
 	@CreatedDate
 	private LocalDateTime createdAt;
 
@@ -60,6 +66,7 @@ public class VehicleInformationEntity {
 		vehicleInformationEntity.pv = vehicleInformation.getPv();
 		vehicleInformationEntity.did = vehicleInformation.getDid();
 		vehicleInformationEntity.sum = vehicleInformation.getSum();
+		vehicleInformationEntity.status = vehicleInformation.getStatus();
 		vehicleInformationEntity.createdAt = vehicleInformation.getCreatedAt();
 		vehicleInformationEntity.updatedAt = vehicleInformation.getUpdatedAt();
 		vehicleInformationEntity.deletedAt = vehicleInformation.getDeletedAt();
@@ -77,6 +84,7 @@ public class VehicleInformationEntity {
 			.pv(pv)
 			.did(did)
 			.sum(sum)
+			.status(status)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)

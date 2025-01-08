@@ -22,6 +22,10 @@ spring:
       mode: always
       schema-locations: classpath:/schema/init-schema.sql
       data-locations: classpath:/data/init-data.sql
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
 
   datasource:
     url: jdbc:mysql://localhost:3306/monicar_db
