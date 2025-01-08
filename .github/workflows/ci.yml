@@ -2,13 +2,19 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "develop" ]
+    branches:
+      - "develop"
+    paths:
+      - 'monicar-collector/**'
+      - 'monicar-control-center/**'
+      - 'monicar-track-alert/**'
   pull_request:
-    branches: [ "develop" ]
-  paths:
-    - 'monicar-collector/**'
-    - 'monicar-control-center/**'
-    - 'monicar-track-alert/**'
+    branches:
+      - "develop"
+    paths:
+      - 'monicar-collector/**'
+      - 'monicar-control-center/**'
+      - 'monicar-track-alert/**'
 
 jobs:
   build-and-deploy:
@@ -47,7 +53,7 @@ jobs:
             cd monicar-collector
           
             echo "$MONICAR_COLLECTOR_YML" > src/main/resources/application.yml
-            
+          
             ls ./src/main/resources/
             cat ./src/main/resources/application.yml
 
@@ -61,10 +67,10 @@ jobs:
             cd monicar-control-center
           
             echo "$MONICAR_CONTROL_CENTER_YML" > src/main/resources/application.yml
-            
+          
             ls ./src/main/resources/
             cat ./src/main/resources/application.yml
-            
+          
             ./gradlew build
             docker build -t $DOCKER_USERNAME/monicar-control-center:latest .
             docker push $DOCKER_USERNAME/monicar-control-center:latest
@@ -85,5 +91,3 @@ jobs:
             docker push $DOCKER_USERNAME/monicar-track-alert:latest
             cd ..
           fi
-
-
