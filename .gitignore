@@ -44,3 +44,4 @@ docker/.env
 
 ### 도커 volumes 파일
 /docker/volumes
+/docker/.data
