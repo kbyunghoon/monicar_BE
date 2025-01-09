@@ -35,12 +35,7 @@ public class KafkaConfig {
 		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 		props.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, "false");
 
-		// JsonDeserializer<Object> deserializer = new JsonDeserializer<>();
-		// deserializer.addTrustedPackages("*");
-
 		return new DefaultKafkaConsumerFactory<>(props);
-		// new org.apache.kafka.common.serialization.StringDeserializer(),
-		// deserializer);
 	}
 
 	@Bean
