@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class KafkaCycleInfoEventPublisher implements CycleInfoEventPublisher {
-	private final KafkaTemplate<String, CycleInfoListCommand> kafkaTemplate;
+	private final KafkaTemplate<String, Object> kafkaTemplate;
 
 	@Override
 	@Async

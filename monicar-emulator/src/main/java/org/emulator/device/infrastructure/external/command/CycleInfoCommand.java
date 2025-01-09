@@ -19,7 +19,6 @@ import org.emulator.device.domain.GpsStatus;
  * @param ang  방향 - 차량의 현재 진행 방향 (범위: 0 ~ 365)
  * @param spd  속도 - 차량의 현재 속도 (범위: 0 ~ 255, 단위: km/h)
  * @param sum  누적 주행 거리 - 차량의 현재 총 주행 거리 (범위: 0 ~ 9999999, 단위: m)
- * @param bat  배터리 전압 - 배터리 전압 * 10 (범위: 0 ~ 9999, 단위: V)
  */
 @Builder
 public record CycleInfoCommand(
@@ -29,8 +28,7 @@ public record CycleInfoCommand(
 	long lon,
 	int ang,
 	int spd,
-	int sum,
-	int bat
+	int sum
 ) {
 	public static CycleInfoCommand from(CycleInfo cycleInfo) {
 		return CycleInfoCommand.builder()
