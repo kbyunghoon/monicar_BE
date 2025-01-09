@@ -22,19 +22,18 @@ public class CycleInfoService {
 	private final VehicleInformationRepository vehicleInformationRepository;
 
 	public long cycleInfoSave(final CycleInfoRequest request) {
-		if(!vehicleInformationRepository.existsByMdn(request.mdn())){
-			throw new CustomException(ResponseCode.ENTITY_NOT_FOUND);
-		}
-
-		VehicleInformation vehicleInformation = VehicleInformation.from(request);
-
-		vehicleInformationRepository.save(vehicleInformation);
+		VehicleInformation vehicleInfo = vehicleInformationRepository.findByMdn(request.mdn())
+			.orElseThrow(() -> new CustomException(ResponseCode.ENTITY_NOT_FOUND));
 
 		List<CycleInfo> cycleInfos = request.cList().stream()
-			.map(cListRequest -> CycleInfo.from(cListRequest, vehicleInformation))
+			.map(cListRequest -> {
+				vehicleInfo.updateTotalDistance(cListRequest.sum());
+				return CycleInfo.from(cListRequest, vehicleInfo);
+			})
 			.toList();
 
 		cycleInfoRepository.saveAll(cycleInfos);
-		return vehicleInformation.getMdn();
+
+		return vehicleInfo.getMdn();
 	}
 }

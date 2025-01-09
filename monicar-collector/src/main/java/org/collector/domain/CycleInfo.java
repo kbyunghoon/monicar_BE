@@ -5,11 +5,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+
 import org.collector.presentation.dto.CListRequest;
 import org.collector.presentation.dto.GCD;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -37,36 +39,39 @@ public class CycleInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cycle_info_id")
 	private long id;
-	@CreatedDate
-	@DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
-	private LocalDateTime interval_at;
+
+	private LocalDateTime intervalAt;
+
 	@Enumerated(EnumType.STRING)
-	private GCD gcd;
+	private GCD status;
+
 	private BigDecimal lat;
 	private BigDecimal lon;
 	private int ang;
 	private int spd;
-	private int sum;
-	private int bat;
+
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")
 	private VehicleInformation vehicleInformation;
 
-	public static BigDecimal convertToSixDecimalPlaces(Long value) {
-		return BigDecimal.valueOf(value / 1000000.0);
-	}
+	@CreatedDate
+	private LocalDateTime createdAt;
+
+	@LastModifiedDate
+	private LocalDateTime updatedAt;
+
+	private LocalDateTime deletedAt;
 
 	public static CycleInfo from(CListRequest request, VehicleInformation vehicleInformation) {
 		return CycleInfo.builder()
-			.interval_at(request.interval_at())
-			.gcd(request.gcd())
-			.lat(CycleInfo.convertToSixDecimalPlaces(request.lat()))
-			.lon(CycleInfo.convertToSixDecimalPlaces(request.lon()))
+			.intervalAt(request.intervalAt())
+			.status(request.gcd())
+			.lat(BigDecimal.valueOf(request.lat()))
+			.lon(BigDecimal.valueOf(request.lon()))
 			.ang(request.ang())
 			.spd(request.spd())
-			.sum(request.sum())
-			.bat(request.bat())
 			.vehicleInformation(vehicleInformation)
 			.build();
 	}
