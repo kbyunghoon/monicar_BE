@@ -59,11 +59,6 @@ public class CycleInfo implements Serializable {
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
-
-	private LocalDateTime deletedAt;
-
 	public static CycleInfo from(CListRequest request, VehicleInformation vehicleInformation) {
 		return CycleInfo.builder()
 			.intervalAt(request.intervalAt())
