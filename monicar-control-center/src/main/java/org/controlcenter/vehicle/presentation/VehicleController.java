@@ -1,8 +1,5 @@
 package org.controlcenter.vehicle.presentation;
 
-import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/vehicles")
@@ -71,7 +67,6 @@ public class VehicleController {
 		/*
 		 * TODO 토큰 확인 로직 추가
 		 */
-		log.info("keyOnReq: {}", request);
 
 		final Long vehicleId = vehicleService.getVehicleId(request.mdn());
 		if (vehicleId == null) {
