@@ -31,13 +31,18 @@ public class VehicleEventCreate {
 	}
 
 	public static VehicleEventCreate of(
-			final long vehicleId,
+			final long existedVehicleId,
+			final int existedSum,
 			final VehicleEventType onEvent,
-			final String rawEventAt) {
+			final String rawEventAt,
+			final int sum) {
 		LocalDateTime onTime = validateEventAt(rawEventAt);
+		if (existedSum != sum) {
+			throw new BusinessException(ErrorCode.HANDLE_ACCESS_DENIED);
+		}
 
 		return new VehicleEventCreate(
-				vehicleId,
+				existedVehicleId,
 				onEvent,
 				onTime
 		);

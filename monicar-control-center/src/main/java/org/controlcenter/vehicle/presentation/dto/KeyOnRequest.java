@@ -37,11 +37,13 @@ public record KeyOnRequest(
 		@NotNull(message = "누적 주행 거리는 비어 있을 수 없습니다.")
 		Integer sum
 ) {
-	public VehicleEventCreate toDomain(final Long vehicleId) {
+	public VehicleEventCreate toDomain(final Long existedVehicleId, final int existedSum) {
 		return VehicleEventCreate.of(
-				vehicleId,
+				existedVehicleId,
+				existedSum,
 				VehicleEventType.ON,
-				onTime
+				onTime,
+				sum
 		);
 	}
 }

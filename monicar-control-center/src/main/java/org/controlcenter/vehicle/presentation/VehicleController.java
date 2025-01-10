@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
-import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.common.response.code.ResponseCode;
 import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.domain.VehicleEventCreate;
+import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
 import org.controlcenter.vehicle.presentation.dto.CommonResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
@@ -68,12 +68,9 @@ public class VehicleController {
 		 * TODO 토큰 확인 로직 추가
 		 */
 
-		final Long vehicleId = vehicleService.getVehicleId(request.mdn());
-		if (vehicleId == null) {
-			return BaseResponse.fail(ErrorCode.INVALID_INPUT_VALUE);
-		}
+		final VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
 
-		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleId);
+		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
 		vehicleService.saveVehicleEvent(vehicleEventCreate);
 
 		CommonResponse response = new CommonResponse(

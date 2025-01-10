@@ -25,13 +25,13 @@ public class VehicleService {
 		return vehicleInformation.getVehicleNumber();
 	}
 
-	public Long getVehicleId(final Long mdn) {
-		VehicleInformation vehicleInformation = vehicleRepository.findByMdn(mdn)
-			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
-		return vehicleInformation.getId();
+	public VehicleEvent saveVehicleEvent(final VehicleEventCreate command) {
+		return vehicleEventRepository.save(VehicleEvent.create(command));
 	}
 
-	public VehicleEvent saveVehicleEvent(VehicleEventCreate command) {
-		 return vehicleEventRepository.save(VehicleEvent.create(command));
+	public VehicleInformation getVehicleInformation(final Long mdn) {
+		return vehicleRepository.findByMdn(mdn)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+
 	}
 }
