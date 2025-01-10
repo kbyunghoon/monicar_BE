@@ -20,6 +20,7 @@ public class CycleInfoController {
 	private final CycleInfoProducer cycleInfoProducer;
 	private final CycleInfoService cycleInfoService;
 
+	// FIXME: 테스트를 위한 코드. 추후 수정 필요.
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
 		long mdn = cycleInfoService.cycleInfoSave(request);

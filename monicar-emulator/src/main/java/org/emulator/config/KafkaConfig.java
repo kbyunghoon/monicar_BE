@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.emulator.device.infrastructure.external.command.CycleInfoListCommand;
+import org.emulator.device.infrastructure.messaging.TypeIdInterceptor;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Configuration
 public class KafkaConfig {
@@ -25,16 +26,23 @@ public class KafkaConfig {
 	}
 
 	@Bean
-	public ProducerFactory<String, CycleInfoListCommand> producerFactory(KafkaProperties kafkaProperties) {
+	public ProducerFactory<String, Object> producerFactory(KafkaProperties kafkaProperties) {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducer().getKeySerializer());
-		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducer().getValueSerializer());
-		return new DefaultKafkaProducerFactory<>(props);
+		props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, TypeIdInterceptor.class.getName());
+		props.put(ProducerConfig.ACKS_CONFIG, kafkaProperties.getProducer().getAcks());
+
+		JsonSerializer<Object> jsonSerializer = new JsonSerializer<>();
+		jsonSerializer.setAddTypeInfo(false);
+
+		return new DefaultKafkaProducerFactory<>(props,
+			new org.apache.kafka.common.serialization.StringSerializer(),
+			jsonSerializer);
 	}
 
 	@Bean
-	public KafkaTemplate<String, CycleInfoListCommand> kafkaTemplate(KafkaProperties kafkaProperties) {
+	public KafkaTemplate<String, Object> kafkaTemplate(KafkaProperties kafkaProperties) {
 		return new KafkaTemplate<>(producerFactory(kafkaProperties));
 	}
 }
