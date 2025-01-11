@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 public class VehicleEventCreate {
-	private static final int ON_OFF_TIME_LENGTH = 14; // ccyyMMddHHmmss
+	private static final int EXPECTED_ON_OFF_TIME_LENGTH = 14; // ccyyMMddHHmmss
+	private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
 
 	private final long vehicleId;
 	private final VehicleEventType eventType;
@@ -37,9 +38,7 @@ public class VehicleEventCreate {
 			final String rawEventAt,
 			final int sum) {
 		LocalDateTime onTime = validateEventAt(rawEventAt);
-		if (existedSum != sum) {
-			throw new BusinessException(ErrorCode.HANDLE_ACCESS_DENIED);
-		}
+		validateSum(existedSum, sum);
 
 		return new VehicleEventCreate(
 				existedVehicleId,
@@ -48,12 +47,31 @@ public class VehicleEventCreate {
 		);
 	}
 
-	private static LocalDateTime validateEventAt(String rawEventAt) {
-		if (rawEventAt.length() != ON_OFF_TIME_LENGTH || !rawEventAt.chars().allMatch(Character::isDigit)) {
+	private static void validateSum(final int existedSum, final int sum) {
+		if (existedSum != sum) {
+			throw new BusinessException(ErrorCode.HANDLE_ACCESS_DENIED);
+		}
+	}
+
+	private static LocalDateTime validateEventAt(final String rawEventAt) {
+		validateFormat(rawEventAt);
+
+		final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+
+		return LocalDateTime.parse(rawEventAt, dateTimeFormat);
+	}
+
+	private static void validateFormat(final String rawEventAt) {
+		if (!isValidLength(rawEventAt) || !isNumeric(rawEventAt)) {
 			throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
 		}
+	}
 
-		DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-		return LocalDateTime.parse(rawEventAt, dateTimeFormat);
+	private static boolean isValidLength(final String rawEventAt) {
+		return rawEventAt.length() == EXPECTED_ON_OFF_TIME_LENGTH;
+	}
+
+	private static boolean isNumeric(final String rawEventAt) {
+		return rawEventAt.chars().allMatch(Character::isDigit);
 	}
 }
