@@ -39,7 +39,7 @@ public class CycleInfoEntity {
 
 	private BigDecimal lat;
 
-	private BigDecimal lon;
+	private BigDecimal lng;
 
 	private Integer ang;
 
@@ -61,7 +61,7 @@ public class CycleInfoEntity {
 		cycleInfoEntity.vehicleId = cycleInfo.getVehicleId();
 		cycleInfoEntity.status = cycleInfo.getStatus();
 		cycleInfoEntity.lat = cycleInfo.getLat();
-		cycleInfoEntity.lon = cycleInfo.getLon();
+		cycleInfoEntity.lng = cycleInfo.getLng();
 		cycleInfoEntity.ang = cycleInfo.getAng();
 		cycleInfoEntity.spd = cycleInfo.getSpd();
 		cycleInfoEntity.intervalAt = cycleInfo.getIntervalAt();
@@ -77,7 +77,7 @@ public class CycleInfoEntity {
 			.vehicleId(vehicleId)
 			.status(status)
 			.lat(lat)
-			.lon(lon)
+			.lng(lng)
 			.ang(ang)
 			.spd(spd)
 			.intervalAt(intervalAt)
