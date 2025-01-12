@@ -5,7 +5,7 @@ VALUES
     ('Truck', NOW(), NOW(), NULL),
     ('Convertible', NOW(), NOW(), NULL);
 
-INSERT INTO vehicle_information
+INSERT IGNORE INTO vehicle_information
 (
     vehicle_id, vehicle_type_id, vehicle_number, mdn, tid, mid, pv, did, sum, status, created_at, updated_at, deleted_at
 )
