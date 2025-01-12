@@ -28,7 +28,7 @@ public class DirectionCalculator implements MovementCalculator {
 		double lat1 = bigDecimalLat1.doubleValue();
 		double lon1 = bigDecimalLon1.doubleValue();
 		double lat2 = curInfo.location().lat();
-		double lon2 = curInfo.location().lon();
+		double lon2 = curInfo.location().lng();
 
 		if (Double.compare(lat1, lat2) == EQUAL && Double.compare(lon1, lon2) == EQUAL) {
 			return DIRECTION_MIN;
