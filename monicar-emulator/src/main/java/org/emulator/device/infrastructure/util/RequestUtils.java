@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+import org.emulator.device.common.exception.BusinessException;
+import org.emulator.device.common.response.ErrorCode;
+
 public final class RequestUtils {
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
@@ -16,6 +19,6 @@ public final class RequestUtils {
 	}
 
 	private RequestUtils() {
-		throw new IllegalAccessError("Utility class");
+		throw new BusinessException(ErrorCode.ILLEGAL_UTILITY_CLASS_ACCESS);
 	}
 }

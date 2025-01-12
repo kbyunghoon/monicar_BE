@@ -18,7 +18,7 @@ public class VehicleService {
 	private final LocationReceiver locationReceiver;
 	private final VehicleCommandSender vehicleCommandSender;
 
-	public void onVehicle() {
+	public CommonResponse onVehicle() {
 		GpsTime onLocation = locationReceiver.getLocation();
 
 		OnInfo onInfo = OnInfo.create(
@@ -29,6 +29,6 @@ public class VehicleService {
 			emulatorRepository.getTotalDistance()
 		);
 
-		CommonResponse response = vehicleCommandSender.sendOnCommand(onInfo);
+		return vehicleCommandSender.sendOnCommand(onInfo);
 	}
 }
