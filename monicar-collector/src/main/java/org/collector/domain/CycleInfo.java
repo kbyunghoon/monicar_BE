@@ -5,14 +5,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-
 import org.collector.presentation.dto.CListRequest;
 import org.collector.presentation.dto.GCD;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -48,7 +46,7 @@ public class CycleInfo implements Serializable {
 	private GCD status;
 
 	private BigDecimal lat;
-	private BigDecimal lon;
+	private BigDecimal lng;
 	private int ang;
 	private int spd;
 
@@ -64,7 +62,7 @@ public class CycleInfo implements Serializable {
 			.intervalAt(request.intervalAt())
 			.status(request.gcd())
 			.lat(BigDecimal.valueOf(request.lat()))
-			.lon(BigDecimal.valueOf(request.lon()))
+			.lng(BigDecimal.valueOf(request.lng()))
 			.ang(request.ang())
 			.spd(request.spd())
 			.vehicleInformation(vehicleInformation)

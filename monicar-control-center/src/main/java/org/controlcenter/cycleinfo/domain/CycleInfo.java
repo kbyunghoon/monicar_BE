@@ -13,7 +13,7 @@ public class CycleInfo {
 	private long vehicleId;
 	private GpsStatus status;
 	private BigDecimal lat;
-	private BigDecimal lon;
+	private BigDecimal lng;
 	private Integer ang;
 	private Integer spd;
 	private LocalDateTime intervalAt;
