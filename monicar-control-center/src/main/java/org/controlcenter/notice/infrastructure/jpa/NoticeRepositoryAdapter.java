@@ -27,6 +27,7 @@ public class NoticeRepositoryAdapter implements NoticeRepository {
 
 	@Override
 	public Optional<Notice> findById(Long noticeId) {
-		return jpaRepository.findByNoticeId(noticeId);
+		return jpaRepository.findById(noticeId)
+			.map(NoticeEntity::toDomain);
 	}
 }
