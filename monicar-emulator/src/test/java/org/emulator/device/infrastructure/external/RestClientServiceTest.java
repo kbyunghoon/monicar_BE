@@ -6,6 +6,8 @@ import static org.mockserver.model.HttpResponse.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Map;
+
 import org.common.dto.CommonResponse;
 import org.emulator.config.JacksonConfig;
 import org.emulator.device.domain.GpsStatus;
@@ -57,6 +59,14 @@ class RestClientServiceTest {
 		OnCommand command = OnCommand.from(OnInfo.create(LocalDateTime.now(), GpsStatus.A, 20.111111, 30.111111, 5000));
 		CommonResponse expected = new CommonResponse("000", "Success", "01234567890");
 
+		String mockResponseBody = mapper.writeValueAsString(
+			Map.of(
+				"isSuccess", true,
+				"message", "요청 성공",
+				"results", expected
+			)
+		);
+
 		mockServer.when(
 			request()
 				.withMethod("POST")
@@ -65,15 +75,14 @@ class RestClientServiceTest {
 			.respond(
 				response()
 					.withStatusCode(200)
-					.withBody(mapper.writeValueAsString(expected))
+					.withBody(mockResponseBody)
 			);
 
 		//when
 		CommonResponse result = restClientService.post(
 			restClient,
 			"key-on",
-			command,
-			HeaderUtils.additionalHeaders(HeaderName.TUID)
+			command
 		);
 
 		//then

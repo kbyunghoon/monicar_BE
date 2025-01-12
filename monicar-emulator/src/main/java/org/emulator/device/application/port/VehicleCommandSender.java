@@ -11,6 +11,4 @@ import java.util.List;
  */
 public interface VehicleCommandSender {
 	CommonResponse sendOnCommand(OnInfo onInfo);
-
-	CommonResponse sendCycleCommand(List<CycleInfo> cycleInfos);
 }
