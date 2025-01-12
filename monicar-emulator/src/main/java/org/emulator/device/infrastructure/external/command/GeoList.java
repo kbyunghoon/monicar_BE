@@ -9,7 +9,7 @@ package org.emulator.device.infrastructure.external.command;
  * @param geoEvtTp 이벤트 타입 - 이벤트 판단 방식 (‘1’: 진입만 판단, ‘2’: 이탈만 판단, ’3’: 진입/이탈 모두 판단)
  * @param geoRange 지오펜스 반경 - 지오펜스의 반경 (단위: 미터)
  * @param lat      GPS 위도 - 차량의 현재 위도 좌표
- * @param lon      GPS 경도 - 차량의 현재 경도 좌표
+ * @param lng      GPS 경도 - 차량의 현재 경도 좌표
  * @param onTime   지오펜스 시작 시간
  * @param offTime  지오펜스 종료 시간
  * @param storeTp  저장 타입 - 데이터의 저장 동작 (‘1’: 추가, ‘2’: 삭제)
@@ -21,7 +21,7 @@ public record GeoList(
 	String geoEvtTp,
 	String geoRange,
 	String lat,
-	String lon,
+	String lng,
 	String onTime,
 	String offTime,
 	String storeTp

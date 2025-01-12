@@ -22,7 +22,7 @@ import lombok.Builder;
  * @param offTime 직전 시동 OFF 시간
  * @param gcd     GPS 상태 - GPS 수신 상태 ('A': 정상, 'V': 비정상, '0': 미장착, 시동 on시 비정상: 'P')
  * @param lat     GPS 위도 - 차량의 현재 위도 좌표
- * @param lon     GPS 경도 - 차량의 현재 경도 좌표
+ * @param lng     GPS 경도 - 차량의 현재 경도 좌표
  * @param ang     방향 - 차량의 현재 진행 방향
  * @param spd     속도 - 차량의 현재 속도
  * @param sum     누적 주행 거리 - 차량의 현재 총 주행 거리
@@ -38,7 +38,7 @@ public record OnCommand(
 	@JsonFormat(pattern = "yyyyMMddHHmmss") LocalDateTime offTime,
 	GpsStatus gcd,
 	long lat,
-	long lon,
+	long lng,
 	int ang,
 	int spd,
 	int sum

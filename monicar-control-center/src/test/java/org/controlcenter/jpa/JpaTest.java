@@ -280,7 +280,7 @@ public class JpaTest {
 			.vehicleId(999L)
 			.status(GpsStatus.A)
 			.lat(BigDecimal.ONE)
-			.lon(BigDecimal.ONE)
+			.lng(BigDecimal.ONE)
 			.ang(999)
 			.spd(999)
 			.intervalAt(LocalDateTime.now())
@@ -305,7 +305,7 @@ public class JpaTest {
 			() -> assertThat(savedCycleInfo.getVehicleId()).isEqualTo(999L),
 			() -> assertThat(savedCycleInfo.getStatus()).isEqualTo(GpsStatus.A),
 			() -> assertThat(savedCycleInfo.getLat()).isEqualTo(BigDecimal.ONE),
-			() -> assertThat(savedCycleInfo.getLon()).isEqualTo(BigDecimal.ONE),
+			() -> assertThat(savedCycleInfo.getLng()).isEqualTo(BigDecimal.ONE),
 			() -> assertThat(savedCycleInfo.getAng()).isEqualTo(999),
 			() -> assertThat(savedCycleInfo.getSpd()).isEqualTo(999)
 		);

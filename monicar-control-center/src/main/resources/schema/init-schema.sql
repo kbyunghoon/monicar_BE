@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS cycle_info
     `interval_at`   TIMESTAMP    NOT NULL COMMENT '발생시간',
     `status`        VARCHAR(100) NOT NULL COMMENT 'GPS 상태',
     `lat`           DECIMAL      NOT NULL COMMENT '위도 * 1000000 한값(소수점 6자리)',
-    `lon`           DECIMAL      NOT NULL COMMENT '경도 * 1000000 한값(소수점 6자리)',
+    `lng`           DECIMAL      NOT NULL COMMENT '경도 * 1000000 한값(소수점 6자리)',
     `ang`           INT          NOT NULL COMMENT '방향 - 범위 : 0 ~ 365',
     `spd`           INT          NOT NULL COMMENT '속도 - 범위 : 0~ 255(단위: km/h)',
     `created_at`    TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',

@@ -25,7 +25,7 @@ public class VehicleService {
 			onLocation.intervalAt(),
 			GpsStatus.A,
 			onLocation.location().lat(),
-			onLocation.location().lon(),
+			onLocation.location().lng(),
 			emulatorRepository.getTotalDistance()
 		);
 

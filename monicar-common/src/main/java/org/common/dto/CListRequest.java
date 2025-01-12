@@ -4,7 +4,7 @@ public record CListRequest(
 	String sec,
 	GCD gcd,
 	String lat,
-	String lon,
+	String lng,
 	String ang,
 	String spd,
 	String sum,

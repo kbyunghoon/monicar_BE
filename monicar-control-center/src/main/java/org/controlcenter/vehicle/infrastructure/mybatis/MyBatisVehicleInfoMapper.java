@@ -37,7 +37,7 @@ public interface MyBatisVehicleInfoMapper {
 	@Select("""
 		select
 		    filtering_cycle_info.lat,
-		    filtering_cycle_info.lon,
+		    filtering_cycle_info.lng,
 		    filtering_cycle_info.spd,
 		    filtering_cycle_info.interval_at
 				from (
