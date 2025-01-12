@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public record RouteResponse(
 	BigDecimal lat,
-	BigDecimal lon,
+	BigDecimal lng,
 	Integer spd,
 	LocalDateTime timestamp
 ) {

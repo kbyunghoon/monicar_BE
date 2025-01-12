@@ -33,7 +33,7 @@ public class CycleInfo {
 		return CycleInfo.builder()
 			.intervalAt(gpsTime.intervalAt())
 			.gpsStatus(gpsStatus)
-			.geo(new Geo(gpsTime.location().lat(), gpsTime.location().lon()))
+			.geo(new Geo(gpsTime.location().lat(), gpsTime.location().lng()))
 			.direction(new Direction(direction))
 			.speed(new Speed(speed))
 			.totalDistance(new TotalDistance(totalDistance))
