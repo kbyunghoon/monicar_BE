@@ -1,24 +1,21 @@
 package org.emulator.device.common.response;
 
+import org.common.dto.CommonResponse;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
-import org.common.dto.CommonResponse;
-
-@RequiredArgsConstructor
 @Builder
-public class BaseResponse<T> {
-	private final Integer code;
-	private final String message;
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private final Long timestamp;
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private final T result;
-
-	public static <T> BaseResponse<T> success() {
-		return BaseResponse.<T>builder()
+public record BaseResponse<T>(
+	Integer code,
+	String message,
+	@JsonInclude(JsonInclude.Include.NON_NULL) Long timestamp,
+	@JsonInclude(JsonInclude.Include.NON_NULL) T result
+) {
+	public static BaseResponse<Void> success() {
+		return BaseResponse.<Void>builder()
 			.code(200)
 			.message(SuccessCode.OK.getMessage())
 			.build();
@@ -32,16 +29,16 @@ public class BaseResponse<T> {
 			.build();
 	}
 
-	public static <T> BaseResponse<T> fail(CommonResponse response) {
-		return BaseResponse.<T>builder()
+	public static BaseResponse<Void> fail(CommonResponse response) {
+		return BaseResponse.<Void>builder()
 			.code(Integer.parseInt(response.rstCd()))
-			.message(response.rstCd())
+			.message(response.rstMsg())
 			.timestamp(System.currentTimeMillis())
 			.build();
 	}
 
-	public static <T> BaseResponse<T> fail(ErrorCode code) {
-		return BaseResponse.<T>builder()
+	public static BaseResponse<Void> fail(ErrorCode code) {
+		return BaseResponse.<Void>builder()
 			.code(code.getCode())
 			.message(code.getMessage())
 			.timestamp(System.currentTimeMillis())
