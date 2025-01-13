@@ -126,7 +126,7 @@ CREATE TABLE driving_history
     `department_id`             BIGINT       NULL COMMENT '부서 PK',
     `is_business_use`           TINYINT(1)   NOT NULL COMMENT '업무용인지 확인',
     `driver_email`              VARCHAR(255) NOT NULL COMMENT '운전자 이메일',
-    `used_at`                   TIMESTAMP    NOT NULL COMMENT '사용일자',
+    `used_at`                   DATE         NOT NULL COMMENT '사용일자',
     `initial_odometer`          DOUBLE       NOT NULL COMMENT '주행 전 계기판의 거리(km)',
     `final_odometer`            DOUBLE       NOT NULL COMMENT '주행 후 계기판의 거리(km)',
     `driving_distance`          DOUBLE       NOT NULL COMMENT '주행 거리(km)',

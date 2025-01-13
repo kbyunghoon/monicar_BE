@@ -1,5 +1,6 @@
 package org.controlcenter.history.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class DrivingHistory {
 	private Double businessCommuteDistance;
 	private Double businessUsageDistance;
 	private Boolean isBusinessUse;
-	private LocalDateTime usedAt;
+	private LocalDate usedAt;
 	private LocalDateTime onTime;
 	private LocalDateTime offTime;
 	private LocalDateTime createdAt;

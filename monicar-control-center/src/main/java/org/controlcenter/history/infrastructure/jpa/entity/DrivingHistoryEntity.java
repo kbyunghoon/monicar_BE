@@ -1,5 +1,6 @@
 package org.controlcenter.history.infrastructure.jpa.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.controlcenter.history.domain.DrivingHistory;
@@ -43,7 +44,7 @@ public class DrivingHistoryEntity {
 
 	private Boolean isBusinessUse;
 
-	private LocalDateTime usedAt;
+	private LocalDate usedAt;
 
 	private LocalDateTime onTime;
 
