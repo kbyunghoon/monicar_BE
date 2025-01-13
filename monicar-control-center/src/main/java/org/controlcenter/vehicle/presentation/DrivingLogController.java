@@ -8,6 +8,7 @@ import org.controlcenter.vehicle.application.DrivingLogService;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
+import org.controlcenter.vehicle.presentation.swagger.DrivingLogApi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,8 +23,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/driving-log")
-public class DrivingLogController {
+public class DrivingLogController implements DrivingLogApi {
 	private final DrivingLogService drivingLogService;
+
+	@GetMapping("/{vehicle-id}")
+	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam(required = false) LocalDate start,
+		@RequestParam(required = false) LocalDate end
+	) {
+		return BaseResponse.success(drivingLogService.getVehicleDrivingLogDetails(vehicleId, start, end));
+	}
+
 
 	@GetMapping
 	public BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
@@ -34,14 +45,5 @@ public class DrivingLogController {
 		Page<DrivingLogResponse> responsePage = drivingLogPage.map(DrivingLogResponse::from);
 
 		return BaseResponse.success(new PageResponse<>(responsePage));
-	}
-
-	@GetMapping("/{vehicle-id}")
-	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
-		@PathVariable("vehicle-id") Long vehicleId,
-		@RequestParam(required = false) LocalDate start,
-		@RequestParam(required = false) LocalDate end
-	) {
-		return BaseResponse.success(drivingLogService.getVehicleDrivingLogDetails(vehicleId, start, end));
 	}
 }
