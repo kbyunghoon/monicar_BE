@@ -25,7 +25,7 @@ public class NoticeController {
 	public BaseResponse<List<SimpleNoticeResponse>> getAllNotice() {
 		List<SimpleNoticeResponse> notices = repository.findAll()
 			.stream()
-			.map(SimpleNoticeResponse::fromDomain)
+			.map(SimpleNoticeResponse::from)
 			.toList();
 
 		if (notices.isEmpty()) return BaseResponse.fail(ErrorCode.ENTITY_NOT_FOUND);
@@ -38,7 +38,7 @@ public class NoticeController {
 		@PathVariable("notice-id") Long noticeId
 	) {
 		SimpleNoticeResponse response = repository.findById(noticeId)
-			.map(SimpleNoticeResponse::fromDomain)
+			.map(SimpleNoticeResponse::from)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 
 		return BaseResponse.success(response);

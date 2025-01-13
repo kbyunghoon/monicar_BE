@@ -14,7 +14,7 @@ public record SimpleNoticeResponse(
 	String imageUrl,
 	LocalDateTime createdAt
 ) {
-	public static SimpleNoticeResponse fromDomain(Notice notice) {
+	public static SimpleNoticeResponse from(Notice notice) {
 		return SimpleNoticeResponse.builder()
 			.id(notice.getId())
 			.title(notice.getTitle())
