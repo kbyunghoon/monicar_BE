@@ -1,0 +1,13 @@
+tasks.bootJar {
+    enabled = true
+}
+
+tasks.jar {
+    enabled = true
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.kafka:spring-kafka:3.3.0"
+}
+
