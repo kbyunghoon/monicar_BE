@@ -33,6 +33,12 @@ public class DrivingLogService {
 		Long vehicleId,
 		LocalDate startDate,
 		LocalDate endDate) {
+		if (startDate == null) {
+			startDate = LocalDate.now().minusYears(1);
+		}
+		if (endDate == null) {
+			endDate = LocalDate.now();
+		}
 
 		Optional<VehicleHeaderInfo> maybeHeader = drivingLogRepository.findVehicleHeaderInfoByVehicleId(vehicleId);
 

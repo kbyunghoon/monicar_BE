@@ -1,12 +1,10 @@
-TRUNCATE vehicle_types;
-
 INSERT INTO vehicle_types (vehicle_types_name, created_at, updated_at, deleted_at)
 VALUES ('SUV', NOW(), NOW(), NULL),
        ('Truck', NOW(), NOW(), NULL),
        ('Convertible', NOW(), NOW(), NULL);
 
 
-INSERT IGNORE INTO company
+INSERT INTO company
 (company_id,
  company_name,
  business_registration_number,
@@ -18,7 +16,7 @@ VALUES (1, 'ABC Corporation', '123-45-67890', '2025-01-01 09:00:00', '2025-01-01
        (3, 'Acme Inc', '111-22-3333', '2025-01-03 11:00:00', '2025-01-03 11:00:00', NULL),
        (4, 'Mega Co', '444-55-6666', '2025-01-04 12:00:00', '2025-01-04 12:00:00', NULL);
 
-INSERT IGNORE INTO vehicle_information
+INSERT INTO vehicle_information
 (vehicle_id, company_id, vehicle_type_id, vehicle_number, mdn, tid, mid, pv, did, sum, status, created_at, updated_at,
  deleted_at)
 VALUES (1, 1, 1, '123가1234', 1010101010, 'TID001', 1, 1, 1, 10000, 'IN_OPERATION', '2025-01-01 10:00:00',
@@ -63,7 +61,7 @@ VALUES (1, 1, 1, '123가1234', 1010101010, 'TID001', 1, 1, 1, 10000, 'IN_OPERATI
        (20, 1, 2, '234바7890', 2121212121, 'TID020', 20, 7, 20, 105000, 'NOT_REGISTERED', '2025-01-20 13:00:00',
         '2025-01-20 13:00:00', NULL);
 
-INSERT IGNORE INTO department
+INSERT INTO department
 (department_id,
  company_id,
  department_name,
@@ -82,7 +80,7 @@ VALUES (1, 1, 'Sales', '2025-01-01 09:00:00', '2025-01-01 09:00:00', NULL),
        (7, 4, 'Logistics', '2025-01-04 12:00:00', '2025-01-04 12:00:00', NULL),
        (8, 4, 'Operations', '2025-01-04 12:00:00', '2025-01-04 12:00:00', NULL);
 
-INSERT IGNORE INTO manager
+INSERT INTO manager
 (manager_id,
  department_id,
  email,
@@ -112,7 +110,7 @@ VALUES (1, 1, 'john@example.com', 'john', 'password', 'John Manager', 'ADMIN', '
         '2025-01-08 16:00:00', '2025-01-08 16:00:00', NULL);
 
 
-INSERT IGNORE INTO driving_history
+INSERT INTO driving_history
 (driving_history_id,
  vehicle_id,
  department_id,
