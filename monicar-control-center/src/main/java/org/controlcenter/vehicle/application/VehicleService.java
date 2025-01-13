@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class VehicleService {
@@ -19,16 +21,19 @@ public class VehicleService {
 	private final VehicleRepository vehicleRepository;
 	private final VehicleEventRepository vehicleEventRepository;
 
+	@Transactional(readOnly = true)
 	public String getVehicleNumber(Long vehicleId) {
 		VehicleInformation vehicleInformation = vehicleRepository.findById(vehicleId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 		return vehicleInformation.getVehicleNumber();
 	}
 
+	@Transactional()
 	public VehicleEvent saveVehicleEvent(final VehicleEventCreate command) {
 		return vehicleEventRepository.save(VehicleEvent.create(command));
 	}
 
+	@Transactional(readOnly = true)
 	public VehicleInformation getVehicleInformation(final Long mdn) {
 		return vehicleRepository.findByMdn(mdn)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
