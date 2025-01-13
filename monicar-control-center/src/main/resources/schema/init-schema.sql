@@ -1,4 +1,15 @@
-CREATE TABLE IF NOT EXISTS company
+DROP TABLE IF EXISTS company;
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS manager;
+DROP TABLE IF EXISTS alarm;
+DROP TABLE IF EXISTS notice;
+DROP TABLE IF EXISTS vehicle_information;
+DROP TABLE IF EXISTS vehicle_types;
+DROP TABLE IF EXISTS vehicle_event;
+DROP TABLE IF EXISTS cycle_info;
+DROP TABLE IF EXISTS driving_history;
+
+CREATE TABLE company
 (
     `company_id`                   BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '업체 PK',
     `company_name`                 VARCHAR(100) NOT NULL COMMENT '상호명',
@@ -8,8 +19,7 @@ CREATE TABLE IF NOT EXISTS company
     `deleted_at`                   TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='업체';
 
-
-CREATE TABLE IF NOT EXISTS department
+CREATE TABLE department
 (
     `department_id`   BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '부서 PK',
     `company_id`      BIGINT       NOT NULL COMMENT '업체 PK',
@@ -19,8 +29,7 @@ CREATE TABLE IF NOT EXISTS department
     `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='부서';
 
-
-CREATE TABLE IF NOT EXISTS manager
+CREATE TABLE manager
 (
     `manager_id`      BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '담당자 PK',
     `department_id`   BIGINT       NOT NULL COMMENT '부서 PK',
@@ -35,8 +44,7 @@ CREATE TABLE IF NOT EXISTS manager
     `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='담당자';
 
-
-CREATE TABLE IF NOT EXISTS alarm
+CREATE TABLE alarm
 (
     `alarm_id`    BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '알림 PK',
     `manager_id`  BIGINT       NOT NULL COMMENT '담당자 PK',
@@ -47,8 +55,7 @@ CREATE TABLE IF NOT EXISTS alarm
     `deleted_at`  TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='알림';
 
-
-CREATE TABLE IF NOT EXISTS notice
+CREATE TABLE notice
 (
     `notice_id`  BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '공지사항 PK',
     `title`      VARCHAR(100) NOT NULL COMMENT '제목',
@@ -59,8 +66,7 @@ CREATE TABLE IF NOT EXISTS notice
     `deleted_at` TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='공지사항';
 
-
-CREATE TABLE IF NOT EXISTS vehicle_information
+CREATE TABLE vehicle_information
 (
     `vehicle_id`      BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 PK',
     `company_id`      BIGINT       NOT NULL COMMENT '업체 PK',
@@ -78,8 +84,7 @@ CREATE TABLE IF NOT EXISTS vehicle_information
     `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='차량정보';
 
-
-CREATE TABLE IF NOT EXISTS vehicle_types
+CREATE TABLE vehicle_types
 (
     `vehicle_types_id`   BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차종 PK',
     `vehicle_types_name` VARCHAR(255) NOT NULL COMMENT '차종명',
@@ -88,8 +93,7 @@ CREATE TABLE IF NOT EXISTS vehicle_types
     `deleted_at`         TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='차종';
 
-
-CREATE TABLE IF NOT EXISTS vehicle_event
+CREATE TABLE vehicle_event
 (
     `vehicle_event_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 이벤트 PK',
     `vehicle_id`       BIGINT       NOT NULL COMMENT '차량 PK',
@@ -100,8 +104,7 @@ CREATE TABLE IF NOT EXISTS vehicle_event
     `deleted_at`       TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='차량 이벤트';
 
-
-CREATE TABLE IF NOT EXISTS cycle_info
+CREATE TABLE cycle_info
 (
     `cycle_info_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '주기정보 PK',
     `vehicle_id`    BIGINT       NOT NULL COMMENT '차량 PK',
@@ -116,8 +119,7 @@ CREATE TABLE IF NOT EXISTS cycle_info
     `deleted_at`    TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='주기 정보';
 
-
-CREATE TABLE IF NOT EXISTS driving_history
+CREATE TABLE driving_history
 (
     `driving_history_id`        BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '운행내역 PK',
     `vehicle_id`                BIGINT       NOT NULL COMMENT '차량 PK',
