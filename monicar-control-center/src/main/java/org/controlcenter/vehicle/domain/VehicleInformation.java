@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class VehicleInformation {
 	private Long id;
+	private Long companyId;
 	private Long vehicleTypeId;
 	private String vehicleNumber;
 	private Long mdn;

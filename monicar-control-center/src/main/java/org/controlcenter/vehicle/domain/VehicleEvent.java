@@ -15,4 +15,12 @@ public class VehicleEvent {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;
+
+	public static VehicleEvent create(VehicleEventCreate vehicleEventCreate) {
+		return VehicleEvent.builder()
+			.vehicleId(vehicleEventCreate.getVehicleId())
+			.type(vehicleEventCreate.getEventType())
+			.eventAt(vehicleEventCreate.getEventAt())
+			.build();
+	}
 }

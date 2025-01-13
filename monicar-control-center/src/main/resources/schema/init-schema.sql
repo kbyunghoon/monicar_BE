@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS notice
 CREATE TABLE IF NOT EXISTS vehicle_information
 (
     `vehicle_id`      BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 PK',
+    `company_id`      BIGINT       NOT NULL COMMENT '업체 PK',
     `vehicle_type_id` BIGINT       NOT NULL COMMENT '차종 PK',
     `vehicle_number`  VARCHAR(100) NOT NULL COMMENT '차량 표지판 번호',
     `mdn`             BIGINT       NOT NULL COMMENT '차량번호',

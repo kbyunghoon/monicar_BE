@@ -19,4 +19,11 @@ public class VehicleInformationRepositoryAdapter implements VehicleRepository {
 		return vehicleInformationJpaRepository.findById(vehicleId)
 			.map(VehicleInformationEntity::toDomain);
 	}
+
+	@Override
+	public Optional<VehicleInformation> findByMdn(Long mdn) {
+		return vehicleInformationJpaRepository.findByMdn(mdn)
+			.map(VehicleInformationEntity::toDomain);
+	}
+
 }

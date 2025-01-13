@@ -15,10 +15,10 @@ public class Company {
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;
 
-    public static Company create(CompanyCreate companyCreate) {
-        return Company.builder()
-                .companyName(companyCreate.getCompanyName())
-                .businessRegistrationNumber(companyCreate.getBusinessRegistrationNumber())
-                .build();
-    }
+	public static Company create(CompanyCreate companyCreate) {
+		return Company.builder()
+			.companyName(companyCreate.getCompanyName())
+			.businessRegistrationNumber(companyCreate.getBusinessRegistrationNumber())
+			.build();
+	}
 }
