@@ -28,6 +28,8 @@ public class VehicleInformationEntity {
 	@Column(name = "vehicle_id")
 	private Long id;
 
+	private Long companyId;
+
 	private Long vehicleTypeId;
 
 	private String vehicleNumber;
@@ -58,6 +60,7 @@ public class VehicleInformationEntity {
 	public static VehicleInformationEntity from(VehicleInformation vehicleInformation) {
 		VehicleInformationEntity vehicleInformationEntity = new VehicleInformationEntity();
 		vehicleInformationEntity.id = vehicleInformation.getId();
+		vehicleInformationEntity.companyId = vehicleInformation.getCompanyId();
 		vehicleInformationEntity.vehicleTypeId = vehicleInformation.getVehicleTypeId();
 		vehicleInformationEntity.vehicleNumber = vehicleInformation.getVehicleNumber();
 		vehicleInformationEntity.mdn = vehicleInformation.getMdn();
@@ -76,6 +79,7 @@ public class VehicleInformationEntity {
 	public VehicleInformation toDomain() {
 		return VehicleInformation.builder()
 			.id(id)
+			.companyId(companyId)
 			.vehicleTypeId(vehicleTypeId)
 			.vehicleNumber(vehicleNumber)
 			.mdn(mdn)
