@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.emulator.device.common.exception.BusinessException;
+import org.emulator.device.common.response.ErrorCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -31,7 +33,7 @@ public final class HeaderUtils {
 				case TUID -> headers.put(headerName.getName(), RequestUtils.generateTUID());
 				case TOKEN -> headers.put(headerName.getName(), "my-vehicle-token");
 
-				default -> throw new IllegalArgumentException("Unhandled header: " + headerName);
+				default -> throw new BusinessException(ErrorCode.UNSUPPORTED_HEADER);
 			}
 		}
 
@@ -39,6 +41,6 @@ public final class HeaderUtils {
 	}
 
 	private HeaderUtils() {
-		throw new IllegalStateException("Utility class");
+		throw new BusinessException(ErrorCode.ILLEGAL_UTILITY_CLASS_ACCESS);
 	}
 }

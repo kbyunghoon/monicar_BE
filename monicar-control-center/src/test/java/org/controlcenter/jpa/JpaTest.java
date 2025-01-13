@@ -316,6 +316,7 @@ public class JpaTest {
 	void VehicleInformationEntityTest() {
 		// given
 		VehicleInformation vehicleInformation = VehicleInformation.builder()
+			.companyId(1L)
 			.vehicleTypeId(999L)
 			.vehicleNumber("가나1234")
 			.mdn(999L)
