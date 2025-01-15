@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ResponseCode;
+import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/vehicles")
 public class VehicleController {
 	private final VehicleQueryRepository vehicleQueryRepository;
+	private final VehicleEventService vehicleEventService;
 	private final VehicleService vehicleService;
 
 	@GetMapping
@@ -71,7 +73,7 @@ public class VehicleController {
 		final VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
 
 		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
-		vehicleService.saveVehicleEvent(vehicleEventCreate);
+		vehicleEventService.saveVehicleEvent(vehicleEventCreate);
 
 		CommonResponse response = new CommonResponse(
 			ResponseCode.SUCCESS.getCode(),

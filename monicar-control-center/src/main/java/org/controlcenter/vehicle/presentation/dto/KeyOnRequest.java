@@ -22,7 +22,6 @@ public record KeyOnRequest(
 		Integer did,
 		@NotBlank(message = "차량 시동 On 시간은 비어 있을 수 없습니다.")
 		String onTime,
-		@NotBlank(message = "차량 시동 Off 시간은 비어 있을 수 없습니다.")
 		String offTime,
 		@NotNull(message = "GPS 상태는 null 또는 비어 있을 수 없습니다.")
 		GpsStatus gcd,

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.common.dto.CommonResponse;
 import org.emulator.device.application.VehicleService;
+import org.emulator.device.common.response.BaseResponse;
 import org.emulator.sensor.GpsSensor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,9 +33,7 @@ class VehicleControllerTest {
 	@DisplayName("on 요청 success 테스트")
 	@Test
 	void keyOnSuccess() throws Exception {
-		CommonResponse mockedSuccessResponse = new CommonResponse("000", "Success", "01234567890");
-
-		when(vehicleService.onVehicle()).thenReturn(mockedSuccessResponse);
+		when(vehicleService.onVehicle()).thenReturn(BaseResponse.success());
 
 		var result = mockMvc.perform(post("/v1/emulator/key-on")
 				.accept(MediaType.APPLICATION_JSON)
@@ -49,7 +48,7 @@ class VehicleControllerTest {
 	void keyOnFail() throws Exception {
 		CommonResponse mockedFailResponse = new CommonResponse("100", "Invalid access path.", "01234567890");
 
-		when(vehicleService.onVehicle()).thenReturn(mockedFailResponse);
+		when(vehicleService.onVehicle()).thenReturn(BaseResponse.fail(mockedFailResponse));
 
 		var result = mockMvc.perform(post("/v1/emulator/key-on")
 			.accept(MediaType.APPLICATION_JSON)
