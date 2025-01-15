@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
@@ -22,5 +23,9 @@ public class VehicleEvent {
 			.type(vehicleEventCreate.getEventType())
 			.eventAt(vehicleEventCreate.getEventAt())
 			.build();
+	}
+
+	public boolean isTypeOn() {
+		return VehicleEventType.ON.equals(type);
 	}
 }

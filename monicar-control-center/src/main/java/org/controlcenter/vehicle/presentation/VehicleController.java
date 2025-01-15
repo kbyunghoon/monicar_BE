@@ -3,10 +3,12 @@ package org.controlcenter.vehicle.presentation;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ResponseCode;
 import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
+import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
@@ -69,18 +71,23 @@ public class VehicleController {
 		/*
 		 * TODO 토큰 확인 로직 추가
 		 */
-
-		final VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
+		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
+		boolean isOn = vehicleEventService.checkRecentVehicleEventIsOn(vehicleInformation.getId());
+		if (isOn) {
+			return BaseResponse.success(new CommonResponse(
+				ResponseCode.WRONG_APPROACH.getCode(),
+				ResponseCode.WRONG_APPROACH.getMessage(),
+				request.mdn().toString()
+			));
+		}
 
 		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
 		vehicleEventService.saveVehicleEvent(vehicleEventCreate);
 
-		CommonResponse response = new CommonResponse(
+		return BaseResponse.success(new CommonResponse(
 			ResponseCode.SUCCESS.getCode(),
 			ResponseCode.SUCCESS.getMessage(),
 			request.mdn().toString()
-		);
-
-		return BaseResponse.success(response);
+		));
 	}
 }
