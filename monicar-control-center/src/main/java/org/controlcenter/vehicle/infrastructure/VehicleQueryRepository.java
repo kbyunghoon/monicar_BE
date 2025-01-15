@@ -7,6 +7,7 @@ import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
+import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -37,4 +38,15 @@ public class VehicleQueryRepository {
 		);
 	}
 
+	public VehicleModalResponse.RecentVehicleInfo getRecentVehicleInfo(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getRecentVehicleInfo(vehicleId);
+	}
+
+	public VehicleModalResponse.RecentCycleInfo getRecentCycleInfo(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId);
+	}
+
+	public VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getTodayDrivingHistory(vehicleId);
+	}
 }
