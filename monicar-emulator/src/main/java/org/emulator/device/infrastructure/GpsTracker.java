@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.emulator.device.application.port.CycleInfoEventPublisher;
+import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.device.application.port.TransmissionTimeProvider;
 import org.emulator.device.domain.CycleInfo;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Component
 public class GpsTracker implements SensorTracker {
+	private final EmulatorRepository emulatorRepository;
 	private final LocationReceiver locationReceiver;
 	private final TransmissionTimeProvider timeProvider;
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
@@ -58,12 +60,15 @@ public class GpsTracker implements SensorTracker {
 			return;
 		}
 
+		int intervalDistance = getDistance(recentCycleInfo, currentLocation);
+		emulatorRepository.updateCurrentDistance(intervalDistance);
+
 		CycleInfo currentCycleInfo = CycleInfo.create(
 			currentLocation,
 			GpsStatus.A,
 			getDirection(recentCycleInfo, currentLocation),
 			getSpeed(recentCycleInfo, currentLocation),
-			getDistance(recentCycleInfo, currentLocation)
+			intervalDistance
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
