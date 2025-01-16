@@ -3,7 +3,6 @@ package org.controlcenter.vehicle.presentation;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ResponseCode;
 import org.controlcenter.vehicle.application.VehicleEventService;
@@ -72,8 +71,9 @@ public class VehicleController {
 		 * TODO 토큰 확인 로직 추가
 		 */
 		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
-		boolean isOn = vehicleEventService.checkRecentVehicleEventIsOn(vehicleInformation.getId());
-		if (isOn) {
+
+		VehicleEvent vehicleEvent = vehicleEventService.getRecentVehicleEvent(vehicleInformation.getId());
+		if (vehicleEvent.isTypeOn()) {
 			return BaseResponse.success(new CommonResponse(
 				ResponseCode.WRONG_APPROACH.getCode(),
 				ResponseCode.WRONG_APPROACH.getMessage(),

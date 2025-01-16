@@ -2,9 +2,6 @@ package org.controlcenter.vehicle.infrastructure.jpa;
 
 import static org.controlcenter.vehicle.infrastructure.jpa.entity.QVehicleEventEntity.*;
 
-import com.querydsl.core.Tuple;
-
-import java.util.Objects;
 import java.util.Optional;
 
 import org.controlcenter.vehicle.application.port.VehicleEventRepository;
@@ -12,11 +9,13 @@ import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.infrastructure.jpa.entity.VehicleEventEntity;
 import org.springframework.stereotype.Repository;
 
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class VehicleEventRepositoryAdapter implements VehicleEventRepository {
@@ -30,18 +29,20 @@ public class VehicleEventRepositoryAdapter implements VehicleEventRepository {
 
 	@Override
 	public Optional<VehicleEvent> findLatestById(long vehicleId) {
-		Tuple result = queryFactory.select(
+		Optional<Tuple> result = Optional.ofNullable(
+			queryFactory.select(
 				vehicleEventEntity.id,
 				vehicleEventEntity.type
 			)
 			.from(vehicleEventEntity)
 			.where(vehicleEventEntity.vehicleId.eq(vehicleId))
-			.orderBy(vehicleEventEntity.updatedAt.desc())
-			.fetchFirst();
+				.orderBy(vehicleEventEntity.createdAt.desc())
+				.fetchFirst()
+		);
 
-		return Optional.ofNullable(VehicleEvent.builder()
-			.id(result.get(vehicleEventEntity.id))
-			.eventAt(result.get(vehicleEventEntity.eventAt))
+		return result.map(tuple -> VehicleEvent.builder()
+			.id(tuple.get(vehicleEventEntity.id))
+			.type(tuple.get(vehicleEventEntity.type))
 			.build()
 		);
 	}

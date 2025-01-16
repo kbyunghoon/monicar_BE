@@ -1,10 +1,8 @@
 package org.controlcenter.vehicle.application;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
-
 import java.time.format.DateTimeFormatter;
 
 import org.controlcenter.vehicle.domain.VehicleEvent;
@@ -18,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("VehicleEventService 테스트")
-// @Transactional
+@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class VehicleEventServiceTest {
 	@Autowired
@@ -42,7 +40,8 @@ class VehicleEventServiceTest {
 			.build()
 		));
 
-		boolean result = vehicleEventService.checkRecentVehicleEventIsOn(vehicleId);
-		assertTrue(result, "최근 이벤트가 ON임");
+		VehicleEvent event = vehicleEventService.getRecentVehicleEvent(vehicleId);
+		System.out.println(event.getType());
+		assertTrue(event.isTypeOn());
 	}
 }

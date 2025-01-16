@@ -28,4 +28,8 @@ public class VehicleEvent {
 	public boolean isTypeOn() {
 		return VehicleEventType.ON.equals(type);
 	}
+
+	public boolean isTypeOff() {
+		return VehicleEventType.OFF.equals(type);
+	}
 }
