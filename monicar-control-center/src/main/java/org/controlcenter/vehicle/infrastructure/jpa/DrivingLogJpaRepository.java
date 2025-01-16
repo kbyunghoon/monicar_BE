@@ -90,24 +90,26 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 	@Override
 	public List<DrivingLogDetailsContent> findDrivingLogsByVehicleIdAndDateRange(
 		Long vehicleId, LocalDate startDate, LocalDate endDate) {
-		return queryFactory
-			.select(createDrivingLogDetailsProjection())
-			.from(drivingHistoryEntity)
-			.leftJoin(managerEntity).on(drivingHistoryEntity.driverEmail.eq(managerEntity.email))
-			.leftJoin(departmentEntity).on(managerEntity.departmentId.eq(departmentEntity.id))
-			.where(
-				drivingHistoryEntity.vehicleId.eq(vehicleId),
-				drivingHistoryEntity.usedAt.between(startDate.atStartOfDay(), endDate.atStartOfDay())
-			)
-			.fetch();
+		return null;
+		// return queryFactory
+		// 	.select(createDrivingLogDetailsProjection())
+		// 	.from(drivingHistoryEntity)
+		// 	.leftJoin(managerEntity).on(drivingHistoryEntity.driverEmail.eq(managerEntity.email))
+		// 	.leftJoin(departmentEntity).on(managerEntity.departmentId.eq(departmentEntity.id))
+		// 	.where(
+		// 		drivingHistoryEntity.vehicleId.eq(vehicleId),
+		// 		drivingHistoryEntity.usedAt.between(startDate.atStartOfDay(), endDate.atStartOfDay())
+		// 	)
+		// 	.fetch();
 	}
 
 	private QDrivingLogDetailsContent createDrivingLogDetailsProjection() {
-		return new QDrivingLogDetailsContent(
-			drivingHistoryEntity.usedAt.as("usageDate"),
-			createDrivingUserInfoProjection(),
-			createDrivingInfoProjection()
-		);
+		return null;
+		// return new QDrivingLogDetailsContent(
+		// 	drivingHistoryEntity.usedAt.as("usageDate"),
+		// 	createDrivingUserInfoProjection(),
+		// 	createDrivingInfoProjection()
+		// );
 	}
 
 	private QDrivingUserInfo createDrivingUserInfoProjection() {
@@ -128,10 +130,11 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 	}
 
 	private QBusinessMileageDetails createBusinessMileageDetailsProjection() {
-		return new QBusinessMileageDetails(
-			drivingHistoryEntity.businessCommuteDistance,
-			drivingHistoryEntity.businessUsageDistance
-		);
+		return null;
+		// return new QBusinessMileageDetails(
+		// 	drivingHistoryEntity.businessCommuteDistance,
+		// 	drivingHistoryEntity.businessUsageDistance
+		// );
 	}
 
 }

@@ -51,7 +51,7 @@ public class VehicleInformationEntity {
 	@Enumerated(value = EnumType.STRING)
 	private VehicleStatus status;
 
-	private LocalDateTime delivery_date;
+	private LocalDateTime deliveryDate;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -75,7 +75,7 @@ public class VehicleInformationEntity {
 		vehicleInformationEntity.drivingDays = vehicleInformation.getDrivingDays();
 		vehicleInformationEntity.sum = vehicleInformation.getSum();
 		vehicleInformationEntity.status = vehicleInformation.getStatus();
-		vehicleInformationEntity.delivery_date = vehicleInformation.getDelivery_date();
+		vehicleInformationEntity.deliveryDate = vehicleInformation.getDeliveryDate();
 		vehicleInformationEntity.createdAt = vehicleInformation.getCreatedAt();
 		vehicleInformationEntity.updatedAt = vehicleInformation.getUpdatedAt();
 		vehicleInformationEntity.deletedAt = vehicleInformation.getDeletedAt();
@@ -96,7 +96,7 @@ public class VehicleInformationEntity {
 			.drivingDays(drivingDays)
 			.sum(sum)
 			.status(status)
-			.delivery_date(delivery_date)
+			.deliveryDate(deliveryDate)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
