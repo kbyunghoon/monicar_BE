@@ -77,8 +77,10 @@ CREATE TABLE vehicle_information
     `mid`             INT          NOT NULL COMMENT '제조사 아이디',
     `pv`              INT          NOT NULL COMMENT '패킷버전',
     `did`             INT          NOT NULL COMMENT '디바이스 아이디',
-    `sum`             INT          NOT NULL COMMENT '누적 주행 거리',
-    `status`          VARCHAR(100) NOT NULL COMMENT '차량 상태',
+    `driving_days`    INT          NOT NULL DEFAULT 0 COMMENT '운행 일수',
+    `sum`             BIGINT       NOT NULL COMMENT '누적 주행 거리',
+    `status`          VARCHAR(100) NOT NULL DEFAULT 'NOT_REGISTERED' COMMENT '차량 상태',
+    `delivery_date`   DATETIME     NOT NULL COMMENT '출고일자',
     `created_at`      TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
     `updated_at`      TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
     `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
@@ -97,11 +99,10 @@ CREATE TABLE vehicle_event
 (
     `vehicle_event_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 이벤트 PK',
     `vehicle_id`       BIGINT       NOT NULL COMMENT '차량 PK',
+    `sum`              BIGINT       NOT NULL COMMENT '이벤트 발생 시 누적 주행 거리',
     `type`             VARCHAR(100) NOT NULL COMMENT '이벤트 타입',
     `event_at`         TIMESTAMP    NOT NULL COMMENT '발생 시간',
-    `created_at`       TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
-    `updated_at`       TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
-    `deleted_at`       TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
+    `created_at`       TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간'
 ) ENGINE = InnoDB COMMENT ='차량 이벤트';
 
 CREATE TABLE cycle_info
@@ -114,27 +115,22 @@ CREATE TABLE cycle_info
     `lng`           DECIMAL      NOT NULL COMMENT '경도 * 1000000 한값(소수점 6자리)',
     `ang`           INT          NOT NULL COMMENT '방향 - 범위 : 0 ~ 365',
     `spd`           INT          NOT NULL COMMENT '속도 - 범위 : 0~ 255(단위: km/h)',
-    `created_at`    TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
-    `updated_at`    TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
-    `deleted_at`    TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
+    `created_at`    TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간'
 ) ENGINE = InnoDB COMMENT ='주기 정보';
 
 CREATE TABLE driving_history
 (
-    `driving_history_id`        BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '운행내역 PK',
-    `vehicle_id`                BIGINT       NOT NULL COMMENT '차량 PK',
-    `department_id`             BIGINT       NULL COMMENT '부서 PK',
-    `is_business_use`           TINYINT(1)   NOT NULL COMMENT '업무용인지 확인',
-    `driver_email`              VARCHAR(255) NOT NULL COMMENT '운전자 이메일',
-    `used_at`                   TIMESTAMP    NOT NULL COMMENT '사용일자',
-    `initial_odometer`          DOUBLE       NOT NULL COMMENT '주행 전 계기판의 거리(km)',
-    `final_odometer`            DOUBLE       NOT NULL COMMENT '주행 후 계기판의 거리(km)',
-    `driving_distance`          DOUBLE       NOT NULL COMMENT '주행 거리(km)',
-    `business_commute_distance` DOUBLE       NOT NULL COMMENT '업무용 사용거리_출퇴근용(km)',
-    `business_usage_distance`   DOUBLE       NOT NULL COMMENT '업무용 사용거리_일반 업무용(km)',
-    `on_time`                   TIMESTAMP    NULL COMMENT 'on_time',
-    `off_time`                  TIMESTAMP    NULL COMMENT 'off_time',
-    `created_at`                TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
-    `updated_at`                TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
-    `deleted_at`                TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
+    `driving_history_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '운행내역 PK',
+    `vehicle_id`         BIGINT       NOT NULL COMMENT '차량 PK',
+    `department_id`      BIGINT       NULL COMMENT '부서 PK',
+    `driver_email`       VARCHAR(255) NOT NULL COMMENT '운전자 이메일',
+    `initial_odometer`   DOUBLE       NOT NULL COMMENT '주행 전 계기판의 거리(km)',
+    `final_odometer`     DOUBLE       NOT NULL COMMENT '주행 후 계기판의 거리(km)',
+    `driving_distance`   DOUBLE       NOT NULL COMMENT '주행 거리(km)',
+    `use_purpose`        VARCHAR(100) NOT NULL COMMENT '사용목적',
+    `start_time`         TIMESTAMP    NOT NULL COMMENT 'start_time',
+    `end_time`           TIMESTAMP    NOT NULL COMMENT 'end_time',
+    `created_at`         TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
+    `updated_at`         TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
+    `deleted_at`         TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='운행 내역';
