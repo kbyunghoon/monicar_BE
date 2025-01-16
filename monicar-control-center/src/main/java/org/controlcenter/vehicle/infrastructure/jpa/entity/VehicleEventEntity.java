@@ -30,6 +30,8 @@ public class VehicleEventEntity {
 
 	private Long vehicleId;
 
+	private Long sum;
+
 	@Enumerated(value = EnumType.STRING)
 	private VehicleEventType type;
 
@@ -38,20 +40,14 @@ public class VehicleEventEntity {
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
-
-	private LocalDateTime deletedAt;
-
 	public static VehicleEventEntity from(VehicleEvent vehicleEvent) {
 		VehicleEventEntity vehicleEventEntity = new VehicleEventEntity();
 		vehicleEventEntity.id = vehicleEvent.getId();
 		vehicleEventEntity.vehicleId = vehicleEvent.getVehicleId();
+		vehicleEventEntity.sum = vehicleEvent.getSum();
 		vehicleEventEntity.type = vehicleEvent.getType();
 		vehicleEventEntity.eventAt = vehicleEvent.getEventAt();
 		vehicleEventEntity.createdAt = vehicleEvent.getCreatedAt();
-		vehicleEventEntity.updatedAt = vehicleEvent.getUpdatedAt();
-		vehicleEventEntity.deletedAt = vehicleEvent.getDeletedAt();
 		return vehicleEventEntity;
 	}
 
@@ -59,11 +55,10 @@ public class VehicleEventEntity {
 		return VehicleEvent.builder()
 			.id(id)
 			.vehicleId(vehicleId)
+			.sum(sum)
 			.type(type)
 			.eventAt(eventAt)
 			.createdAt(createdAt)
-			.updatedAt(updatedAt)
-			.deletedAt(deletedAt)
 			.build();
 	}
 }

@@ -10,11 +10,10 @@ import lombok.Getter;
 public class VehicleEvent {
 	private Long id;
 	private Long vehicleId;
+	private Long sum;
 	private VehicleEventType type;
 	private LocalDateTime eventAt;
 	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private LocalDateTime deletedAt;
 
 	public static VehicleEvent create(VehicleEventCreate vehicleEventCreate) {
 		return VehicleEvent.builder()

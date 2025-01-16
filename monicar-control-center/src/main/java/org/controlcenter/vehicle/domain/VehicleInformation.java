@@ -17,8 +17,10 @@ public class VehicleInformation {
 	private Integer mid;
 	private Integer pv;
 	private Integer did;
+	private Integer drivingDays;
 	private Integer sum;
 	private VehicleStatus status;
+	private LocalDateTime delivery_date;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;

@@ -44,10 +44,14 @@ public class VehicleInformationEntity {
 
 	private Integer did;
 
+	private Integer drivingDays;
+
 	private Integer sum;
 
 	@Enumerated(value = EnumType.STRING)
 	private VehicleStatus status;
+
+	private LocalDateTime delivery_date;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -68,8 +72,10 @@ public class VehicleInformationEntity {
 		vehicleInformationEntity.mid = vehicleInformation.getMid();
 		vehicleInformationEntity.pv = vehicleInformation.getPv();
 		vehicleInformationEntity.did = vehicleInformation.getDid();
+		vehicleInformationEntity.drivingDays = vehicleInformation.getDrivingDays();
 		vehicleInformationEntity.sum = vehicleInformation.getSum();
 		vehicleInformationEntity.status = vehicleInformation.getStatus();
+		vehicleInformationEntity.delivery_date = vehicleInformation.getDelivery_date();
 		vehicleInformationEntity.createdAt = vehicleInformation.getCreatedAt();
 		vehicleInformationEntity.updatedAt = vehicleInformation.getUpdatedAt();
 		vehicleInformationEntity.deletedAt = vehicleInformation.getDeletedAt();
@@ -87,8 +93,10 @@ public class VehicleInformationEntity {
 			.mid(mid)
 			.pv(pv)
 			.did(did)
+			.drivingDays(drivingDays)
 			.sum(sum)
 			.status(status)
+			.delivery_date(delivery_date)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
