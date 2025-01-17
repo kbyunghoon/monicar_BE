@@ -1,5 +1,6 @@
 package org.controlcenter.vehicle.infrastructure.jpa.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.controlcenter.vehicle.domain.VehicleInformation;
@@ -44,10 +45,14 @@ public class VehicleInformationEntity {
 
 	private Integer did;
 
+	private Integer drivingDays;
+
 	private Integer sum;
 
 	@Enumerated(value = EnumType.STRING)
 	private VehicleStatus status;
+
+	private LocalDate deliveryDate;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -68,8 +73,10 @@ public class VehicleInformationEntity {
 		vehicleInformationEntity.mid = vehicleInformation.getMid();
 		vehicleInformationEntity.pv = vehicleInformation.getPv();
 		vehicleInformationEntity.did = vehicleInformation.getDid();
+		vehicleInformationEntity.drivingDays = vehicleInformation.getDrivingDays();
 		vehicleInformationEntity.sum = vehicleInformation.getSum();
 		vehicleInformationEntity.status = vehicleInformation.getStatus();
+		vehicleInformationEntity.deliveryDate = vehicleInformation.getDeliveryDate();
 		vehicleInformationEntity.createdAt = vehicleInformation.getCreatedAt();
 		vehicleInformationEntity.updatedAt = vehicleInformation.getUpdatedAt();
 		vehicleInformationEntity.deletedAt = vehicleInformation.getDeletedAt();
@@ -87,8 +94,10 @@ public class VehicleInformationEntity {
 			.mid(mid)
 			.pv(pv)
 			.did(did)
+			.drivingDays(drivingDays)
 			.sum(sum)
 			.status(status)
+			.deliveryDate(deliveryDate)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
