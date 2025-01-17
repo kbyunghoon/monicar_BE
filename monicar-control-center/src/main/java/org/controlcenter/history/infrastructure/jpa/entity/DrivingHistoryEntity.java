@@ -1,8 +1,13 @@
 package org.controlcenter.history.infrastructure.jpa.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import org.controlcenter.history.domain.DrivingHistory;
+import org.controlcenter.history.domain.UsePurpose;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,23 +36,18 @@ public class DrivingHistoryEntity {
 
 	private String driverEmail;
 
-	private Double initialOdometer;
+	private Long initialOdometer;
 
-	private Double finalOdometer;
+	private Long finalOdometer;
 
-	private Double drivingDistance;
+	private Integer drivingDistance;
 
-	private Double businessCommuteDistance;
+	@Enumerated(value = EnumType.STRING)
+	private UsePurpose usePurpose;
 
-	private Double businessUsageDistance;
+	private LocalDateTime startTime;
 
-	private Boolean isBusinessUse;
-
-	private LocalDateTime usedAt;
-
-	private LocalDateTime onTime;
-
-	private LocalDateTime offTime;
+	private LocalDateTime endTime;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -66,12 +66,9 @@ public class DrivingHistoryEntity {
 		drivingHistoryEntity.initialOdometer = drivingHistory.getInitialOdometer();
 		drivingHistoryEntity.finalOdometer = drivingHistory.getFinalOdometer();
 		drivingHistoryEntity.drivingDistance = drivingHistory.getDrivingDistance();
-		drivingHistoryEntity.businessCommuteDistance = drivingHistory.getBusinessCommuteDistance();
-		drivingHistoryEntity.businessUsageDistance = drivingHistory.getBusinessUsageDistance();
-		drivingHistoryEntity.isBusinessUse = drivingHistory.getIsBusinessUse();
-		drivingHistoryEntity.usedAt = drivingHistory.getUsedAt();
-		drivingHistoryEntity.onTime = drivingHistory.getOnTime();
-		drivingHistoryEntity.offTime = drivingHistory.getOffTime();
+		drivingHistoryEntity.usePurpose = drivingHistory.getUsePurpose();
+		drivingHistoryEntity.startTime = drivingHistory.getStartTime();
+		drivingHistoryEntity.endTime = drivingHistory.getEndTime();
 		drivingHistoryEntity.createdAt = drivingHistory.getCreatedAt();
 		drivingHistoryEntity.updatedAt = drivingHistory.getUpdatedAt();
 		drivingHistoryEntity.deletedAt = drivingHistory.getDeletedAt();
@@ -87,12 +84,9 @@ public class DrivingHistoryEntity {
 			.initialOdometer(initialOdometer)
 			.finalOdometer(finalOdometer)
 			.drivingDistance(drivingDistance)
-			.businessCommuteDistance(businessCommuteDistance)
-			.businessUsageDistance(businessUsageDistance)
-			.isBusinessUse(isBusinessUse)
-			.usedAt(usedAt)
-			.onTime(onTime)
-			.offTime(offTime)
+			.usePurpose(usePurpose)
+			.startTime(startTime)
+			.endTime(endTime)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
