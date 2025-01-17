@@ -6,7 +6,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 import org.controlcenter.history.domain.DrivingHistory;
-import org.controlcenter.history.domain.UsePurpose;
+import org.controlcenter.history.domain.DrivingType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,14 +35,14 @@ public class DrivingHistoryEntity {
 
 	private String driverEmail;
 
-	private Double initialOdometer;
+	private Long initialOdometer;
 
-	private Double finalOdometer;
+	private Long finalOdometer;
 
-	private Double drivingDistance;
+	private Integer drivingDistance;
 
 	@Enumerated(value = EnumType.STRING)
-	private UsePurpose usePurpose;
+	private DrivingType usePurpose;
 
 	private LocalDateTime startTime;
 

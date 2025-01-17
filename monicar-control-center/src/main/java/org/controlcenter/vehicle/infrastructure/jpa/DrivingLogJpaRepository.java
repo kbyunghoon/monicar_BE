@@ -121,12 +121,13 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 	}
 
 	private QDrivingInfo createDrivingInfoProjection() {
-		return new QDrivingInfo(
-			drivingHistoryEntity.initialOdometer,
-			drivingHistoryEntity.finalOdometer,
-			drivingHistoryEntity.drivingDistance,
-			createBusinessMileageDetailsProjection()
-		);
+		// return new QDrivingInfo(
+		// 	drivingHistoryEntity.initialOdometer,
+		// 	drivingHistoryEntity.finalOdometer,
+		// 	drivingHistoryEntity.drivingDistance,
+		// 	createBusinessMileageDetailsProjection()
+		// );
+		return null;
 	}
 
 	private QBusinessMileageDetails createBusinessMileageDetailsProjection() {

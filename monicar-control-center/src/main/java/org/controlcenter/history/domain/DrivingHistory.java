@@ -2,8 +2,6 @@ package org.controlcenter.history.domain;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,10 +12,10 @@ public class DrivingHistory {
 	private Long vehicleId;
 	private Long departmentId;
 	private String driverEmail;
-	private Double initialOdometer;
-	private Double finalOdometer;
-	private Double drivingDistance;
-	private UsePurpose usePurpose;
+	private Long initialOdometer;
+	private Long finalOdometer;
+	private Integer drivingDistance;
+	private DrivingType usePurpose;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private LocalDateTime createdAt;

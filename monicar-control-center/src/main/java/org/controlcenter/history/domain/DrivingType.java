@@ -1,5 +1,5 @@
 package org.controlcenter.history.domain;
 
-public enum UsePurpose {
+public enum DrivingType {
 	NORMAL, COMMUTE
 }
