@@ -1,10 +1,5 @@
 package org.controlcenter.vehicle.application;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.domain.VehicleEventType;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleEventJpaRepository;
@@ -14,6 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("VehicleEventService 테스트")
 @Transactional

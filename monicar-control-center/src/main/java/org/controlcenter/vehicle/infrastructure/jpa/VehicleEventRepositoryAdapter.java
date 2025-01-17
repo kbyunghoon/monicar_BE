@@ -1,21 +1,20 @@
 package org.controlcenter.vehicle.infrastructure.jpa;
 
-import static org.controlcenter.vehicle.infrastructure.jpa.entity.QVehicleEventEntity.*;
+import com.querydsl.core.Tuple;
 
-import java.util.Optional;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import lombok.RequiredArgsConstructor;
 
 import org.controlcenter.vehicle.application.port.VehicleEventRepository;
 import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.infrastructure.jpa.entity.VehicleEventEntity;
 import org.springframework.stereotype.Repository;
 
-import com.querydsl.core.Tuple;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Optional;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static org.controlcenter.vehicle.infrastructure.jpa.entity.QVehicleEventEntity.*;
 
-@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class VehicleEventRepositoryAdapter implements VehicleEventRepository {
@@ -31,11 +30,11 @@ public class VehicleEventRepositoryAdapter implements VehicleEventRepository {
 	public Optional<VehicleEvent> findLatestById(long vehicleId) {
 		Optional<Tuple> result = Optional.ofNullable(
 			queryFactory.select(
-				vehicleEventEntity.id,
-				vehicleEventEntity.type
-			)
-			.from(vehicleEventEntity)
-			.where(vehicleEventEntity.vehicleId.eq(vehicleId))
+					vehicleEventEntity.id,
+					vehicleEventEntity.type
+				)
+				.from(vehicleEventEntity)
+				.where(vehicleEventEntity.vehicleId.eq(vehicleId))
 				.orderBy(vehicleEventEntity.createdAt.desc())
 				.fetchFirst()
 		);

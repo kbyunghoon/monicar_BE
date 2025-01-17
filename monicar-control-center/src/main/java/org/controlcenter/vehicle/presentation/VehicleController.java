@@ -74,20 +74,12 @@ public class VehicleController {
 
 		VehicleEvent vehicleEvent = vehicleEventService.getRecentVehicleEvent(vehicleInformation.getId());
 		if (vehicleEvent.isTypeOn()) {
-			return BaseResponse.success(new CommonResponse(
-				ResponseCode.WRONG_APPROACH.getCode(),
-				ResponseCode.WRONG_APPROACH.getMessage(),
-				request.mdn().toString()
-			));
+			return BaseResponse.emulatorSuccess(request.mdn());
 		}
 
 		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
 		vehicleEventService.saveVehicleEvent(vehicleEventCreate);
 
-		return BaseResponse.success(new CommonResponse(
-			ResponseCode.SUCCESS.getCode(),
-			ResponseCode.SUCCESS.getMessage(),
-			request.mdn().toString()
-		));
+		return BaseResponse.emulatorFail(ResponseCode.WRONG_APPROACH, request.mdn());
 	}
 }

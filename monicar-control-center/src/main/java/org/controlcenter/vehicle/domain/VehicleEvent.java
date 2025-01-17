@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
@@ -26,10 +25,10 @@ public class VehicleEvent {
 	}
 
 	public boolean isTypeOn() {
-		return VehicleEventType.ON.equals(type);
+		return type.isOn();
 	}
 
 	public boolean isTypeOff() {
-		return VehicleEventType.OFF.equals(type);
+		return type.isOff();
 	}
 }

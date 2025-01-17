@@ -96,8 +96,8 @@ class VehicleControllerTest {
 		String json = new ObjectMapper().writeValueAsString(new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, BigDecimal.valueOf(20203030), BigDecimal.valueOf(20203030), 2, 2, 999));
 		var result = mockMvc.perform(post("/api/v1/vehicles/key-on")
 			.accept(MediaType.APPLICATION_JSON)
-			.content(json)
 			.contentType(MediaType.APPLICATION_JSON)
+			.content(json)
 		);
 
 
