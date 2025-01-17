@@ -15,7 +15,7 @@ public class DrivingHistory {
 	private Long initialOdometer;
 	private Long finalOdometer;
 	private Integer drivingDistance;
-	private DrivingType usePurpose;
+	private UsePurpose usePurpose;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private LocalDateTime createdAt;

@@ -27,7 +27,7 @@ import org.controlcenter.cycleinfo.domain.GpsStatus;
 import org.controlcenter.cycleinfo.infrastructure.jpa.CycleInfoJpaRepository;
 import org.controlcenter.cycleinfo.infrastructure.jpa.entity.CycleInfoEntity;
 import org.controlcenter.history.domain.DrivingHistory;
-import org.controlcenter.history.domain.DrivingType;
+import org.controlcenter.history.domain.UsePurpose;
 import org.controlcenter.history.infrastructure.jpa.DrivingHistoryJpaRepository;
 import org.controlcenter.history.infrastructure.jpa.entity.DrivingHistoryEntity;
 import org.controlcenter.notice.domain.Notice;
@@ -398,7 +398,7 @@ public class JpaTest {
 			.initialOdometer(100L)
 			.finalOdometer(100L)
 			.drivingDistance(100)
-			.usePurpose(DrivingType.NORMAL)
+			.usePurpose(UsePurpose.NORMAL)
 			.startTime(LocalDateTime.now())
 			.endTime(LocalDateTime.now())
 			.deletedAt(null)
@@ -423,7 +423,7 @@ public class JpaTest {
 			() -> assertThat(savedDrivingHistory.getInitialOdometer()).isEqualTo(100L),
 			() -> assertThat(savedDrivingHistory.getFinalOdometer()).isEqualTo(100L),
 			() -> assertThat(savedDrivingHistory.getDrivingDistance()).isEqualTo(100),
-			() -> assertThat(savedDrivingHistory.getUsePurpose()).isEqualTo(DrivingType.NORMAL)
+			() -> assertThat(savedDrivingHistory.getUsePurpose()).isEqualTo(UsePurpose.NORMAL)
 		);
 	}
 }
