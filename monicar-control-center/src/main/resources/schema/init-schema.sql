@@ -80,7 +80,7 @@ CREATE TABLE vehicle_information
     `driving_days`    INT          NOT NULL DEFAULT 0 COMMENT '운행 일수',
     `sum`             BIGINT       NOT NULL COMMENT '누적 주행 거리',
     `status`          VARCHAR(100) NOT NULL DEFAULT 'NOT_REGISTERED' COMMENT '차량 상태',
-    `delivery_date`   DATETIME     NOT NULL COMMENT '출고일자',
+    `delivery_date`   DATE         NOT NULL COMMENT '출고일자',
     `created_at`      TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
     `updated_at`      TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
     `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
@@ -99,7 +99,6 @@ CREATE TABLE vehicle_event
 (
     `vehicle_event_id` BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '차량 이벤트 PK',
     `vehicle_id`       BIGINT       NOT NULL COMMENT '차량 PK',
-    `sum`              BIGINT       NOT NULL COMMENT '이벤트 발생 시 누적 주행 거리',
     `type`             VARCHAR(100) NOT NULL COMMENT '이벤트 타입',
     `event_at`         TIMESTAMP    NOT NULL COMMENT '발생 시간',
     `created_at`       TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간'

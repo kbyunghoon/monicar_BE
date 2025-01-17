@@ -1,5 +1,6 @@
 package org.controlcenter.vehicle.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class VehicleInformation {
 	private Integer drivingDays;
 	private Integer sum;
 	private VehicleStatus status;
-	private LocalDateTime deliveryDate;
+	private LocalDate deliveryDate;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;

@@ -1,5 +1,6 @@
 package org.controlcenter.vehicle.infrastructure.jpa.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.controlcenter.vehicle.domain.VehicleInformation;
@@ -51,7 +52,7 @@ public class VehicleInformationEntity {
 	@Enumerated(value = EnumType.STRING)
 	private VehicleStatus status;
 
-	private LocalDateTime deliveryDate;
+	private LocalDate deliveryDate;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
