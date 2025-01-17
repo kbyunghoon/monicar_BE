@@ -1,5 +1,6 @@
 package org.controlcenter.history.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.Builder;

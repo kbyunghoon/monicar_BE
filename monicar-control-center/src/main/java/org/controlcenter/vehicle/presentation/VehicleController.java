@@ -10,10 +10,11 @@ import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
 import org.controlcenter.vehicle.presentation.dto.CommonResponse;
-import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
+import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
+import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,25 @@ public class VehicleController {
 	) {
 		var vehicleInfoResponse = vehicleQueryRepository.getVehicleInfo(request);
 		return BaseResponse.success(vehicleInfoResponse);
+	}
+
+	/**
+	 * 차량 상세 모달 정보 조회 API
+	 */
+	@GetMapping("/{vehicle-id}")
+	public BaseResponse<VehicleModalResponse> getVehicleInfo(
+		@PathVariable(name = "vehicle-id") Long vehicleId
+	) {
+		var recentVehicleInfo = vehicleQueryRepository.getRecentVehicleInfo(vehicleId);
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleId);
+		var todayDrivingHistory = vehicleQueryRepository.getTodayDrivingHistory(vehicleId);
+
+		VehicleModalResponse response = VehicleModalResponse.builder()
+			.recentVehicleInfo(recentVehicleInfo)
+			.recentCycleInfo(recentCycleInfo)
+			.todayDrivingHistory(todayDrivingHistory)
+			.build();
+		return BaseResponse.success(response);
 	}
 
 	@GetMapping("/{vehicle-id}/routes")
@@ -70,7 +90,8 @@ public class VehicleController {
 
 		final VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
 
-		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
+		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(),
+			vehicleInformation.getSum());
 		vehicleService.saveVehicleEvent(vehicleEventCreate);
 
 		CommonResponse response = new CommonResponse(
