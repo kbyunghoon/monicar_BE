@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.controlcenter.cycleinfo.domain.GpsStatus;
 import org.controlcenter.cycleinfo.infrastructure.jpa.CycleInfoJpaRepository;
 import org.controlcenter.cycleinfo.infrastructure.jpa.entity.CycleInfoEntity;
 import org.controlcenter.history.domain.DrivingHistory;
+import org.controlcenter.history.domain.UsePurpose;
 import org.controlcenter.history.infrastructure.jpa.DrivingHistoryJpaRepository;
 import org.controlcenter.history.infrastructure.jpa.entity.DrivingHistoryEntity;
 import org.controlcenter.notice.domain.Notice;
@@ -284,7 +286,6 @@ public class JpaTest {
 			.ang(999)
 			.spd(999)
 			.intervalAt(LocalDateTime.now())
-			.deletedAt(null)
 			.build();
 		cycleInfoJpaRepository.save(CycleInfoEntity.from(cycleInfo));
 
@@ -301,7 +302,6 @@ public class JpaTest {
 		assertAll(
 			() -> assertThat(savedCycleInfo.getId()).isNotNull(),
 			() -> assertThat(savedCycleInfo.getCreatedAt()).isNotNull(),
-			() -> assertThat(savedCycleInfo.getUpdatedAt()).isNotNull(),
 			() -> assertThat(savedCycleInfo.getVehicleId()).isEqualTo(999L),
 			() -> assertThat(savedCycleInfo.getStatus()).isEqualTo(GpsStatus.A),
 			() -> assertThat(savedCycleInfo.getLat()).isEqualTo(BigDecimal.ONE),
@@ -324,8 +324,10 @@ public class JpaTest {
 			.mid(999)
 			.pv(999)
 			.did(999)
+			.drivingDays(0)
 			.sum(999)
 			.status(VehicleStatus.IN_OPERATION)
+			.deliveryDate(LocalDate.of(2025, 1, 17))
 			.deletedAt(null)
 			.build();
 		vehicleInformationJpaRepository.save(VehicleInformationEntity.from(vehicleInformation));
@@ -351,7 +353,8 @@ public class JpaTest {
 			() -> assertThat(savedVehicleInformation.getPv()).isEqualTo(999),
 			() -> assertThat(savedVehicleInformation.getDid()).isEqualTo(999),
 			() -> assertThat(savedVehicleInformation.getSum()).isEqualTo(999),
-			() -> assertThat(savedVehicleInformation.getStatus()).isEqualTo(VehicleStatus.IN_OPERATION)
+			() -> assertThat(savedVehicleInformation.getStatus()).isEqualTo(VehicleStatus.IN_OPERATION),
+			() -> assertThat(savedVehicleInformation.getDeliveryDate()).isEqualTo(LocalDate.of(2025, 1, 17))
 		);
 	}
 
@@ -363,7 +366,6 @@ public class JpaTest {
 			.vehicleId(999L)
 			.type(VehicleEventType.ON)
 			.eventAt(LocalDateTime.now())
-			.deletedAt(null)
 			.build();
 		vehicleEventJpaRepository.save(VehicleEventEntity.from(vehicleEvent));
 
@@ -380,7 +382,6 @@ public class JpaTest {
 		assertAll(
 			() -> assertThat(savedVehicleEvent.getId()).isNotNull(),
 			() -> assertThat(savedVehicleEvent.getCreatedAt()).isNotNull(),
-			() -> assertThat(savedVehicleEvent.getUpdatedAt()).isNotNull(),
 			() -> assertThat(savedVehicleEvent.getVehicleId()).isEqualTo(999L),
 			() -> assertThat(savedVehicleEvent.getType()).isEqualTo(VehicleEventType.ON)
 		);
@@ -397,12 +398,9 @@ public class JpaTest {
 			.initialOdometer(100.0)
 			.finalOdometer(100.0)
 			.drivingDistance(100.0)
-			.businessCommuteDistance(100.0)
-			.businessUsageDistance(100.0)
-			.isBusinessUse(true)
-			.usedAt(LocalDateTime.now())
-			.onTime(LocalDateTime.now())
-			.offTime(LocalDateTime.now())
+			.usePurpose(UsePurpose.NORMAL)
+			.startTime(LocalDateTime.now())
+			.endTime(LocalDateTime.now())
 			.deletedAt(null)
 			.build();
 		drivingHistoryJpaRepository.save(DrivingHistoryEntity.from(drivingHistory));
@@ -425,9 +423,7 @@ public class JpaTest {
 			() -> assertThat(savedDrivingHistory.getInitialOdometer()).isEqualTo(100.0),
 			() -> assertThat(savedDrivingHistory.getFinalOdometer()).isEqualTo(100.0),
 			() -> assertThat(savedDrivingHistory.getDrivingDistance()).isEqualTo(100.0),
-			() -> assertThat(savedDrivingHistory.getBusinessCommuteDistance()).isEqualTo(100.0),
-			() -> assertThat(savedDrivingHistory.getBusinessUsageDistance()).isEqualTo(100.0),
-			() -> assertThat(savedDrivingHistory.getIsBusinessUse()).isEqualTo(true)
+			() -> assertThat(savedDrivingHistory.getUsePurpose()).isEqualTo(UsePurpose.NORMAL)
 		);
 	}
 }

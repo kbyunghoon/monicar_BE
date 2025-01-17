@@ -30,8 +30,6 @@ public class VehicleEventEntity {
 
 	private Long vehicleId;
 
-	private Long sum;
-
 	@Enumerated(value = EnumType.STRING)
 	private VehicleEventType type;
 
@@ -44,7 +42,6 @@ public class VehicleEventEntity {
 		VehicleEventEntity vehicleEventEntity = new VehicleEventEntity();
 		vehicleEventEntity.id = vehicleEvent.getId();
 		vehicleEventEntity.vehicleId = vehicleEvent.getVehicleId();
-		vehicleEventEntity.sum = vehicleEvent.getSum();
 		vehicleEventEntity.type = vehicleEvent.getType();
 		vehicleEventEntity.eventAt = vehicleEvent.getEventAt();
 		vehicleEventEntity.createdAt = vehicleEvent.getCreatedAt();
@@ -55,7 +52,6 @@ public class VehicleEventEntity {
 		return VehicleEvent.builder()
 			.id(id)
 			.vehicleId(vehicleId)
-			.sum(sum)
 			.type(type)
 			.eventAt(eventAt)
 			.createdAt(createdAt)
