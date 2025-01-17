@@ -18,8 +18,6 @@ public class CycleInfo {
 	private Integer spd;
 	private LocalDateTime intervalAt;
 	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private LocalDateTime deletedAt;
 
 	public static BigDecimal convertToSixDecimalPlaces(Double value) {
 		return BigDecimal.valueOf(value / 1000000.0);

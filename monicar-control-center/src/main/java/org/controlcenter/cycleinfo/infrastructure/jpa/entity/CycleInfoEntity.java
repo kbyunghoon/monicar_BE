@@ -50,11 +50,6 @@ public class CycleInfoEntity {
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
-
-	private LocalDateTime deletedAt;
-
 	public static CycleInfoEntity from(CycleInfo cycleInfo) {
 		CycleInfoEntity cycleInfoEntity = new CycleInfoEntity();
 		cycleInfoEntity.id = cycleInfo.getId();
@@ -66,8 +61,6 @@ public class CycleInfoEntity {
 		cycleInfoEntity.spd = cycleInfo.getSpd();
 		cycleInfoEntity.intervalAt = cycleInfo.getIntervalAt();
 		cycleInfoEntity.createdAt = cycleInfo.getCreatedAt();
-		cycleInfoEntity.updatedAt = cycleInfo.getUpdatedAt();
-		cycleInfoEntity.deletedAt = cycleInfo.getDeletedAt();
 		return cycleInfoEntity;
 	}
 
@@ -82,8 +75,6 @@ public class CycleInfoEntity {
 			.spd(spd)
 			.intervalAt(intervalAt)
 			.createdAt(createdAt)
-			.updatedAt(updatedAt)
-			.deletedAt(deletedAt)
 			.build();
 	}
 }

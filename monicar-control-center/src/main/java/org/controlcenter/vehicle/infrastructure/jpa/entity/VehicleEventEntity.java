@@ -38,11 +38,6 @@ public class VehicleEventEntity {
 	@CreatedDate
 	private LocalDateTime createdAt;
 
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
-
-	private LocalDateTime deletedAt;
-
 	public static VehicleEventEntity from(VehicleEvent vehicleEvent) {
 		VehicleEventEntity vehicleEventEntity = new VehicleEventEntity();
 		vehicleEventEntity.id = vehicleEvent.getId();
@@ -50,8 +45,6 @@ public class VehicleEventEntity {
 		vehicleEventEntity.type = vehicleEvent.getType();
 		vehicleEventEntity.eventAt = vehicleEvent.getEventAt();
 		vehicleEventEntity.createdAt = vehicleEvent.getCreatedAt();
-		vehicleEventEntity.updatedAt = vehicleEvent.getUpdatedAt();
-		vehicleEventEntity.deletedAt = vehicleEvent.getDeletedAt();
 		return vehicleEventEntity;
 	}
 
@@ -62,8 +55,6 @@ public class VehicleEventEntity {
 			.type(type)
 			.eventAt(eventAt)
 			.createdAt(createdAt)
-			.updatedAt(updatedAt)
-			.deletedAt(deletedAt)
 			.build();
 	}
 }

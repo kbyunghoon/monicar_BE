@@ -13,8 +13,6 @@ public class VehicleEvent {
 	private VehicleEventType type;
 	private LocalDateTime eventAt;
 	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
-	private LocalDateTime deletedAt;
 
 	public static VehicleEvent create(VehicleEventCreate vehicleEventCreate) {
 		return VehicleEvent.builder()
