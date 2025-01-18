@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDto;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
@@ -106,4 +107,27 @@ public interface MyBatisVehicleInfoMapper {
 		""")
 	VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(@Param("vehicleId") Long vehicleId);
 
+	@Select("""
+		select
+		  ci.lat,
+		  ci.lng
+		from vehicle_information vi
+		join cycle_info ci
+		  on vi.vehicle_id = ci.vehicle_id
+		where vi.company_id = #{companyId}
+		  and ci.interval_at = (
+			  select max(interval_at)
+			  from cycle_info
+			  where vehicle_id = vi.vehicle_id
+		  )
+		  and ci.lat between #{swLat} and #{neLat}
+		  and ci.lng between #{swLng} and #{neLng};
+		""")
+	List<GeoCoordinateDto> findCoordinatesByCompanyId(
+		@Param("companyId") Long companyId,
+		@Param("neLat") int neLat,
+		@Param("neLng") int neLng,
+		@Param("swLat") int swLat,
+		@Param("swLng") int swLng
+	);
 }
