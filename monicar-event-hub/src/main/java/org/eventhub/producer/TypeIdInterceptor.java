@@ -1,4 +1,4 @@
-package org.producer.producer;
+package org.eventhub.producer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

@@ -1,7 +1,7 @@
-package org.producer.common.constant;
+package org.eventhub.common.constant;
 
-import org.producer.common.exception.BusinessException;
-import org.producer.common.response.ErrorCode;
+import org.eventhub.common.exception.BusinessException;
+import org.eventhub.common.response.ErrorCode;
 
 public final class VehicleConstant {
 	public static final long VEHICLE_PRIMARY_KEY = 1234567890L;

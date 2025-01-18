@@ -1,6 +1,6 @@
-package org.producer.common.exception;
+package org.eventhub.common.exception;
 
-import org.producer.common.response.ErrorCode;
+import org.eventhub.common.response.ErrorCode;
 
 import lombok.Getter;
 
