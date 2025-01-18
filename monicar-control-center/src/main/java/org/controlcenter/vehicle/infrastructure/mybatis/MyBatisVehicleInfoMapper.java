@@ -98,11 +98,11 @@ public interface MyBatisVehicleInfoMapper {
 	@Select("""
 		select
 			sum(driving_distance),
-			sum(timestampdiff(second, on_time, off_time))
+			sum(timestampdiff(second, start_time, end_time))
 		from
 			driving_history
 		where
-			date(used_at) = curdate();
+			date(end_time) = curdate();
 		""")
 	VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(@Param("vehicleId") Long vehicleId);
 
