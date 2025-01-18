@@ -5,13 +5,15 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ResponseCode;
+import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
+import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
 import org.controlcenter.vehicle.presentation.dto.CommonResponse;
-import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
@@ -32,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/vehicles")
 public class VehicleController {
 	private final VehicleQueryRepository vehicleQueryRepository;
+	private final VehicleEventService vehicleEventService;
 	private final VehicleService vehicleService;
 
 	@GetMapping
@@ -87,19 +90,16 @@ public class VehicleController {
 		/*
 		 * TODO 토큰 확인 로직 추가
 		 */
+		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
 
-		final VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
+		VehicleEvent vehicleEvent = vehicleEventService.getRecentVehicleEvent(vehicleInformation.getId());
+		if (vehicleEvent.isTypeOn()) {
+			return BaseResponse.emulatorSuccess(request.mdn());
+		}
 
-		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(),
-			vehicleInformation.getSum());
-		vehicleService.saveVehicleEvent(vehicleEventCreate);
+		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(), vehicleInformation.getSum());
+		vehicleEventService.saveVehicleEvent(vehicleEventCreate);
 
-		CommonResponse response = new CommonResponse(
-			ResponseCode.SUCCESS.getCode(),
-			ResponseCode.SUCCESS.getMessage(),
-			request.mdn().toString()
-		);
-
-		return BaseResponse.success(response);
+		return BaseResponse.emulatorFail(ResponseCode.WRONG_APPROACH, request.mdn());
 	}
 }

@@ -4,7 +4,15 @@ package org.emulator.device.application.port;
  * 차량 정보 저장 역할
  */
 public interface EmulatorRepository {
-	int getTotalDistance();
+	int startLogDistance();
 
-	int updateTotalDistance(int distance);
+	int getCurrentDistance();
+
+	int updateCurrentDistance(int intervalDistance);
+
+	boolean isTurnOn();
+
+	void turnOn();
+
+	void turnOff();
 }

@@ -26,10 +26,8 @@ public class CycleInfoService {
 			.orElseThrow(() -> new CustomException(ResponseCode.ENTITY_NOT_FOUND));
 
 		List<CycleInfo> cycleInfos = request.cList().stream()
-			.map(cListRequest -> {
-				vehicleInfo.updateTotalDistance(cListRequest.sum());
-				return CycleInfo.from(cListRequest, vehicleInfo);
-			})
+			.map(cListRequest ->
+				CycleInfo.from(cListRequest, vehicleInfo))
 			.toList();
 
 		cycleInfoRepository.saveAll(cycleInfos);

@@ -21,4 +21,12 @@ public class VehicleEvent {
 			.eventAt(vehicleEventCreate.getEventAt())
 			.build();
 	}
+
+	public boolean isTypeOn() {
+		return type.isOn();
+	}
+
+	public boolean isTypeOff() {
+		return type.isOff();
+	}
 }
