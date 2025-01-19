@@ -18,6 +18,7 @@ import org.controlcenter.vehicle.presentation.dto.CommonResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
@@ -159,6 +160,28 @@ public class VehicleController {
 		List<GeoClusteringResponse> response = clustering.stream()
 			.map(GeoClusteringResponse::from)
 			.toList();
+		return BaseResponse.success(response);
+	}
+
+	/**
+	 * 시동 여부에 따른 전체 차량 수 조회 API
+	 * - 전체, 시동 ON, 시동 OFF
+	 */
+	@GetMapping("/status")
+	public BaseResponse<VehicleEngineStatusResponse> getVehicleEngineStatus() {
+
+		/**
+		 * TODO : 인증 추가하면 헤더값등을 통해 검증해야합니다.(해당 회사의 관리자가 보낸 요청인지)
+		 */
+		Long companyId = 1L;
+
+		VehicleEngineStatusResponse engineStatusResponse = vehicleQueryRepository.getVehicleEngineStatus(companyId);
+
+		VehicleEngineStatusResponse response = VehicleEngineStatusResponse.builder()
+			.allVehicles(engineStatusResponse.allVehicles())
+			.engineOnVehicles(engineStatusResponse.engineOnVehicles())
+			.engineOffVehicles(engineStatusResponse.engineOffVehicles())
+			.build();
 		return BaseResponse.success(response);
 	}
 }
