@@ -59,7 +59,7 @@ class RestClientServiceTest {
 		mockServer.when(
 			request()
 				.withMethod("POST")
-				.withPath("/api/v1/producer/key-on")
+				.withPath("/api/v1/event-hub/key-on")
 				.withBody(mapper.writeValueAsString(command)))
 			.respond(
 				response()

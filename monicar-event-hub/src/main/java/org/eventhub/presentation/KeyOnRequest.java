@@ -1,10 +1,10 @@
-package org.producer.presentation;
+package org.eventhub.presentation;
 
 import java.math.BigDecimal;
 
-import org.producer.domain.GpsStatus;
-import org.producer.domain.VehicleEventCreate;
-import org.producer.domain.VehicleEventType;
+import org.eventhub.domain.GpsStatus;
+import org.eventhub.domain.VehicleEventCreate;
+import org.eventhub.domain.VehicleEventType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

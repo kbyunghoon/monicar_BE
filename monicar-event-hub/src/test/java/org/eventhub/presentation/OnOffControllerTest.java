@@ -1,4 +1,4 @@
-package org.producer.presentation;
+package org.eventhub.presentation;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -10,14 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 
+import org.eventhub.application.VehicleEventService;
+import org.eventhub.application.VehicleService;
+import org.eventhub.domain.GpsStatus;
+import org.eventhub.domain.VehicleEvent;
+import org.eventhub.domain.VehicleEventType;
+import org.eventhub.domain.VehicleInformation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.producer.application.VehicleEventService;
-import org.producer.application.VehicleService;
-import org.producer.domain.GpsStatus;
-import org.producer.domain.VehicleEvent;
-import org.producer.domain.VehicleEventType;
-import org.producer.domain.VehicleInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -56,7 +56,7 @@ class OnOffControllerTest {
 			);
 
 		String json = new ObjectMapper().writeValueAsString(new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, BigDecimal.valueOf(20203030), BigDecimal.valueOf(20203030), 2, 2, 999));
-		var result = mockMvc.perform(post("/api/v1/producer/key-on")
+		var result = mockMvc.perform(post("/api/v1/event-hub/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(json)
@@ -89,7 +89,7 @@ class OnOffControllerTest {
 			);
 
 		String json = new ObjectMapper().writeValueAsString(new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, BigDecimal.valueOf(20203030), BigDecimal.valueOf(20203030), 2, 2, 999));
-		var result = mockMvc.perform(post("/api/v1/producer/key-on")
+		var result = mockMvc.perform(post("/api/v1/event-hub/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(json)

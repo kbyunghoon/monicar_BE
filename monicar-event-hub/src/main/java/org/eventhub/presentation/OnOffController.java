@@ -1,25 +1,24 @@
-package org.producer.presentation;
-
-import jakarta.validation.Valid;
-
-import lombok.RequiredArgsConstructor;
+package org.eventhub.presentation;
 
 import org.common.dto.CommonResponse;
-import org.producer.application.VehicleEventService;
-import org.producer.application.VehicleService;
-import org.producer.common.response.BaseResponse;
-import org.producer.common.response.EmulatorResponseCode;
-import org.producer.domain.VehicleEvent;
-import org.producer.domain.VehicleEventCreate;
-import org.producer.domain.VehicleInformation;
+import org.eventhub.application.VehicleEventService;
+import org.eventhub.application.VehicleService;
+import org.eventhub.common.response.BaseResponse;
+import org.eventhub.common.response.EmulatorResponseCode;
+import org.eventhub.domain.VehicleEvent;
+import org.eventhub.domain.VehicleEventCreate;
+import org.eventhub.domain.VehicleInformation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/producer")
+@RequestMapping("/api/v1/event-hub")
 public class OnOffController {
 	private final VehicleService vehicleService;
 	private final VehicleEventService vehicleEventService;

@@ -18,9 +18,9 @@ public class ApiConfigTest {
 		assertEquals("http", apiConfig.getProtocol());
 		assertEquals("localhost", apiConfig.getHost());
 		assertEquals("8082", apiConfig.getPort());
-		assertEquals("producer", apiConfig.getServer());
+		assertEquals("event-hub", apiConfig.getServer());
 
-		String expectedBaseUrl = "http://localhost:8082/api/v1/producer/";
+		String expectedBaseUrl = "http://localhost:8082/api/v1/event-hub/";
 		assertEquals(expectedBaseUrl, apiConfig.getBaseUrl());
 	}
 }
