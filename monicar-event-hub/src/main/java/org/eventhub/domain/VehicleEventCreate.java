@@ -3,10 +3,10 @@ package org.eventhub.domain;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.producer.common.exception.BusinessException;
-import org.producer.common.response.ErrorCode;
-
 import lombok.Getter;
+
+import org.eventhub.common.exception.BusinessException;
+import org.eventhub.common.response.ErrorCode;
 
 @Getter
 public class VehicleEventCreate {

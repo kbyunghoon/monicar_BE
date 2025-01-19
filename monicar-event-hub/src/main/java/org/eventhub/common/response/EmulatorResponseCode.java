@@ -1,4 +1,4 @@
-package org.producer.common.response;
+package org.eventhub.common.response;
 
 import lombok.Getter;
 
