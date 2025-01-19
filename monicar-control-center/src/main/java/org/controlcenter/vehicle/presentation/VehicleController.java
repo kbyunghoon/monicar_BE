@@ -4,9 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
+import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
+import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
+import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -26,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/vehicles")
 public class VehicleController {
 	private final VehicleQueryRepository vehicleQueryRepository;
+	private final VehicleClusteringService vehicleClusteringService;
 	private final VehicleEventService vehicleEventService;
 	private final VehicleService vehicleService;
 
@@ -56,6 +61,9 @@ public class VehicleController {
 		return BaseResponse.success(response);
 	}
 
+	/**
+	 * 개별 차량 경로 조회 API
+	 */
 	@GetMapping("/{vehicle-id}/routes")
 	public BaseResponse<VehicleRouteResponse> getVehicleRoute(
 		@PathVariable("vehicle-id") Long vehicleId,
@@ -72,6 +80,34 @@ public class VehicleController {
 			.vehicleNumber(vehicleNumber)
 			.routes(routesResponses)
 			.build();
+		return BaseResponse.success(response);
+	}
+
+	/**
+	 * 지도 클러스터링 조회 API
+	 */
+	@GetMapping("/cluster")
+	public BaseResponse<List<GeoClusteringResponse>> clusterCoordinate(
+		@RequestParam(value = "level") Integer level,
+		@RequestParam(value = "neLat") Integer neLat,
+		@RequestParam(value = "neLng") Integer neLng,
+		@RequestParam(value = "swLat") Integer swLat,
+		@RequestParam(value = "swLng") Integer swLng
+	) {
+
+		/**
+		 * TODO : 인증 추가하면 헤더값등을 통해 검증해야합니다.(해당 회사의 관리자가 보낸 요청인지)
+		 */
+		Long companyId = 1L;
+
+		List<GeoClustering> clustering = vehicleClusteringService.clusterCoordinate(
+			ClusterCreateCommand.of(level, neLat, neLng, swLat, swLng),
+			companyId
+		);
+
+		List<GeoClusteringResponse> response = clustering.stream()
+			.map(GeoClusteringResponse::from)
+			.toList();
 		return BaseResponse.success(response);
 	}
 }
