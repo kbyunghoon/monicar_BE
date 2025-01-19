@@ -8,8 +8,8 @@ import lombok.Builder;
 
 @Builder
 public record BaseResponse<T>(
-	Integer code,
-	String message,
+	@JsonInclude(JsonInclude.Include.NON_NULL) Integer code,
+	@JsonInclude(JsonInclude.Include.NON_NULL) String message,
 	@JsonInclude(JsonInclude.Include.NON_NULL) Long timestamp,
 	@JsonInclude(JsonInclude.Include.NON_NULL) T result
 ) {
@@ -46,6 +46,7 @@ public record BaseResponse<T>(
 
 	public static BaseResponse<CommonResponse> emulatorSuccess(Long mdn) {
 		return BaseResponse.<CommonResponse>builder()
+			.code(200)
 			.result(new CommonResponse(
 				EmulatorResponseCode.SUCCESS.getCode(),
 				EmulatorResponseCode.SUCCESS.getMessage(),
