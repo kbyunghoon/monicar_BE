@@ -11,4 +11,5 @@ public interface VehicleRepository {
 	Optional<VehicleInformation> findById(Long vehicleId);
 	Optional<VehicleInformation> findByMdn(Long mdn);
 	List<GeoCoordinate> findCoordinatesByCompanyId(ClusterCreateCommand command, Long companyId);
+	Optional<VehicleInformation> findByVehicleNumber(String vehicleNumber);
 }

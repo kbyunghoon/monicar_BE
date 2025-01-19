@@ -47,4 +47,10 @@ public class VehicleInformationRepositoryAdapter implements VehicleRepository {
 			.toList();
 	}
 
+	@Override
+	public Optional<VehicleInformation> findByVehicleNumber(String vehicleNumber) {
+		return vehicleInformationJpaRepository.findByVehicleNumber(vehicleNumber)
+			.map(VehicleInformationEntity::toDomain);
+	}
+
 }

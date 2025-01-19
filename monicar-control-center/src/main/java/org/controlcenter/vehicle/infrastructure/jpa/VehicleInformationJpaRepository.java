@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface VehicleInformationJpaRepository extends JpaRepository<VehicleInformationEntity, Long> {
 	Optional<VehicleInformationEntity> findByMdn(Long mdn);
-
+	Optional<VehicleInformationEntity> findByVehicleNumber(String vehicleNumber);
 }

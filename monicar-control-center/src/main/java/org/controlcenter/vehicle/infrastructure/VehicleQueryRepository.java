@@ -46,4 +46,8 @@ public class VehicleQueryRepository {
 	public VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(Long vehicleId) {
 		return myBatisVehicleInfoMapper.getTodayDrivingHistory(vehicleId);
 	}
+
+	public String getVehicleStatus(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getRecentVehicleStatus(vehicleId);
+	}
 }

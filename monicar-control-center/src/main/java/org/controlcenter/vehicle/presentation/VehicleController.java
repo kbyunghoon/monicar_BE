@@ -14,6 +14,7 @@ import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
+import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/vehicles")
 public class VehicleController {
 	private final VehicleQueryRepository vehicleQueryRepository;
-	private final VehicleClusteringService vehicleClusteringService;
 	private final VehicleEventService vehicleEventService;
+	private final VehicleClusteringService vehicleClusteringService;
 	private final VehicleService vehicleService;
 
 	@GetMapping
@@ -57,6 +58,27 @@ public class VehicleController {
 			.recentVehicleInfo(recentVehicleInfo)
 			.recentCycleInfo(recentCycleInfo)
 			.todayDrivingHistory(todayDrivingHistory)
+			.build();
+		return BaseResponse.success(response);
+	}
+
+	/**
+	 * 차량 번호를 기반으로 최신 정보를 조회하는 API
+	 */
+	@GetMapping("/search")
+	public BaseResponse<VehicleLocationResponse> getVehicleInfo(
+		@RequestParam("vehicle-number") String vehicleNumber
+	) {
+		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(vehicleNumber);
+
+		String status = vehicleQueryRepository.getVehicleStatus(vehicleInformation.getId());
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId());
+
+		VehicleLocationResponse response = VehicleLocationResponse.builder()
+			.vehicleId(vehicleInformation.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.recentCycleInfo(recentCycleInfo)
+			.status(status)
 			.build();
 		return BaseResponse.success(response);
 	}
