@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:monicar-event-hub/src/main/java/org/eventhub/dto/FixedVehicleInfo.java
 package org.eventhub.dto;
+========
+package org.producer.common;
+>>>>>>>> b6ebbcf (feature(producer): 이벤트 받는 서버로 코드 이전):monicar-event-hub/src/main/java/org/eventhub/common/FixedVehicleInfo.java
 
 import org.eventhub.common.constant.VehicleConstant;
 

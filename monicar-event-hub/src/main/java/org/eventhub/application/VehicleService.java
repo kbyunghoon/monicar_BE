@@ -1,21 +1,18 @@
-package org.controlcenter.vehicle.application;
+package org.eventhub.application;
 
-import org.controlcenter.common.exception.BusinessException;
-import org.controlcenter.common.response.code.ErrorCode;
-import org.controlcenter.vehicle.application.port.VehicleEventRepository;
-import org.controlcenter.vehicle.application.port.VehicleRepository;
-import org.controlcenter.vehicle.domain.VehicleInformation;
-import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
+import org.eventhub.application.port.VehicleEventRepository;
+import org.eventhub.application.port.VehicleRepository;
+import org.eventhub.common.exception.BusinessException;
+import org.eventhub.common.response.ErrorCode;
+import org.eventhub.domain.VehicleInformation;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class VehicleService {
-	private final VehicleQueryRepository vehicleQueryRepository;
 	private final VehicleRepository vehicleRepository;
 	private final VehicleEventRepository vehicleEventRepository;
 
