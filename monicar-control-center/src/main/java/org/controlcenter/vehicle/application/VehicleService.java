@@ -28,7 +28,13 @@ public class VehicleService {
 		return vehicleInformation.getVehicleNumber();
 	}
 
-	@Transactional()
+	@Transactional(readOnly = true)
+	public VehicleInformation getVehicleInformation(String vehicleNumber) {
+		return vehicleRepository.findByVehicleNumber(vehicleNumber)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+	}
+
+	@Transactional
 	public VehicleEvent saveVehicleEvent(final VehicleEventCreate command) {
 		return vehicleEventRepository.save(VehicleEvent.create(command));
 	}

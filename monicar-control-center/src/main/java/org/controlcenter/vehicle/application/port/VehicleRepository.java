@@ -7,5 +7,5 @@ import org.controlcenter.vehicle.domain.VehicleInformation;
 public interface VehicleRepository {
 	Optional<VehicleInformation> findById(Long vehicleId);
 	Optional<VehicleInformation> findByMdn(Long mdn);
-
+	Optional<VehicleInformation> findByVehicleNumber(String vehicleNumber);
 }
