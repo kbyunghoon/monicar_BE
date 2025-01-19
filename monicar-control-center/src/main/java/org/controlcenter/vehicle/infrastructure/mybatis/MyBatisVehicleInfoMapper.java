@@ -130,4 +130,13 @@ public interface MyBatisVehicleInfoMapper {
 		@Param("swLat") int swLat,
 		@Param("swLng") int swLng
 	);
+
+	@Select("""
+		select ve.type
+		from vehicle_event ve
+		where ve.vehicle_id = #{vehicleId}
+		order by ve.event_at desc
+		limit 1;
+		""")
+	String getRecentVehicleStatus(@Param("vehicleId") Long vehicleId);
 }
