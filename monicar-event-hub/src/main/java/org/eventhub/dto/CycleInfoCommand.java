@@ -1,4 +1,4 @@
-package org.producer.dto;
+package org.eventhub.dto;
 
 import java.time.LocalDateTime;
 

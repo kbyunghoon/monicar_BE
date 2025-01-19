@@ -1,6 +1,6 @@
-package org.producer.producer;
+package org.eventhub.producer;
 
-import org.producer.dto.CycleInfoListCommand;
+import org.eventhub.dto.CycleInfoListCommand;
 
 public interface CycleInfoEventPublisher {
 	void publishEvent(CycleInfoListCommand cycleInfoListCommand);

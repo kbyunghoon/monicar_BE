@@ -1,6 +1,6 @@
-package org.producer.dto;
+package org.eventhub.dto;
 
-import org.producer.common.constant.VehicleConstant;
+import org.eventhub.common.constant.VehicleConstant;
 
 import lombok.Getter;
 

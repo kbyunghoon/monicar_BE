@@ -4,5 +4,5 @@ include 'monicar-control-center'
 include 'monicar-collector'
 include 'monicar-common'
 include 'monicar-track-alert'
-include 'monicar-producer'
+include 'monicar-event-hub'
 

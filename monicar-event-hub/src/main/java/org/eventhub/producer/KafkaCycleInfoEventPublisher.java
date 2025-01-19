@@ -1,6 +1,6 @@
-package org.producer.producer;
+package org.eventhub.producer;
 
-import org.producer.dto.CycleInfoListCommand;
+import org.eventhub.dto.CycleInfoListCommand;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

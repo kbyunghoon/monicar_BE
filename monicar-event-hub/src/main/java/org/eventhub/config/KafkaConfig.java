@@ -1,10 +1,10 @@
-package org.producer.config;
+package org.eventhub.config;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.producer.producer.TypeIdInterceptor;
+import org.eventhub.producer.TypeIdInterceptor;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

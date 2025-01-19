@@ -1,13 +1,13 @@
-package org.producer;
+package org.eventhub;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProducerApplication {
+public class EventHubApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProducerApplication.class, args);
+		SpringApplication.run(EventHubApplication.class, args);
 	}
 
 }
