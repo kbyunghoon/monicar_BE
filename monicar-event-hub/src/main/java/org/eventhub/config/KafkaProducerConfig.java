@@ -32,7 +32,7 @@ public class KafkaProducerConfig {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.getProducer().getKeySerializer());
-		props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, TypeIdInterceptor.class.getName());
+		// props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, TypeIdInterceptor.class.getName());
 		props.put(ProducerConfig.ACKS_CONFIG, kafkaProperties.getProducer().getAcks());
 
 		JsonSerializer<Object> jsonSerializer = new JsonSerializer<>();
