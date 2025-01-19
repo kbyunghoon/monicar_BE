@@ -107,6 +107,30 @@ public interface MyBatisVehicleInfoMapper {
 	VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(@Param("vehicleId") Long vehicleId);
 
 	@Select("""
+		select
+		  ci.lat,
+		  ci.lng
+		from vehicle_information vi
+		join cycle_info ci
+		  on vi.vehicle_id = ci.vehicle_id
+		where vi.company_id = #{companyId}
+		  and ci.interval_at = (
+			  select max(interval_at)
+			  from cycle_info
+			  where vehicle_id = vi.vehicle_id
+		  )
+		  and ci.lat between #{swLat} and #{neLat}
+		  and ci.lng between #{swLng} and #{neLng};
+		""")
+	List<GeoCoordinateDto> findCoordinatesByCompanyId(
+		@Param("companyId") Long companyId,
+		@Param("neLat") int neLat,
+		@Param("neLng") int neLng,
+		@Param("swLat") int swLat,
+		@Param("swLng") int swLng
+	);
+
+	@Select("""
 		select ve.type
 		from vehicle_event ve
 		where ve.vehicle_id = #{vehicleId}
