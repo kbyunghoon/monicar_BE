@@ -69,6 +69,9 @@ public class VehicleController {
 		return BaseResponse.success(response);
 	}
 
+	/**
+	 * 개별 차량 경로 조회 API
+	 */
 	@GetMapping("/{vehicle-id}/routes")
 	public BaseResponse<VehicleRouteResponse> getVehicleRoute(
 		@PathVariable("vehicle-id") Long vehicleId,
