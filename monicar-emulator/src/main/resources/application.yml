@@ -19,3 +19,6 @@ logging:
         hc:
           client5:
             http=DEBUG:
+
+api:
+  base-url: http://localhost:8082/api/v1/event-hub/

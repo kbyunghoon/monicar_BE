@@ -1,9 +1,9 @@
-package org.controlcenter.common.response.code;
+package org.eventhub.common.response;
 
 import lombok.Getter;
 
 @Getter
-public enum ResponseCode {
+public enum EmulatorResponseCode {
 	SUCCESS("000", "Success"),
 	INVALID_ACCESS_PATH("100", "Invalid access path."),
 	WRONG_APPROACH("101", "This is the wrong approach."),
@@ -30,7 +30,7 @@ public enum ResponseCode {
 	private final String code;
 	private final String message;
 
-	ResponseCode(String code, String message) {
+	EmulatorResponseCode(String code, String message) {
 		this.code = code;
 		this.message = message;
 	}
