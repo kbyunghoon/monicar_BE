@@ -26,8 +26,8 @@ public class CycleInfoController {
 		@Valid @RequestBody CycleInfoListRequest request
 	) {
 		log.info("cycle information request in !");
-		// CycleInfoList cycleInfoList = request.toDomain();
-		// cycleInfoEventPublisher.publishEvent(cycleInfoList);
+		CycleInfoList cycleInfoList = request.toDomain();
+		cycleInfoEventPublisher.publishEvent(cycleInfoList);
 
 		return BaseResponse.emulatorSuccess(request.mdn());
 	}
