@@ -69,6 +69,8 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 				vehicleInformationEntity.id,
 				vehicleInformationEntity.vehicleNumber,
 				vehicleTypeEntity.vehicleTypesName,
+				vehicleInformationEntity.drivingDays,
+				vehicleInformationEntity.sum,
 				vehicleInformationEntity.status
 			))
 			.from(vehicleInformationEntity)
