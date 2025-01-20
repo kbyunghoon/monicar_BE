@@ -55,4 +55,8 @@ public class VehicleQueryRepository {
 	public VehicleEngineStatusResponse getVehicleEngineStatus(Long companyId) {
 		return myBatisVehicleInfoMapper.getVehicleEngineStatus(companyId);
 	}
+
+	public VehicleModalResponse.VehicleCompanyInfo getVehicleCompanyInfo(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getVehicleCompanyInfo(vehicleId);
+	}
 }

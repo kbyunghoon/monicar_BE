@@ -4,9 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
-import org.controlcenter.vehicle.presentation.dto.CommonResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
-import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -14,7 +12,6 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,11 +42,6 @@ public interface VehicleApi {
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval
-	);
-
-	@Operation(summary = "차량 시동 요청", description = "에뮬레이터에서 차량 시동을 요청")
-	BaseResponse<CommonResponse> keyOn(
-		@Valid @RequestBody final KeyOnRequest request
 	);
 
 	@Operation(summary = "지도 클러스터링 조회", description = "특정 회사의 모든 차량 지도 클러스터링을 조회")
