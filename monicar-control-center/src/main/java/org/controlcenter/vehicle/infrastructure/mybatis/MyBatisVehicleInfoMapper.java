@@ -195,4 +195,14 @@ public interface MyBatisVehicleInfoMapper {
 		@Param("swLat") int swLat,
 		@Param("swLng") int swLng
 	);
+
+	@Select("""
+		select
+			c.company_name
+		from vehicle_information vi
+		join company c
+			on c.company_id = vi.company_id
+		where vi.vehicle_id = #{vehicleId};
+		""")
+	VehicleModalResponse.VehicleCompanyInfo getVehicleCompanyInfo(Long vehicleId);
 }
