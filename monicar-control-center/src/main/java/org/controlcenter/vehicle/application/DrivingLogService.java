@@ -67,11 +67,10 @@ public class DrivingLogService {
 			.businessRegistrationNumber(header.getBusinessRegistrationNumber())
 			.build();
 
-		// 1) 전체 건수
 		DrivingLogSummary summary = drivingLogsPage.stream()
-			.collect(DrivingLogSummary::new, // 누적 객체 생성
-				DrivingLogSummary::accumulate, // 요소 처리 및 누적
-				DrivingLogSummary::combine);   // 병합 (병렬 스트림 시)
+			.collect(DrivingLogSummary::new,
+				DrivingLogSummary::accumulate,
+				DrivingLogSummary::combine);
 
 		return VehicleDrivingLogDetailsResponse.builder()
 			.taxStartPeriod(startDate)
