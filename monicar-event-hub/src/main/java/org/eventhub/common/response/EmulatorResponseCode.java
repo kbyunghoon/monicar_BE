@@ -25,7 +25,7 @@ public enum EmulatorResponseCode {
 	DECRYPTION_ERROR("303", "Decryption error."),
 	MISMATCHED_MDN("304", "Mismatched MDN."),
 	DATA_PROCESSING_ERROR("400", "An error occurred while processing data."),
-	UNDEFINED_ERROR("500", "An undetined error has occurred");
+	UNDEFINED_ERROR("500", "An undefined error has occurred");
 
 	private final String code;
 	private final String message;

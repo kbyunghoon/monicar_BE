@@ -1,4 +1,4 @@
-package org.producer.config;
+package org.eventhub.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

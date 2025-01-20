@@ -23,7 +23,7 @@ public class VehicleEventService {
 	@Transactional(readOnly = true)
 	public VehicleEvent getRecentVehicleEvent(long vehicleId) {
 		return vehicleEventRepository
-			.findLatestById(vehicleId)
-			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+			.findLatestByVehicleId(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.RECENT_VEHICLE_EVENT_NOT_FOUND));
 	}
 }

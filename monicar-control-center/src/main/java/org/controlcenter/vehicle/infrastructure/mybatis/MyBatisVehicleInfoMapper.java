@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDto;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 
@@ -139,4 +140,32 @@ public interface MyBatisVehicleInfoMapper {
 		limit 1;
 		""")
 	String getRecentVehicleStatus(@Param("vehicleId") Long vehicleId);
+
+	@Select("""
+		WITH filtered_events AS (
+			SELECT
+				ve.vehicle_id,
+				ve.type
+			FROM vehicle_event ve
+			JOIN (
+				SELECT
+					vehicle_id,
+					MAX(event_at) AS latest_event_at
+				FROM vehicle_event
+				GROUP BY vehicle_id
+			) latest
+			ON ve.vehicle_id = latest.vehicle_id
+			AND ve.event_at = latest.latest_event_at
+		)
+		SELECT
+			COUNT(vi.vehicle_id) AS allVehicles,
+			COUNT(CASE WHEN fe.type = 'on' THEN vi.vehicle_id END) AS engineOnVehicles,
+			COUNT(CASE WHEN fe.type = 'off' THEN vi.vehicle_id END) AS engineOffVehicles
+		FROM
+			vehicle_information vi
+		JOIN filtered_events fe ON vi.vehicle_id = fe.vehicle_id
+		WHERE
+			vi.company_id = #{companyId};
+		""")
+	VehicleEngineStatusResponse getVehicleEngineStatus(Long companyId);
 }

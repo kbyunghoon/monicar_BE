@@ -14,19 +14,18 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class VehicleService {
 	private final VehicleRepository vehicleRepository;
-	private final VehicleEventRepository vehicleEventRepository;
 
 	@Transactional(readOnly = true)
 	public String getVehicleNumber(Long vehicleId) {
 		VehicleInformation vehicleInformation = vehicleRepository.findById(vehicleId)
-			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 		return vehicleInformation.getVehicleNumber();
 	}
 
 	@Transactional(readOnly = true)
 	public VehicleInformation getVehicleInformation(final Long mdn) {
 		return vehicleRepository.findByMdn(mdn)
-			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 
 	}
 }
