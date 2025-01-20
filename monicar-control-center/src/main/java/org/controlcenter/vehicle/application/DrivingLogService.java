@@ -58,11 +58,10 @@ public class DrivingLogService {
 
 		SpecificVehicleInformation vehicleType = SpecificVehicleInformation.builder()
 			.vehicleNumber(header.getVehicleNumber())
-			.vehicleTypesName(header.getVehicleTypesName())
+			.vehicleModel(header.getVehicleTypesName())
 			.build();
 
 		BusinessInfo businessInfo = BusinessInfo.builder()
-			.businessId(header.getCompanyId())
 			.businessName(header.getCompanyName())
 			.businessRegistrationNumber(header.getBusinessRegistrationNumber())
 			.build();

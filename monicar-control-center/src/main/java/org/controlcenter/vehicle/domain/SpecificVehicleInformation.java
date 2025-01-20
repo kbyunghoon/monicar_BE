@@ -9,11 +9,11 @@ import lombok.Getter;
 @Builder
 public class SpecificVehicleInformation {
 	private String vehicleNumber;
-	private String vehicleTypesName;
+	private String vehicleModel;
 
 	@QueryProjection
-	public SpecificVehicleInformation(String vehicleNumber, String vehicleTypesName) {
+	public SpecificVehicleInformation(String vehicleNumber, String vehicleModel) {
 		this.vehicleNumber = vehicleNumber;
-		this.vehicleTypesName = vehicleTypesName;
+		this.vehicleModel = vehicleModel;
 	}
 }

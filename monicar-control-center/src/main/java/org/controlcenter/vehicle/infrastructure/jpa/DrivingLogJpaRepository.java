@@ -132,7 +132,6 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 
 	private QDrivingUserInfo createDrivingUserInfoProjection() {
 		return new QDrivingUserInfo(
-			managerEntity.id,
 			departmentEntity.departmentName,
 			managerEntity.nickname
 		);
