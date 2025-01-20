@@ -4,18 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
-import org.controlcenter.common.response.code.ResponseCode;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
-import org.controlcenter.vehicle.domain.VehicleEvent;
-import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
-import org.controlcenter.vehicle.presentation.dto.CommonResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
@@ -29,8 +25,6 @@ import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,11 +59,13 @@ public class VehicleController implements VehicleApi {
 		var recentVehicleInfo = vehicleQueryRepository.getRecentVehicleInfo(vehicleId);
 		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleId);
 		var todayDrivingHistory = vehicleQueryRepository.getTodayDrivingHistory(vehicleId);
+		var vehicleCompanyInfo = vehicleQueryRepository.getVehicleCompanyInfo(vehicleId);
 
 		VehicleModalResponse response = VehicleModalResponse.builder()
 			.recentVehicleInfo(recentVehicleInfo)
 			.recentCycleInfo(recentCycleInfo)
 			.todayDrivingHistory(todayDrivingHistory)
+			.vehicleCompanyInfo(vehicleCompanyInfo)
 			.build();
 		return BaseResponse.success(response);
 	}
@@ -115,27 +111,6 @@ public class VehicleController implements VehicleApi {
 			.routes(routesResponses)
 			.build();
 		return BaseResponse.success(response);
-	}
-
-	@PostMapping("/key-on")
-	public BaseResponse<CommonResponse> keyOn(
-		@Valid @RequestBody final KeyOnRequest request
-	) {
-		/*
-		 * TODO 토큰 확인 로직 추가
-		 */
-		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(request.mdn());
-
-		VehicleEvent vehicleEvent = vehicleEventService.getRecentVehicleEvent(vehicleInformation.getId());
-		if (vehicleEvent.isTypeOn()) {
-			return BaseResponse.emulatorSuccess(request.mdn());
-		}
-
-		VehicleEventCreate vehicleEventCreate = request.toDomain(vehicleInformation.getId(),
-			vehicleInformation.getSum());
-		vehicleEventService.saveVehicleEvent(vehicleEventCreate);
-
-		return BaseResponse.emulatorFail(ResponseCode.WRONG_APPROACH, request.mdn());
 	}
 
 	/**
