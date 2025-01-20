@@ -1,14 +1,15 @@
 package org.eventhub.infrastructure.repository.jpa;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 
 import org.eventhub.application.port.VehicleEventRepository;
+import org.eventhub.config.JpaConfig;
 import org.eventhub.domain.VehicleEvent;
 import org.eventhub.domain.VehicleEventType;
 import org.eventhub.infrastructure.repository.VehicleEventRepositoryAdapter;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,10 +17,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+@DisplayName("vehicle_event jpa 테스트")
 @DataJpaTest
 @ActiveProfiles("test")
 @Testcontainers
-@Import({org.producer.config.JpaConfig.class, VehicleEventRepositoryAdapter.class})
+@Import({JpaConfig.class, VehicleEventRepositoryAdapter.class})
 class VehicleEventJpaRepositoryTest {
 
 	@Autowired
@@ -28,8 +30,9 @@ class VehicleEventJpaRepositoryTest {
 	@Autowired
 	private VehicleEventJpaRepository jpaRepository;
 
+	@DisplayName("vehicle_event JPQL findLatestByVehicleId 테스트")
 	@Test
-	void findLatestById() {
+	void findLatestByVehicleIdSuccess() {
 		// given
 		VehicleEventEntity vehicleEventEntity1 = VehicleEventEntity.from(
 			VehicleEvent.builder()
@@ -50,7 +53,7 @@ class VehicleEventJpaRepositoryTest {
 		jpaRepository.save(vehicleEventEntity2);
 
 		// when
-		VehicleEvent latestEvent = repository.findLatestById(1L).get();
+		VehicleEvent latestEvent = repository.findLatestByVehicleId(1L).get();
 
 		// then
 		assertThat(latestEvent.getType()).isEqualTo(VehicleEventType.OFF);
