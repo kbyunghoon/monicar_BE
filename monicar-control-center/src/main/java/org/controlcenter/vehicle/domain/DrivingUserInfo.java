@@ -1,4 +1,4 @@
-package org.controlcenter.vehicle.presentation.dto;
+package org.controlcenter.vehicle.domain;
 
 import com.querydsl.core.annotations.QueryProjection;
 

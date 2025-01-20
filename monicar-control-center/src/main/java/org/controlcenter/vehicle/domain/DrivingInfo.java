@@ -9,21 +9,21 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DrivingInfo {
-	private double mileageBefore;
-	private double mileageAfter;
-	private double totalMileage;
-	private BusinessMileageDetails businessMileageDetails;
+	private long drivingBefore;
+	private long drivingAfter;
+	private Integer totalDriving;
+	private BusinessDrivingDetails businessDrivingDetails;
 	private final String notes = "일반업무용";
 
 	@QueryProjection
-	public DrivingInfo(double mileageBefore, double mileageAfter, double totalMileage,
-		BusinessMileageDetails businessMileageDetails) {
-		this.mileageBefore = mileageBefore;
-		this.mileageAfter = mileageAfter;
-		this.totalMileage = totalMileage;
-		this.businessMileageDetails = BusinessMileageDetails.builder()
-			.commutingMileage(businessMileageDetails.getCommutingMileage())
-			.businessMileage(businessMileageDetails.getBusinessMileage())
+	public DrivingInfo(long drivingBefore, long drivingAfter, Integer totalDriving,
+		BusinessDrivingDetails businessDrivingDetails) {
+		this.drivingBefore = drivingBefore;
+		this.drivingAfter = drivingAfter;
+		this.totalDriving = totalDriving;
+		this.businessDrivingDetails = BusinessDrivingDetails.builder()
+			.drivingDistance(businessDrivingDetails.getDrivingDistance())
+			.usePurpose(businessDrivingDetails.getUsePurpose())
 			.build();
 	}
 }

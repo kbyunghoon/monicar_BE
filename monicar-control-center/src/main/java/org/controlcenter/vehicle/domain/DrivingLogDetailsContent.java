@@ -9,8 +9,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import org.controlcenter.vehicle.presentation.dto.DrivingUserInfo;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DrivingLogDetailsContent {

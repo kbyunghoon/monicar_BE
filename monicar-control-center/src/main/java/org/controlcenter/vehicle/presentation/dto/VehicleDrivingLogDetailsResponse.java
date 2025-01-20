@@ -14,6 +14,9 @@ public record VehicleDrivingLogDetailsResponse(
 	LocalDate taxStartPeriod,
 	LocalDate taxEndPeriod,
 	BusinessInfo businessInfo,
+	int taxPeriodDistance,
+	int taxPeriodBusinessDistance,
+	int businessUseRatio,
 	SpecificVehicleInformation vehicleType,
 	List<DrivingLogDetailsContent> records
 ) {
