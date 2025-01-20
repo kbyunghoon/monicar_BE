@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Builder;
 
-import java.util.List;
-
 @Builder
 public record BaseResponse<T>(
 	Boolean isSuccess,

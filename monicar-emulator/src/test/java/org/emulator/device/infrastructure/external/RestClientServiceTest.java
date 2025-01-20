@@ -7,6 +7,8 @@ import static org.mockserver.model.HttpResponse.*;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import java.util.Optional;
+
 import org.common.dto.CommonResponse;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
@@ -52,7 +54,7 @@ class RestClientServiceTest {
 			Map.of(
 				"isSuccess", true,
 				"message", "요청 성공",
-				"results", expected
+				"result", expected
 			)
 		);
 
@@ -68,12 +70,12 @@ class RestClientServiceTest {
 			);
 
 		//when
-		CommonResponse result = restClientService.post(
+		Optional<CommonResponse> result = restClientService.post(
 			"key-on",
 			command
 		);
 
 		//then
-		assertEquals(expected, result);
+		assertEquals(expected, result.get());
 	}
 }

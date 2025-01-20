@@ -7,6 +7,7 @@ import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
+import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;

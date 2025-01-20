@@ -4,16 +4,32 @@ import java.util.List;
 
 import lombok.Builder;
 
+import org.eventhub.domain.CycleInfoList;
+
 @Builder
 public record CycleInfoListCommand(
-	long mdn,
+	Long mdn,
 	String tid,
-	long mid,
-	int pv,
-	long did,
-	int cCnt,
+	Long mid,
+	Integer pv,
+	Long did,
+	Integer cCnt,
 	List<CycleInfoCommand> cList
 ) {
+	public static CycleInfoListCommand from(CycleInfoList cycleInfoList) {
+		List<CycleInfoCommand> cycleInfoCommandList = cycleInfoList.getCList().stream()
+			.map(CycleInfoCommand::from)
+			.toList();
 
+		return CycleInfoListCommand.builder()
+			.mdn(cycleInfoList.getMdn())
+			.tid(cycleInfoList.getTid())
+			.mid(cycleInfoList.getMid())
+			.pv(cycleInfoList.getPv())
+			.did(cycleInfoList.getDid())
+			.cCnt(cycleInfoList.getCCnt())
+			.cList(cycleInfoCommandList)
+			.build();
+	}
 }
 
