@@ -7,9 +7,11 @@ import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinate;
+import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationJpaRepository;
 import org.controlcenter.vehicle.infrastructure.jpa.entity.VehicleInformationEntity;
 import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper;
+import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDetailsDto;
 import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDto;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +46,20 @@ public class VehicleInformationRepositoryAdapter implements VehicleRepository {
 			)
 			.stream()
 			.map(GeoCoordinateDto::toDomain)
+			.toList();
+	}
+
+	@Override
+	public List<GeoCoordinateDetails> findCoordinatesDetailsByCompanyId(ClusterCreateCommand command, Long companyId) {
+		return myBatisVehicleInfoMapper.findCoordinateDetailsByCompanyId(
+				companyId,
+				command.getNe().getLat(),
+				command.getNe().getLng(),
+				command.getSw().getLat(),
+				command.getSw().getLng()
+			)
+			.stream()
+			.map(GeoCoordinateDetailsDto::toDomain)
 			.toList();
 	}
 

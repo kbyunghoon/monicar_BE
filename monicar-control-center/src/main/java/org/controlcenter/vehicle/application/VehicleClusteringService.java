@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.controlcenter.common.exception.BusinessException;
+import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.CoordinateDivider;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinate;
+import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ record GridSize(
 @RequiredArgsConstructor
 @Service
 public class VehicleClusteringService {
+	private static final int CLUSTERING_COUNT_THRESHOLD = 10;
 	private static final Map<Integer, GridSize> zoomLevelTable = Map.of(
 		1, new GridSize(2, 2),
 		3, new GridSize(3, 3),
@@ -78,4 +82,17 @@ public class VehicleClusteringService {
 		return geoClusterings;
 	}
 
+	public List<GeoCoordinateDetails> clusterCoordinateDetail(ClusterCreateCommand command, Long companyId) {
+		List<GeoCoordinateDetails> geoCoordinateDetails = vehicleRepository.findCoordinatesDetailsByCompanyId(command,
+			companyId);
+		validateClusteringNumOfVehicle(geoCoordinateDetails);
+
+		return geoCoordinateDetails;
+	}
+
+	private void validateClusteringNumOfVehicle(List<GeoCoordinateDetails> geoCoordinateDetails) {
+		if (CLUSTERING_COUNT_THRESHOLD < geoCoordinateDetails.size()) {
+			throw new BusinessException("클러스터링 차량 개수가 너무 많습니다.", ErrorCode.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
