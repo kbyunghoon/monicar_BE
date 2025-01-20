@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @DisplayName("application.yml 환경 변수 확인 테스트")
 @SpringBootTest
-public class ApiConfigTest {
+class ApiConfigTest {
 
 	@Value("${api.base-url}")
 	private String baseUrl;
