@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 public record VehicleModalResponse(
 	RecentVehicleInfo recentVehicleInfo,
 	RecentCycleInfo recentCycleInfo,
-	TodayDrivingHistory todayDrivingHistory
+	TodayDrivingHistory todayDrivingHistory,
+	VehicleCompanyInfo vehicleCompanyInfo
 ) {
 
 	public record RecentVehicleInfo(
@@ -34,4 +35,8 @@ public record VehicleModalResponse(
 	) {
 	}
 
+	public record VehicleCompanyInfo(
+		String companyName
+	) {
+	}
 }

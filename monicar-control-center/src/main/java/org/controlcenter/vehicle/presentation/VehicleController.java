@@ -63,11 +63,13 @@ public class VehicleController implements VehicleApi {
 		var recentVehicleInfo = vehicleQueryRepository.getRecentVehicleInfo(vehicleId);
 		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleId);
 		var todayDrivingHistory = vehicleQueryRepository.getTodayDrivingHistory(vehicleId);
+		var vehicleCompanyInfo = vehicleQueryRepository.getVehicleCompanyInfo(vehicleId);
 
 		VehicleModalResponse response = VehicleModalResponse.builder()
 			.recentVehicleInfo(recentVehicleInfo)
 			.recentCycleInfo(recentCycleInfo)
 			.todayDrivingHistory(todayDrivingHistory)
+			.vehicleCompanyInfo(vehicleCompanyInfo)
 			.build();
 		return BaseResponse.success(response);
 	}
