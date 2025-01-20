@@ -1,0 +1,43 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style/home.css">
+</head>
+<body>
+<h1 id="title"> 현재 접속 상태 :  X </h1>
+<div class="vehicle-event-button-container">
+    <h4>차량 접속</h4>
+    <button class="vehicle-event-button">차량 접속 요청</button>
+</div>
+
+<div class="vehicle-event-button-container">
+    <h4>차량 반납</h4>
+    <button class="vehicle-event-button" disabled>차량 반납 요청</button>
+</div>
+
+<script>
+    document.getElementById("vehicle-access").addEventListener("click", function() {
+        fetch('/api/v1/emulator/key-on', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('차량 접속 요청 결과:', data);
+                    if (data.status === 200) {
+                        document.getElementById("title").textContent = "현재 접속 상태 :  O"
+                    }
+                })
+                .catch(error => {
+                    console.error('차량 접속 요청 실패:', error);
+                });
+    });
+
+    // TODO : off api 가 개발되면 요청 코드를 구현해야 합니다.
+</script>
+</body>
+</html>

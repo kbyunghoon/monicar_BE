@@ -1,21 +1,18 @@
 package org.emulator.device.presentation;
 
-import org.emulator.device.application.VehicleService;
-import org.emulator.device.common.response.BaseResponse;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-@RestController
-@RequestMapping("/v1/emulator")
+@Controller
+@RequestMapping("/emulator")
 public class VehicleController {
-	private final VehicleService vehicleService;
 
-	@PostMapping("/key-on")
-	public BaseResponse<Void> keyOn() {
-		return vehicleService.onVehicle();
+	/**
+	 * 에뮬레이터 home 화면 응답
+	 */
+	@GetMapping("/home")
+	public String keyOn() {
+		return "home";
 	}
 }
