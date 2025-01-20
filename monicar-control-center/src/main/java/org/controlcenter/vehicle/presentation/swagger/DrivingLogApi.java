@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "운행일지 API", description = "운행일지 관련 API")
 public interface DrivingLogApi {
 
-	@Operation(summary = "운행일지 기본 조회", description = "차량 고유 ID를 사용하여 운행일지 기본 정보를 조회")
+	@Operation(summary = "운행일지 상세 조회", description = "차량 고유 ID를 사용하여 운행일지 기본 정보를 조회")
 	BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
 		@Parameter(name = "vehicle-id", description = "차량 고유 ID", required = true, in = ParameterIn.PATH)
 		@PathVariable("vehicle-id") Long vehicleId,
@@ -31,7 +31,7 @@ public interface DrivingLogApi {
 		@RequestParam(required = false) LocalDate end
 	);
 
-	@Operation(summary = "운행일지 상세 조회", description = "키워드 및 페이징을 사용하여 운행일지 목록을 조회합니다.")
+	@Operation(summary = "운행일지 기본 조회", description = "키워드 및 페이징을 사용하여 운행일지 목록을 조회합니다.")
 	BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
 		@Parameter(name = "keyword", description = "차량번호 검색 키워드", required = false, example = "")
 		@RequestParam(required = false, defaultValue = "") String keyword,

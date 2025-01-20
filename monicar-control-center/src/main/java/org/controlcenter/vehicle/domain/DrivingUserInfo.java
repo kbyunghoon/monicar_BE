@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DrivingUserInfo {
-	private long userId;
 	private String departmentName;
 	private String name;
 
 	@QueryProjection
-	public DrivingUserInfo(Long userId, String departmentName, String name) {
-		this.userId = userId;
+	public DrivingUserInfo(String departmentName, String name) {
 		this.departmentName = departmentName;
 		this.name = name;
 	}
