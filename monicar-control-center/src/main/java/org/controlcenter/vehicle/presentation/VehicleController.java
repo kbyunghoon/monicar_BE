@@ -24,6 +24,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/vehicles")
-public class VehicleController {
+public class VehicleController implements VehicleApi {
 	private final VehicleQueryRepository vehicleQueryRepository;
 	private final VehicleEventService vehicleEventService;
 	private final VehicleClusteringService vehicleClusteringService;
