@@ -18,7 +18,9 @@ public enum ErrorCode {
 
 
 	UNSUPPORTED_HEADER(1010, "지원되지 않는 헤더가 입력되었습니다"),
-	ILLEGAL_UTILITY_CLASS_ACCESS(1011, "유틸리티 클래스에 대한 잘못된 접근입니다");
+	ILLEGAL_UTILITY_CLASS_ACCESS(1011, "유틸리티 클래스에 대한 잘못된 접근입니다"),
+	VEHICLE_NOT_FOUND(1012, "검색한 차량이 없습니다"),
+	RECENT_VEHICLE_EVENT_NOT_FOUND(1013, "최근 차량 이벤트가 없습니다");
 
 	private final int code;
 	private final String message;

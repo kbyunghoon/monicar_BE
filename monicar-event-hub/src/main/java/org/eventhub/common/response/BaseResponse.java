@@ -6,46 +6,28 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record BaseResponse<T>(
-	Integer code,
-	String message,
+	Boolean isSuccess,
+	@JsonInclude(JsonInclude.Include.NON_NULL) Integer errorCode,
+	@JsonInclude(JsonInclude.Include.NON_NULL) String errorMessage,
 	@JsonInclude(JsonInclude.Include.NON_NULL) Long timestamp,
 	@JsonInclude(JsonInclude.Include.NON_NULL) T result
 ) {
-	public static BaseResponse<Void> success() {
-		return BaseResponse.<Void>builder()
-			.code(200)
-			.message(SuccessCode.OK.getMessage())
-			.build();
-	}
-
-	public static <T> BaseResponse<T> success(T data) {
+	public static <T> BaseResponse<T> fail(ErrorCode code) {
 		return BaseResponse.<T>builder()
-			.code(200)
-			.message(SuccessCode.OK.getMessage())
-			.result(data)
-			.build();
-	}
-
-	public static BaseResponse<Void> fail(CommonResponse response) {
-		return BaseResponse.<Void>builder()
-			.code(Integer.parseInt(response.rstCd()))
-			.message(response.rstMsg())
-			.timestamp(System.currentTimeMillis())
-			.build();
-	}
-
-	public static BaseResponse<Void> fail(ErrorCode code) {
-		return BaseResponse.<Void>builder()
-			.code(code.getCode())
-			.message(code.getMessage())
+			.isSuccess(false)
+			.errorCode(code.getCode())
+			.errorMessage(code.getMessage())
 			.timestamp(System.currentTimeMillis())
 			.build();
 	}
 
 	public static BaseResponse<CommonResponse> emulatorSuccess(Long mdn) {
 		return BaseResponse.<CommonResponse>builder()
+			.isSuccess(true)
 			.result(new CommonResponse(
 				EmulatorResponseCode.SUCCESS.getCode(),
 				EmulatorResponseCode.SUCCESS.getMessage(),
@@ -55,6 +37,7 @@ public record BaseResponse<T>(
 
 	public static BaseResponse<CommonResponse> emulatorFail(EmulatorResponseCode errorCode, Long mdn) {
 		return BaseResponse.<CommonResponse>builder()
+			.isSuccess(false)
 			.result(new CommonResponse(
 				errorCode.getCode(),
 				errorCode.getMessage(),
