@@ -2,12 +2,10 @@ package org.controlcenter.vehicle.application;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import java.util.Optional;
 
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
-import org.controlcenter.history.domain.UsePurpose;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
 import org.controlcenter.vehicle.domain.BusinessInfo;
 import org.controlcenter.vehicle.domain.DrivingLog;
@@ -15,7 +13,7 @@ import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
-import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationRepositoryAdapter;
+import org.controlcenter.vehicle.infrastructure.VehicleInformationRepositoryAdapter;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -88,6 +86,7 @@ public class DrivingLogService {
 	}
 
 	private void validateVehicleId(Long vehicleId) {
-		vehicleInformationRepository.findById(vehicleId).orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
+		vehicleInformationRepository.findById(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 	}
 }
