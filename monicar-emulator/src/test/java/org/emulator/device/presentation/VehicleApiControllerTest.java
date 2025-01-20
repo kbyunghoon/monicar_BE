@@ -18,9 +18,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@DisplayName("에뮬레이터 VehicleController 테스트")
-@WebMvcTest(VehicleController.class)
-class VehicleControllerTest {
+@DisplayName("에뮬레이터 VehicleApiController 테스트")
+@WebMvcTest(VehicleApiController.class)
+class VehicleApiControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -35,7 +35,7 @@ class VehicleControllerTest {
 	void keyOnSuccess() throws Exception {
 		when(vehicleService.onVehicle()).thenReturn(BaseResponse.success());
 
-		var result = mockMvc.perform(post("/v1/emulator/key-on")
+		var result = mockMvc.perform(post("/api/v1/emulator/key-on")
 				.accept(MediaType.APPLICATION_JSON)
 			);
 
@@ -50,7 +50,7 @@ class VehicleControllerTest {
 
 		when(vehicleService.onVehicle()).thenReturn(BaseResponse.fail(mockedFailResponse));
 
-		var result = mockMvc.perform(post("/v1/emulator/key-on")
+		var result = mockMvc.perform(post("/api/v1/emulator/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 		);
 

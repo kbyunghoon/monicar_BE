@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
@@ -49,5 +50,13 @@ public class VehicleQueryRepository {
 
 	public String getVehicleStatus(Long vehicleId) {
 		return myBatisVehicleInfoMapper.getRecentVehicleStatus(vehicleId);
+	}
+
+	public VehicleEngineStatusResponse getVehicleEngineStatus(Long companyId) {
+		return myBatisVehicleInfoMapper.getVehicleEngineStatus(companyId);
+	}
+
+	public VehicleModalResponse.VehicleCompanyInfo getVehicleCompanyInfo(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getVehicleCompanyInfo(vehicleId);
 	}
 }

@@ -21,7 +21,7 @@ public class VehicleEventRepositoryAdapter implements VehicleEventRepository {
 	}
 
 	@Override
-	public Optional<VehicleEvent> findLatestById(long vehicleId) {
+	public Optional<VehicleEvent> findLatestByVehicleId(long vehicleId) {
 		return vehicleEventJpaRepository.findLatestById(vehicleId)
 			.map(VehicleEventEntity::toDomain);
 	}

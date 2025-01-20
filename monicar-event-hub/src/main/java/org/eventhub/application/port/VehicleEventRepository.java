@@ -7,5 +7,5 @@ import org.eventhub.domain.VehicleEvent;
 public interface VehicleEventRepository {
 	VehicleEvent save(VehicleEvent vehicleEvent);
 
-	Optional<VehicleEvent> findLatestById(long vehicleId);
+	Optional<VehicleEvent> findLatestByVehicleId(long vehicleId);
 }

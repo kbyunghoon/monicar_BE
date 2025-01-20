@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Component
 public class VehicleEventRestClient implements VehicleEventHttpClient {
-	private static final String SUCCESSFULLY_ON = "000";
+	private static final String RESPONSE_SUCCESS_CODE = "000";
 	private final RestClientService restClientService;
 
 	public CommonResponse sendOnEvent(OnInfo onInfo) {
@@ -43,6 +43,6 @@ public class VehicleEventRestClient implements VehicleEventHttpClient {
 	}
 
 	private boolean isSuccess(String responseCode) {
-		return SUCCESSFULLY_ON.equals(responseCode);
+		return RESPONSE_SUCCESS_CODE.equals(responseCode);
 	}
 }

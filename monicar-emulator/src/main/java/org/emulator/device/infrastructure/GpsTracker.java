@@ -38,7 +38,7 @@ public class GpsTracker implements SensorTracker {
 	public void track() {
 		int time = timeProvider.getTransmissionTime();
 
-		if (cycleInfos.size() > time) {
+		if (isReadyToSendCycleInfo(time)) {
 			List<CycleInfo> cycleInfoList = pollFromDeque(time);
 			CommonResponse response = vehicleEventHttpClient.sendCycleInfoEvent(cycleInfoList);
 
@@ -74,6 +74,10 @@ public class GpsTracker implements SensorTracker {
 		recentCycleInfo = currentCycleInfo;
 
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "collecting data. . .");
+	}
+
+	private boolean isReadyToSendCycleInfo(int time) {
+		return cycleInfos.size() > time;
 	}
 
 	private List<CycleInfo> pollFromDeque(int size) {
