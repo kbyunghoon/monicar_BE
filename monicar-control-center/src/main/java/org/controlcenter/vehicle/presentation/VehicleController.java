@@ -14,7 +14,6 @@ import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
-import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
