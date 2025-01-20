@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
+import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
+import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -46,6 +48,15 @@ public interface VehicleApi {
 
 	@Operation(summary = "지도 클러스터링 조회", description = "특정 회사의 모든 차량 지도 클러스터링을 조회")
 	BaseResponse<List<GeoClusteringResponse>> clusterCoordinate(
+		@RequestParam(value = "level") Integer level,
+		@RequestParam(value = "neLat") Integer neLat,
+		@RequestParam(value = "neLng") Integer neLng,
+		@RequestParam(value = "swLat") Integer swLat,
+		@RequestParam(value = "swLng") Integer swLng
+	);
+
+	@Operation(summary = "지도 클러스터링 상세 조회", description = "클러스터링한 차량 개수가 적다면 상세 조회 한다")
+	BaseResponse<List<GeoCoordinateDetailsResponse>> clusterCoordinateDetail(
 		@RequestParam(value = "level") Integer level,
 		@RequestParam(value = "neLat") Integer neLat,
 		@RequestParam(value = "neLng") Integer neLng,

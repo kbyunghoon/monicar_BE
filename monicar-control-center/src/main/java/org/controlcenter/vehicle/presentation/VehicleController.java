@@ -10,8 +10,11 @@ import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
+import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
+import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
+import org.controlcenter.vehicle.presentation.dto.KeyOnRequest;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
@@ -135,6 +138,35 @@ public class VehicleController implements VehicleApi {
 		List<GeoClusteringResponse> response = clustering.stream()
 			.map(GeoClusteringResponse::from)
 			.toList();
+		return BaseResponse.success(response);
+	}
+
+	/**
+	 * 지도 클러스터링 상세 조회 API
+	 */
+	@GetMapping("/cluster/details")
+	public BaseResponse<List<GeoCoordinateDetailsResponse>> clusterCoordinateDetail(
+		@RequestParam(value = "level") Integer level,
+		@RequestParam(value = "neLat") Integer neLat,
+		@RequestParam(value = "neLng") Integer neLng,
+		@RequestParam(value = "swLat") Integer swLat,
+		@RequestParam(value = "swLng") Integer swLng
+	) {
+
+		/**
+		 * TODO : 인증 추가하면 헤더값등을 통해 검증해야합니다.(해당 회사의 관리자가 보낸 요청인지)
+		 */
+		Long companyId = 1L;
+
+		List<GeoCoordinateDetails> GeoCoordinateDetails = vehicleClusteringService.clusterCoordinateDetail(
+			ClusterCreateCommand.of(level, neLat, neLng, swLat, swLng),
+			companyId
+		);
+
+		var response = GeoCoordinateDetails.stream()
+			.map(GeoCoordinateDetailsResponse::from)
+			.toList();
+
 		return BaseResponse.success(response);
 	}
 
