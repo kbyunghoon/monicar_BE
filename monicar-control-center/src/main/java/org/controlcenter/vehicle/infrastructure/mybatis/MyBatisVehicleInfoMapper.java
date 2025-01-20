@@ -168,4 +168,14 @@ public interface MyBatisVehicleInfoMapper {
 			vi.company_id = #{companyId};
 		""")
 	VehicleEngineStatusResponse getVehicleEngineStatus(Long companyId);
+
+	@Select("""
+		select
+			c.company_name
+		from vehicle_information vi
+		join company c
+			on c.company_id = vi.company_id
+		where vi.vehicle_id = #{vehicleId};
+		""")
+	VehicleModalResponse.VehicleCompanyInfo getVehicleCompanyInfo(Long vehicleId);
 }
