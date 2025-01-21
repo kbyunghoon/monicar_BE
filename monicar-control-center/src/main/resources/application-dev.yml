@@ -33,3 +33,6 @@ spring:
     url: jdbc:mysql://localhost:3306/monicar_db
     username: local_user
     password: local_password
+
+cors:
+  allowed-origins: "${CORS_ALLOWED_ORIGINS:}"
