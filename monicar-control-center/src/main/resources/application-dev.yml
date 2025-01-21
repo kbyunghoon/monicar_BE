@@ -35,4 +35,5 @@ spring:
     password: local_password
 
 cors:
-  allowed-origins: "${CORS_ALLOWED_ORIGINS:}"
+  allowed-origins:
+    - "http://localhost:3000"
