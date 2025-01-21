@@ -12,13 +12,18 @@ public class DrivingLog {
 	private Long id;
 	private String vehicleNumber;
 	private String vehicleModel;
-	private String status;
+	private Integer drivingDays;
+	private Integer totalDistance;
+	private VehicleStatus status;
 
 	@QueryProjection
-	public DrivingLog(Long id, String vehicleNumber, String vehicleModel, VehicleStatus status) {
+	public DrivingLog(Long id, String vehicleNumber, String vehicleModel, Integer drivingDays, Integer totalDistance,
+		VehicleStatus status) {
 		this.id = id;
 		this.vehicleNumber = vehicleNumber;
 		this.vehicleModel = vehicleModel;
-		this.status = status.getLabel();
+		this.drivingDays = drivingDays;
+		this.totalDistance = totalDistance;
+		this.status = status;
 	}
 }
