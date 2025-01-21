@@ -37,3 +37,5 @@ spring:
 cors:
   allowed-origins:
     - "http://localhost:3000"
+    - "https://monicar-git-develop-mark-kwons-projects.vercel.app,https://monicar.vercel.app"
+    - "https://monicar.vercel.app"
