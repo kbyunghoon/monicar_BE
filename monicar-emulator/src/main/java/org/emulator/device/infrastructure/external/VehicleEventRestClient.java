@@ -1,11 +1,10 @@
 package org.emulator.device.infrastructure.external;
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.common.dto.CommonResponse;
-import org.emulator.device.application.port.VehicleEventHttpClient;
+import org.emulator.device.application.port.VehicleEventSender;
 import org.emulator.device.common.exception.BusinessException;
 import org.emulator.device.common.response.ErrorCode;
 import org.emulator.device.domain.CycleInfo;
@@ -19,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
-public class VehicleEventRestClient implements VehicleEventHttpClient {
+public class VehicleEventRestClient implements VehicleEventSender {
 	private static final String RESPONSE_SUCCESS_CODE = "000";
 	private final RestClientService restClientService;
 
