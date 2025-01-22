@@ -61,7 +61,7 @@ jobs:
 #        if: success()
 #        run: |
 #          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-#
+
 #          cd ./monicar-collector
 #          sudo docker build --platform linux/amd64 -t monicar-collector .
 #          IMAGE_TAG=suxxxxhyun/monicar-collector:latest
@@ -110,7 +110,7 @@ jobs:
 #            sudo docker rm $(sudo docker ps -a -q)
 #            sudo docker rmi -f $(sudo docker images -q)
 #            sudo docker pull suxxxxhyun/monicar-control-center:latest
-#            sudo docker run -d --name monicar-control-center -p 8081:8080 suxxxxhyun/monicar-control-center:latest
+#            sudo docker run -d --name monicar-control-center -p 8081:8081 suxxxxhyun/monicar-control-center:latest
 #
 #      - name: Connect to WAS & Execute Application (monicar-event-hub)
 #        uses: appleboy/ssh-action@v0.1.6
@@ -124,6 +124,6 @@ jobs:
 #            sudo docker rm $(sudo docker ps -a -q)
 #            sudo docker rmi -f $(sudo docker images -q)
 #            sudo docker pull suxxxxhyun/monicar-event-hub:latest
-#            sudo docker run -d --name monicar-event-hub -p 8082:8080 suxxxxhyun/monicar-event-hub:latest
+#            sudo docker run -d --name monicar-event-hub -p 8082:8082 suxxxxhyun/monicar-event-hub:latest
 
 
