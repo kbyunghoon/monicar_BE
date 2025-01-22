@@ -14,8 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.web.servlet.MockMvc;
 
 @DisplayName("NoticeController mock 테스트")
@@ -26,6 +31,21 @@ class NoticeControllerTest {
 
 	@MockBean
 	NoticeRepository repository;
+
+	@TestConfiguration
+	public static class SecurityConfiguration {
+
+		@Bean
+		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+			http
+				.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests((authz) -> authz
+					.anyRequest().permitAll()
+				);
+			return http.build();
+		}
+
+	}
 
 	@DisplayName("notice 개수가 0개일 때 entity not found 에러 응답")
 	@Test
