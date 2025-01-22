@@ -22,7 +22,7 @@ public class VehicleService {
 	private final LocationReceiver locationReceiver;
 	private final VehicleEventSender vehicleEventSender;
 
-	public BaseResponse onVehicle() {
+	public BaseResponse<Void> onVehicle() {
 		GpsTime onLocation = locationReceiver.fetchLocationRecent();
 
 		OnInfo onInfo = OnInfo.create(
