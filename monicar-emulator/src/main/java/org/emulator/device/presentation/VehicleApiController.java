@@ -15,7 +15,7 @@ public class VehicleApiController {
 	private final VehicleService vehicleService;
 
 	@PostMapping("/key-on")
-	public BaseResponse<Void> keyOn() {
+	public BaseResponse keyOn() {
 		return vehicleService.onVehicle();
 	}
 }

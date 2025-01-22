@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(BusinessException.class)
-	protected BaseResponse<Void> handleBusinessException(final BusinessException e) {
+	protected BaseResponse handleBusinessException(final BusinessException e) {
 		return BaseResponse.fail(e.getErrorCode());
 	}
 
 	@ExceptionHandler(Exception.class)
-	protected BaseResponse<Void> handleBusinessException(final Exception e) {
-		return BaseResponse.fail(ErrorCode.INTERNAL_SERVER_ERROR);
+	protected BaseResponse handleBusinessException(final Exception e) {
+		return BaseResponse.fail(e.getMessage());
 	}
 }
