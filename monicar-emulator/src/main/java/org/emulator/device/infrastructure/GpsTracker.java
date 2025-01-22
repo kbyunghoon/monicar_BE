@@ -46,7 +46,7 @@ public class GpsTracker implements SensorTracker {
 			// TODO: 장애 처리 - deque 앞으로 다시 밀어 넣기, 재시도 등
 		}
 
-		GpsTime currentLocation = locationReceiver.getLocation();
+		GpsTime currentLocation = locationReceiver.fetchLocationNow();
 		if (recentCycleInfo == null) {
 			CycleInfo currentCycleInfo = CycleInfo.create(
 				currentLocation,

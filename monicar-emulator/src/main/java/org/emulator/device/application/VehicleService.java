@@ -22,8 +22,8 @@ public class VehicleService {
 	private final LocationReceiver locationReceiver;
 	private final VehicleEventSender vehicleEventSender;
 
-	public BaseResponse<Void> onVehicle() {
-		GpsTime onLocation = locationReceiver.getLocation();
+	public BaseResponse onVehicle() {
+		GpsTime onLocation = locationReceiver.fetchLocationRecent();
 
 		OnInfo onInfo = OnInfo.create(
 			onLocation.intervalAt(),
