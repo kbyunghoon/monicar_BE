@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 차량 서버에 명령을 보내는 역할
  */
-public interface VehicleEventHttpClient {
+public interface VehicleEventSender {
 	CommonResponse sendOnEvent(OnInfo onInfo);
 	CommonResponse sendCycleInfoEvent(List<CycleInfo> cycleInfo);
 }

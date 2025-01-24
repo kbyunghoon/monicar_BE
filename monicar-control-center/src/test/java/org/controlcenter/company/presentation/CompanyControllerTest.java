@@ -18,8 +18,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +41,21 @@ class CompanyControllerTest {
 
 	@MockBean
 	private CompanyService companyService;
+
+	@TestConfiguration
+	public static class SecurityConfiguration {
+
+		@Bean
+		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+			http
+				.csrf(AbstractHttpConfigurer::disable)
+				.authorizeHttpRequests((authz) -> authz
+					.anyRequest().permitAll()
+				);
+			return http.build();
+		}
+
+	}
 
 	@DisplayName("업체(회사)를 등록할 수 있다.")
 	@Test

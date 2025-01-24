@@ -1,9 +1,11 @@
 package org.emulator.device.application;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.common.dto.CommonResponse;
 import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
-import org.emulator.device.application.port.VehicleEventHttpClient;
+import org.emulator.device.application.port.VehicleEventSender;
 import org.emulator.device.common.response.BaseResponse;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
@@ -14,10 +16,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class VehicleService {
 	private final EmulatorRepository emulatorRepository;
 	private final LocationReceiver locationReceiver;
-	private final VehicleEventHttpClient vehicleEventHttpClient;
+	private final VehicleEventSender vehicleEventSender;
 
 	public BaseResponse<Void> onVehicle() {
 		GpsTime onLocation = locationReceiver.getLocation();
@@ -30,7 +33,9 @@ public class VehicleService {
 			emulatorRepository.getCurrentDistance()
 		);
 
-		CommonResponse response = vehicleEventHttpClient.sendOnEvent(onInfo);
+		CommonResponse response = vehicleEventSender.sendOnEvent(onInfo);
+
+		log.debug("response code: {}", response.rstCd());
 
 		emulatorRepository.turnOn();
 		emulatorRepository.startLogDistance();

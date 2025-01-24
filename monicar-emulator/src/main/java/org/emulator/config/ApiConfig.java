@@ -11,9 +11,5 @@ import org.springframework.context.annotation.Configuration;
 public class ApiConfig {
 	@Value("${api.base-url}")
 	private String baseUrl;
-
-	public String getBaseUrl() {
-		return baseUrl;
-	}
 }
 
