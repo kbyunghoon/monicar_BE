@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ErrorCode;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -82,5 +85,18 @@ public class GlobalExceptionHandler {
 		final HttpRequestMethodNotSupportedException e) {
 		log.error("HttpRequestMethodNotSupportedException 예외 처리 : {}", e.getMessage(), e);
 		return BaseResponse.fail(ErrorCode.METHOD_NOT_ALLOWED);
+	}
+
+	/**
+	 * 지원되지 않는 HTTP 메서드로 요청할 때 발생하는 예외 처리
+	 */
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	protected ResponseEntity<BaseResponse<Void>> authorizationDeniedException(
+		final AuthorizationDeniedException e) {
+		log.error("AuthorizationDeniedException 예외 처리 : {}", e.getMessage(), e);
+
+		return ResponseEntity
+			.status(HttpStatus.FORBIDDEN)
+			.body(BaseResponse.fail(ErrorCode.AUTHORIZATION_DENIED));
 	}
 }
