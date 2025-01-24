@@ -8,14 +8,14 @@ import lombok.Getter;
 @Builder
 @Getter
 public class Manager {
-	private Long id;
+	private String id;
 	private Long departmentId;
 	private String email;
 	private String loginId;
 	private String password;
 	private String nickname;
 	private Role role;
-	private LocalDateTime lastLoginedAt;
+	private LocalDateTime lastLoginAt;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;

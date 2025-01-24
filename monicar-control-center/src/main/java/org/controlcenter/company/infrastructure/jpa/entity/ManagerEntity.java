@@ -24,9 +24,9 @@ import lombok.NoArgsConstructor;
 @Entity(name = "manager")
 public class ManagerEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "manager_id")
-	private Long id;
+	private String id;
 
 	private Long departmentId;
 
@@ -41,7 +41,7 @@ public class ManagerEntity {
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
 
-	private LocalDateTime lastLoginedAt;
+	private LocalDateTime lastLoginAt;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -53,14 +53,13 @@ public class ManagerEntity {
 
 	public static ManagerEntity from(Manager manager) {
 		ManagerEntity managerEntity = new ManagerEntity();
-		managerEntity.id = manager.getId();
 		managerEntity.departmentId = manager.getDepartmentId();
 		managerEntity.email = manager.getEmail();
 		managerEntity.loginId = manager.getLoginId();
 		managerEntity.password = manager.getPassword();
 		managerEntity.nickname = manager.getNickname();
 		managerEntity.role = manager.getRole();
-		managerEntity.lastLoginedAt = manager.getLastLoginedAt();
+		managerEntity.lastLoginAt = manager.getLastLoginAt();
 		managerEntity.createdAt = manager.getCreatedAt();
 		managerEntity.updatedAt = manager.getUpdatedAt();
 		managerEntity.deletedAt = manager.getDeletedAt();
@@ -76,7 +75,7 @@ public class ManagerEntity {
 			.password(password)
 			.nickname(nickname)
 			.role(role)
-			.lastLoginedAt(lastLoginedAt)
+			.lastLoginAt(lastLoginAt)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
