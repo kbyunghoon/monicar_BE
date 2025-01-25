@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import java.util.concurrent.LinkedBlockingDeque;
 
-import org.emulator.pipe.Gps;
+import org.emulator.sensor.dto.Gps;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,20 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class GpsDetector implements SensorDetector {
-	private final ConcurrentLinkedQueue<Gps> gpsPipeQueue;
-	private final LinkedBlockingDeque<Gps> recentGpsLinkedBlockingDeque;
+	private final LocationHolder locationHolder;
 
 	@Scheduled(initialDelay = 1000, fixedDelay = 1000)
 	@Override
 	public void detect() {
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "Detecting... GPS");
-		gpsPipeQueue.add(new Gps(20.111111, 30.111111));
-		addGpsDeleteLeastRecentlyUsed(new Gps(20.111111, 30.111111));
-	}
-
-	private void addGpsDeleteLeastRecentlyUsed(Gps gps) {
-		if (recentGpsLinkedBlockingDeque.size() >= 5)
-			recentGpsLinkedBlockingDeque.pollFirst();
-		recentGpsLinkedBlockingDeque.add(gps);
+		locationHolder.addGpsData(new Gps(20.111111, 30.111111));
 	}
 }
