@@ -56,21 +56,4 @@ public class SecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeHttpRequests(authz -> authz
-				.anyRequest().authenticated()
-			)
-			.exceptionHandling(exception -> exception // RestControllerAdvice에 에러 위임
-				.authenticationEntryPoint((request, response, authException) -> {
-					throw authException; // AuthenticationException을 그대로 전달
-				})
-				.accessDeniedHandler((request, response, accessDeniedException) -> {
-					throw accessDeniedException; // AccessDeniedException을 그대로 전달
-				})
-			);
-		return http.build();
-	}
 }
