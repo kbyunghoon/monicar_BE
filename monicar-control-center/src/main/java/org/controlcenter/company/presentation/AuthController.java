@@ -1,10 +1,10 @@
 package org.controlcenter.company.presentation;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.common.util.CookieUtil;
-import org.controlcenter.common.util.JWTUtil;
-import org.controlcenter.common.util.RedisUtil;
+import org.controlcenter.company.application.AuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/auth")
 public class AuthController {
 
-	private final JWTUtil jwtUtil;
-	private final RedisUtil redisUtil;
+	private final AuthService authService;
 	private final CookieUtil cookieUtil;
 
 	@Value("${jwt.expiration.access}")
@@ -42,31 +41,21 @@ public class AuthController {
 		@Parameter(hidden = true) @CookieValue("refresh-token") String refreshToken,
 		HttpServletResponse response
 	) {
-		if (accessToken != null) {
-			return createErrorResponse();
-		}
-
-		String userId;
 		try {
-			userId = jwtUtil.validateAndGetId(refreshToken);
-		} catch (JwtException e) {
+			String newAccessToken = authService.refreshAccessToken(accessToken, refreshToken);
+
+			response.addHeader("Set-Cookie",
+				cookieUtil.createAccessTokenCookie(newAccessToken, accessExpiration).toString());
+
+			return ResponseEntity.ok(BaseResponse.success());
+
+		} catch (BusinessException | JwtException e) {
 			return createErrorResponse();
 		}
-
-		String savedRefreshToken = redisUtil.getRefreshToken(userId);
-		if (!refreshToken.equals(savedRefreshToken)) {
-			return createErrorResponse();
-		}
-
-		String newAccessToken = jwtUtil.createJwt(userId, accessExpiration, "access");
-		response.addHeader("Set-Cookie",
-			cookieUtil.createAccessTokenCookie(newAccessToken, accessExpiration).toString());
-
-		return ResponseEntity.ok(BaseResponse.success());
 	}
 
 	/**
-	 * Access Token으로  Refresh Token갱신
+	 * Access Token으로 Refresh Token 갱신
 	 */
 	@PostMapping("/reissue")
 	public ResponseEntity<?> reissueRefreshToken(
@@ -74,35 +63,16 @@ public class AuthController {
 		@Parameter(hidden = true) @CookieValue(value = "refresh-token", required = false) String oldRefreshToken,
 		HttpServletResponse response
 	) {
-		if (oldRefreshToken == null) {
-			return createErrorResponse();
-		}
-
 		try {
-			jwtUtil.isExpiredStrict(oldRefreshToken);
-		} catch (JwtException e) {
+			String newRefreshToken = authService.reissueRefreshToken(accessToken, oldRefreshToken);
+			response.addHeader("Set-Cookie",
+				cookieUtil.createRefreshTokenCookie(newRefreshToken, refreshExpiration + accessExpiration).toString());
+
+			return ResponseEntity.ok(BaseResponse.success("새로운 Refresh Token 발급 완료"));
+
+		} catch (BusinessException | JwtException e) {
 			return createErrorResponse();
 		}
-
-		String userId;
-		try {
-			userId = jwtUtil.validateAndGetId(accessToken);
-		} catch (JwtException e) {
-			return createErrorResponse();
-		}
-
-		boolean isIncludeBlacklist = redisUtil.isAccessTokenBlacklisted(accessToken);
-		if (isIncludeBlacklist) {
-			return createErrorResponse();
-		}
-
-		String newRefreshToken = jwtUtil.createJwt(userId, refreshExpiration, "refresh");
-		redisUtil.saveRefreshToken(userId, newRefreshToken, refreshExpiration + accessExpiration);
-
-		response.addHeader("Set-Cookie",
-			cookieUtil.createRefreshTokenCookie(newRefreshToken, refreshExpiration + accessExpiration).toString());
-
-		return ResponseEntity.ok(BaseResponse.success("새로운 Refresh Token 발급 완료"));
 	}
 
 	private ResponseEntity<BaseResponse<?>> createErrorResponse() {
