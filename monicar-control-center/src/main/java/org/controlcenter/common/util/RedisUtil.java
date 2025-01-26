@@ -1,4 +1,4 @@
-package org.controlcenter.util;
+package org.controlcenter.common.util;
 
 import java.util.concurrent.TimeUnit;
 

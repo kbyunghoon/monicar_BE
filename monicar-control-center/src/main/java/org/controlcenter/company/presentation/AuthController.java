@@ -2,9 +2,9 @@ package org.controlcenter.company.presentation;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ErrorCode;
-import org.controlcenter.util.CookieUtil;
-import org.controlcenter.util.JWTUtil;
-import org.controlcenter.util.RedisUtil;
+import org.controlcenter.common.util.CookieUtil;
+import org.controlcenter.common.util.JWTUtil;
+import org.controlcenter.common.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,59 +43,70 @@ public class AuthController {
 		HttpServletResponse response
 	) {
 		if (accessToken != null) {
-			return createErrorResponse(HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN_ACCESS);
+			return createErrorResponse();
 		}
 
 		String userId;
 		try {
 			userId = jwtUtil.validateAndGetId(refreshToken);
 		} catch (JwtException e) {
-			return createErrorResponse(HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN_ACCESS);
+			return createErrorResponse();
 		}
 
 		String savedRefreshToken = redisUtil.getRefreshToken(userId);
 		if (!refreshToken.equals(savedRefreshToken)) {
-			return createErrorResponse(HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN_ACCESS);
+			return createErrorResponse();
 		}
 
 		String newAccessToken = jwtUtil.createJwt(userId, accessExpiration, "access");
-		response.addHeader("Set-Cookie", cookieUtil.createAccessTokenCookie(newAccessToken).toString());
+		response.addHeader("Set-Cookie",
+			cookieUtil.createAccessTokenCookie(newAccessToken, accessExpiration).toString());
 
 		return ResponseEntity.ok(BaseResponse.success());
 	}
 
+	/**
+	 * Access Token으로  Refresh Token갱신
+	 */
 	@PostMapping("/reissue")
 	public ResponseEntity<?> reissueRefreshToken(
 		@Parameter(hidden = true) @CookieValue("access-token") String accessToken,
 		@Parameter(hidden = true) @CookieValue(value = "refresh-token", required = false) String oldRefreshToken,
 		HttpServletResponse response
 	) {
-		if (oldRefreshToken != null) {
-			return createErrorResponse(HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN_ACCESS);
+		if (oldRefreshToken == null) {
+			return createErrorResponse();
+		}
+
+		try {
+			jwtUtil.isExpiredStrict(oldRefreshToken);
+		} catch (JwtException e) {
+			return createErrorResponse();
 		}
 
 		String userId;
 		try {
 			userId = jwtUtil.validateAndGetId(accessToken);
 		} catch (JwtException e) {
-			return createErrorResponse(HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN_ACCESS);
+			return createErrorResponse();
 		}
 
 		boolean isIncludeBlacklist = redisUtil.isAccessTokenBlacklisted(accessToken);
 		if (isIncludeBlacklist) {
-			return createErrorResponse(HttpStatus.FORBIDDEN, ErrorCode.FORBIDDEN_ACCESS);
+			return createErrorResponse();
 		}
 
 		String newRefreshToken = jwtUtil.createJwt(userId, refreshExpiration, "refresh");
-		redisUtil.saveRefreshToken(userId, newRefreshToken, refreshExpiration);
+		redisUtil.saveRefreshToken(userId, newRefreshToken, refreshExpiration + accessExpiration);
 
-		response.addHeader("Set-Cookie", cookieUtil.createRefreshTokenCookie(newRefreshToken).toString());
+		response.addHeader("Set-Cookie",
+			cookieUtil.createRefreshTokenCookie(newRefreshToken, refreshExpiration + accessExpiration).toString());
 
 		return ResponseEntity.ok(BaseResponse.success("새로운 Refresh Token 발급 완료"));
 	}
 
-	private ResponseEntity<BaseResponse<?>> createErrorResponse(HttpStatus status, ErrorCode errorCode) {
-		return ResponseEntity.status(status)
-			.body(BaseResponse.fail(errorCode));
+	private ResponseEntity<BaseResponse<?>> createErrorResponse() {
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+			.body(BaseResponse.fail(ErrorCode.FORBIDDEN_ACCESS));
 	}
 }

@@ -1,4 +1,4 @@
-package org.controlcenter.util;
+package org.controlcenter.common.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -41,15 +41,6 @@ public class JWTUtil {
 			.get("user_id", String.class);
 	}
 
-	public String getTokenType(String token) {
-		Claims claims = Jwts.parserBuilder()
-			.setSigningKey(secretKey)
-			.build()
-			.parseClaimsJws(token)
-			.getBody();
-		return claims.get("type", String.class);
-	}
-
 	public String createJwt(String userId, Long expiredMs, String subject) {
 		return Jwts.builder()
 			.claim("user_id", userId)
@@ -61,18 +52,14 @@ public class JWTUtil {
 			.compact();
 	}
 
-	public Boolean isExpired(String token) {
-		try {
-			return Jwts.parserBuilder()
-				.setSigningKey(secretKey)
-				.build()
-				.parseClaimsJws(token)
-				.getBody()
-				.getExpiration()
-				.before(new Date());
-		} catch (JwtException e) {
-			return true;
-		}
+	public boolean isExpiredStrict(String token) throws JwtException {
+		return Jwts.parserBuilder()
+			.setSigningKey(secretKey)
+			.build()
+			.parseClaimsJws(token)
+			.getBody()
+			.getExpiration()
+			.before(new Date());
 	}
 
 	private static Map<String, Object> createHeader() {

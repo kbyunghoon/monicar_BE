@@ -2,14 +2,14 @@ package org.controlcenter.config;
 
 import java.util.List;
 
+import org.controlcenter.common.security.CustomAuthenticationErrorHandler;
 import org.controlcenter.common.security.CustomAuthenticationFailureHandler;
 import org.controlcenter.common.security.CustomAuthenticationSuccessHandler;
 import org.controlcenter.common.security.CustomUserDetailService;
 import org.controlcenter.common.security.JWTFilter;
 import org.controlcenter.common.security.LoginFilter;
+import org.controlcenter.common.util.JWTTokenValidator;
 import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
-import org.controlcenter.util.JWTUtil;
-import org.controlcenter.util.RedisUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -35,8 +35,9 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-	private final JWTUtil jwtUtil;
+	private final JWTTokenValidator jwtTokenValidator;
 	private final CorsProperties corsProperties;
+	private final CustomAuthenticationErrorHandler errorHandler;
 	private final CustomAuthenticationSuccessHandler successHandler;
 	private final CustomAuthenticationFailureHandler failureHandler;
 	private final AuthenticationConfiguration authenticationConfiguration;
@@ -59,8 +60,7 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, ManagerJpaRepository managerJpaRepository,
-		RedisUtil redisUtil) throws
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, ManagerJpaRepository managerJpaRepository) throws
 		Exception {
 		LoginFilter loginFilter = new LoginFilter(authenticationManager(authenticationConfiguration));
 		loginFilter.setAuthenticationSuccessHandler(successHandler);
@@ -77,7 +77,8 @@ public class SecurityConfig {
 				.anyRequest().permitAll()
 			)
 			.addFilterBefore(
-				new JWTFilter(redisUtil, jwtUtil, new CustomUserDetailService(managerJpaRepository)),
+				new JWTFilter(jwtTokenValidator, errorHandler,
+					new CustomUserDetailService(managerJpaRepository)),
 				LoginFilter.class)
 			.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
 

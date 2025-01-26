@@ -3,18 +3,11 @@ package org.controlcenter.common.security;
 import java.io.IOException;
 import java.util.List;
 
-import org.controlcenter.common.response.code.ErrorCode;
-import org.controlcenter.util.JWTUtil;
-import org.controlcenter.util.RedisUtil;
-import org.springframework.http.HttpStatus;
+import org.controlcenter.common.exception.TokenValidationException;
+import org.controlcenter.common.util.JWTTokenValidator;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -25,11 +18,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
-	private final RedisUtil redisUtil;
-	private final JWTUtil jwtUtil;
+	private final JWTTokenValidator jwtTokenValidator;
+	private final CustomAuthenticationErrorHandler errorHandler;
 	private final CustomUserDetailService customUserDetailService;
-
-	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	private static final List<String> EXCLUDED_URIS = List.of(
 		"/auth/refresh",
@@ -38,16 +29,9 @@ public class JWTFilter extends OncePerRequestFilter {
 		"/auth/reissue"
 	);
 
-	private static final ErrorCode EXPIRED_REFRESH_TOKEN_ERROR = ErrorCode.EXPIRED_REFRESH_TOKEN;
-	private static final ErrorCode EXPIRED_ACCESS_TOKEN_ERROR = ErrorCode.EXPIRED_ACCESS_TOKEN;
-	private static final ErrorCode INVALID_ACCESS_TOKEN_ERROR = ErrorCode.INVALID_ACCESS_TOKEN;
-	private static final ErrorCode INVALID_REFRESH_TOKEN_ERROR = ErrorCode.INVALID_REFRESH_TOKEN;
-	private static final ErrorCode EXPIRED_TOKENS = ErrorCode.EXPIRED_TOKENS;
-	private static final ErrorCode EXPIRED_ACCESS_TOKEN = ErrorCode.EXPIRED_ACCESS_TOKEN;
-
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-		throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+		FilterChain filterChain) throws ServletException, IOException {
 
 		if (isExcludedUri(request.getRequestURI())) {
 			filterChain.doFilter(request, response);
@@ -57,33 +41,19 @@ public class JWTFilter extends OncePerRequestFilter {
 		String accessToken = extractAccessTokenFromCookies(request);
 		String refreshToken = extractRefreshTokenFromCookies(request);
 
-		if (accessToken != null && redisUtil.isAccessTokenBlacklisted(accessToken)) {
-			writeErrorResponse(response, EXPIRED_ACCESS_TOKEN);
+		if (accessToken == null && refreshToken == null) {
+			filterChain.doFilter(request, response);
 			return;
 		}
 
-		if (accessToken != null && refreshToken != null
-			&& jwtUtil.isExpired(accessToken) && jwtUtil.isExpired(refreshToken)) {
-			writeErrorResponse(response, EXPIRED_TOKENS);
-			return;
-		}
+		try {
+			jwtTokenValidator.validateTokens(accessToken, refreshToken);
 
-		if (accessToken != null && refreshToken != null && jwtUtil.isExpired(refreshToken)) {
-			writeErrorResponse(response, EXPIRED_REFRESH_TOKEN_ERROR);
+			String userId = jwtTokenValidator.extractUserIdFromAccessToken(accessToken);
+			setAuthentication(userId);
+		} catch (TokenValidationException e) {
+			errorHandler.writeErrorResponse(response, e.getErrorCode());
 			return;
-		}
-
-		if (accessToken != null) {
-			try {
-				String userId = jwtUtil.validateAndGetId(accessToken);
-				setAuthentication(userId);
-			} catch (ExpiredJwtException e) {
-				writeErrorResponse(response, EXPIRED_ACCESS_TOKEN_ERROR);
-				return;
-			} catch (JwtException e) {
-				writeErrorResponse(response, INVALID_ACCESS_TOKEN_ERROR);
-				return;
-			}
 		}
 
 		filterChain.doFilter(request, response);
@@ -94,30 +64,24 @@ public class JWTFilter extends OncePerRequestFilter {
 	}
 
 	private String extractAccessTokenFromCookies(HttpServletRequest request) {
-		if (request.getCookies() == null) {
+		if (request.getCookies() == null)
 			return null;
-		}
-
 		for (Cookie cookie : request.getCookies()) {
 			if ("access_token".equals(cookie.getName())) {
 				return cookie.getValue();
 			}
 		}
-
 		return null;
 	}
 
 	private String extractRefreshTokenFromCookies(HttpServletRequest request) {
-		if (request.getCookies() == null) {
+		if (request.getCookies() == null)
 			return null;
-		}
-
 		for (Cookie cookie : request.getCookies()) {
 			if ("refresh_token".equals(cookie.getName())) {
 				return cookie.getValue();
 			}
 		}
-
 		return null;
 	}
 
@@ -126,24 +90,14 @@ public class JWTFilter extends OncePerRequestFilter {
 			(CustomUserDetails)customUserDetailService.loadUserByUsername(userId);
 
 		UsernamePasswordAuthenticationToken authenticationToken =
-			new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-	}
-
-	private void writeErrorResponse(HttpServletResponse response,
-		ErrorCode errorCode) throws IOException {
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-
-		CustomAuthenticationFailureHandler.FailResponse failResponse =
-			new CustomAuthenticationFailureHandler.FailResponse(
-				errorCode.getCode(),
-				false,
-				List.of(errorCode.getMessage())
+			new UsernamePasswordAuthenticationToken(
+				userDetails,
+				null,
+				userDetails.getAuthorities()
 			);
 
-		response.getWriter().write(objectMapper.writeValueAsString(failResponse));
+		org.springframework.security.core.context
+			.SecurityContextHolder.getContext()
+			.setAuthentication(authenticationToken);
 	}
 }

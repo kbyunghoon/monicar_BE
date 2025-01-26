@@ -2,9 +2,9 @@ package org.controlcenter.common.security;
 
 import java.io.IOException;
 
-import org.controlcenter.util.CookieUtil;
-import org.controlcenter.util.JWTUtil;
-import org.controlcenter.util.RedisUtil;
+import org.controlcenter.common.util.CookieUtil;
+import org.controlcenter.common.util.JWTUtil;
+import org.controlcenter.common.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -43,10 +42,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 		String refreshToken = jwtUtil.createJwt(userId, refreshExpiration, "refresh");
 
-		redisUtil.saveRefreshToken(userId, refreshToken, refreshExpiration);
+		redisUtil.saveRefreshToken(userId, refreshToken, refreshExpiration + accessExpiration);
 
-		response.addHeader("Set-Cookie", cookieUtil.createAccessTokenCookie(accessToken).toString());
-		response.addHeader("Set-Cookie", cookieUtil.createRefreshTokenCookie(refreshToken).toString());
+		response.addHeader("Set-Cookie", cookieUtil.createAccessTokenCookie(accessToken, accessExpiration).toString());
+		response.addHeader("Set-Cookie",
+			cookieUtil.createRefreshTokenCookie(refreshToken, refreshExpiration + accessExpiration).toString());
 
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
@@ -56,7 +56,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		response.setStatus(HttpStatus.OK.value());
 	}
 
-
-	protected record SuccessResponse(boolean isSuccess, String message) {
+	public record SuccessResponse(boolean isSuccess, String message) {
 	}
 }
