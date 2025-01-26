@@ -10,8 +10,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
 	// 공통(Common) 오류
-	UNAUTHORIZED(401, "인증에 실패했습니다"),
-	FORBIDDEN(403, "권한이 없습니다"),
 	INVALID_INPUT_VALUE(1001, "잘못된 값을 입력했습니다."),
 	METHOD_NOT_ALLOWED(1002, "허용되지 않은 메서드입니다."),
 	ENTITY_NOT_FOUND(1003, "엔티티를 찾을 수 없습니다."),

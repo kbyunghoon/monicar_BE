@@ -85,22 +85,4 @@ public class GlobalExceptionHandler {
 		log.error("HttpRequestMethodNotSupportedException 예외 처리 : {}", e.getMessage(), e);
 		return BaseResponse.fail(ErrorCode.METHOD_NOT_ALLOWED);
 	}
-
-	/**
-	 * 401 Unauthorized 에러 처리
-	 */
-	@ExceptionHandler(AuthenticationException.class)
-	protected BaseResponse<Void> handleAuthenticationException(AuthenticationException e) {
-		log.error("Authentication Exception (401) 발생: {}", e.getMessage(), e);
-		return BaseResponse.fail(ErrorCode.UNAUTHORIZED);
-	}
-
-	/**
-	 * 403 Forbidden 에러 처리
-	 */
-	@ExceptionHandler(AccessDeniedException.class)
-	protected BaseResponse<Void> handleAccessDeniedException(AccessDeniedException e) {
-		log.error("Access Denied Exception (403) 발생: {}", e.getMessage(), e);
-		return BaseResponse.fail(ErrorCode.FORBIDDEN);
-	}
 }
