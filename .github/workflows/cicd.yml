@@ -78,10 +78,10 @@ jobs:
 #          sudo docker tag monicar-collector $IMAGE_TAG
 #          sudo docker push $IMAGE_TAG
 #
-          cd ../monicar-control-center
+          cd ./monicar-control-center
           sudo docker build --platform linux/amd64 -t monicar-control-center .
           IMAGE_TAG=suxxxxhyun/monicar-control-center:latest
-#          echo "Image Tag: $IMAGE_TAG"
+          echo "Image Tag: $IMAGE_TAG"
           sudo docker tag monicar-control-center $IMAGE_TAG
           sudo docker push $IMAGE_TAG
 #
