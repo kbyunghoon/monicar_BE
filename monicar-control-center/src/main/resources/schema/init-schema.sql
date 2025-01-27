@@ -31,14 +31,14 @@ CREATE TABLE department
 
 CREATE TABLE manager
 (
-    `manager_id`      BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '담당자 PK',
+    `manager_id`      VARCHAR(255) NOT NULL PRIMARY KEY COMMENT '담당자 PK',
     `department_id`   BIGINT       NOT NULL COMMENT '부서 PK',
     `email`           VARCHAR(255) NOT NULL COMMENT '이메일',
     `login_id`        VARCHAR(255) NOT NULL COMMENT '아이디',
     `password`        VARCHAR(255) NOT NULL COMMENT '비밀번호',
     `nickname`        VARCHAR(255) NOT NULL COMMENT '닉네임',
     `role`            VARCHAR(255) NOT NULL COMMENT '권한',
-    `last_logined_at` TIMESTAMP    NOT NULL COMMENT '마지막 로그인 시간',
+    `last_login_at`   TIMESTAMP    NULL COMMENT '마지막 로그인 시간',
     `created_at`      TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
     `updated_at`      TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
     `deleted_at`      TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
