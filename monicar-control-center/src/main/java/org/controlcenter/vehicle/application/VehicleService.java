@@ -7,6 +7,7 @@ import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
+import org.controlcenter.vehicle.domain.VehicleRegister;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +43,18 @@ public class VehicleService {
 	public VehicleInformation getVehicleInformation(final Long mdn) {
 		return vehicleRepository.findByMdn(mdn)
 			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+	}
 
+	@Transactional
+	public VehicleInformation register(VehicleRegister command) {
+		validateAlreadyExistVehicleNumber(command.getVehicleNumber());
+
+		return vehicleRepository.save(VehicleInformation.create(command));
+	}
+
+	private void validateAlreadyExistVehicleNumber(String vehicleNumber) {
+		vehicleRepository.findByVehicleNumber(vehicleNumber).ifPresent(existVehicleNumber -> {
+			throw new BusinessException(ErrorCode.VEHICLE_ALREADY_EXIST);
+		});
 	}
 }

@@ -9,6 +9,7 @@ import org.controlcenter.vehicle.domain.cluster.GeoCoordinate;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 
 public interface VehicleRepository {
+	VehicleInformation save(VehicleInformation vehicle);
 	Optional<VehicleInformation> findById(Long vehicleId);
 	Optional<VehicleInformation> findByMdn(Long mdn);
 	Optional<VehicleInformation> findByVehicleNumber(String vehicleNumber);

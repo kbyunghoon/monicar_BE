@@ -8,6 +8,7 @@ import org.controlcenter.common.security.CustomAuthenticationSuccessHandler;
 import org.controlcenter.common.security.CustomUserDetailService;
 import org.controlcenter.common.security.JWTFilter;
 import org.controlcenter.common.security.LoginFilter;
+import org.controlcenter.common.util.CookieUtil;
 import org.controlcenter.common.util.JWTTokenValidator;
 import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,8 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, ManagerJpaRepository managerJpaRepository) throws
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, ManagerJpaRepository managerJpaRepository,
+		CookieUtil cookieUtil) throws
 		Exception {
 		LoginFilter loginFilter = new LoginFilter(authenticationManager(authenticationConfiguration));
 		loginFilter.setAuthenticationSuccessHandler(successHandler);
@@ -77,7 +79,7 @@ public class SecurityConfig {
 				.anyRequest().permitAll()
 			)
 			.addFilterBefore(
-				new JWTFilter(jwtTokenValidator, errorHandler,
+				new JWTFilter(cookieUtil, jwtTokenValidator, errorHandler,
 					new CustomUserDetailService(managerJpaRepository)),
 				LoginFilter.class)
 			.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);

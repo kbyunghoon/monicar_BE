@@ -29,5 +29,4 @@ public class CompanyService {
 				throw new BusinessException(ErrorCode.ENTITY_ALREADY_EXIST);
 			});
 	}
-
 }
