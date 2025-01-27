@@ -35,7 +35,7 @@ jobs:
       - name: make control-center env.properties
         run: |
           if [ ! -d "monicar-control-center/src/main/resources/properties" ]; then
-          mkdir -p monicar-control-center/src/main/resources/properties
+            mkdir -p monicar-control-center/src/main/resources/properties
           fi
           
           cd monicar-control-center/src/main/resources/properties
