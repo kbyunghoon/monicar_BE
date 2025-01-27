@@ -32,6 +32,15 @@ jobs:
           echo "${{ secrets.MONICAR_COLLECTOR_YML }}"
         shell: bash
 
+      - name: make control-center env.properties
+        run: |
+          mkdir monicar-control-center/src/main/resources/properties
+          cd monicar-control-center/src/main/resources/properties
+          touch ./env.properties
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}" > ./env.properties
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}"
+        shell: bash
+
       - name: make control-center application-prod.yml
         run: |
           cd monicar-control-center/src/main/resources
