@@ -34,7 +34,10 @@ jobs:
 
       - name: make control-center env.properties
         run: |
-          mkdir monicar-control-center/src/main/resources/properties
+          if [ ! -d "monicar-control-center/src/main/resources/properties" ]; then
+          mkdir -p monicar-control-center/src/main/resources/properties
+          fi
+          
           cd monicar-control-center/src/main/resources/properties
           touch ./env.properties
           echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}" > ./env.properties
