@@ -88,6 +88,7 @@ public class VehicleController implements VehicleApi {
 	 * 차량 번호를 기반으로 최신 정보를 조회하는 API
 	 */
 	@GetMapping("/search")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<VehicleLocationResponse> getVehicleInfo(
 		@RequestParam("vehicle-number") String vehicleNumber
 	) {

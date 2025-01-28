@@ -52,6 +52,20 @@ public class JWTUtil {
 			.compact();
 	}
 
+	public boolean isValidToken(String token) {
+		try {
+			// 만료 여부 상관없이 토큰의 유효성을 검증
+			Jwts.parserBuilder()
+				.setSigningKey(secretKey)
+				.build()
+				.parseClaimsJws(token);
+			return true;
+		} catch (JwtException e) {
+			return false;
+		}
+	}
+
+
 	public boolean isExpiredStrict(String token) throws JwtException {
 		return Jwts.parserBuilder()
 			.setSigningKey(secretKey)

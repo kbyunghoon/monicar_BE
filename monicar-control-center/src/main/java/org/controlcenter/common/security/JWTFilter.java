@@ -8,6 +8,7 @@ import org.controlcenter.common.exception.TokenValidationException;
 import org.controlcenter.common.util.CookieUtil;
 import org.controlcenter.common.util.JWTTokenValidator;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -106,8 +107,7 @@ public class JWTFilter extends OncePerRequestFilter {
 				userDetails.getAuthorities()
 			);
 
-		org.springframework.security.core.context
-			.SecurityContextHolder.getContext()
+		SecurityContextHolder.getContext()
 			.setAuthentication(authenticationToken);
 	}
 }

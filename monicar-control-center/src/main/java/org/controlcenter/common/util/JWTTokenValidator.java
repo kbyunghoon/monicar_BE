@@ -1,5 +1,6 @@
 package org.controlcenter.common.util;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.exception.TokenValidationException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ public class JWTTokenValidator {
 
 	private final RedisUtil redisUtil;
 	private final JWTUtil jwtUtil;
-	
+
 	private static final ErrorCode EXPIRED_ACCESS_TOKEN_ERROR = ErrorCode.EXPIRED_ACCESS_TOKEN;
 	private static final ErrorCode INVALID_ACCESS_TOKEN_ERROR = ErrorCode.INVALID_ACCESS_TOKEN;
 	private static final ErrorCode EXPIRED_REFRESH_TOKEN_ERROR = ErrorCode.EXPIRED_REFRESH_TOKEN;
@@ -29,17 +30,23 @@ public class JWTTokenValidator {
 			throw new TokenValidationException(FORBIDDEN_ERROR);
 		}
 
+		if (jwtUtil.isValidToken(accessToken) || jwtUtil.isValidToken(refreshToken)) {
+			throw new BusinessException(ErrorCode.FORBIDDEN_ACCESS);
+		}
+
 		boolean isAccessTokenExpired;
 		try {
+			jwtUtil.validateAndGetId(accessToken);
 			isAccessTokenExpired = jwtUtil.isExpiredStrict(accessToken);
-		} catch (JwtException e) {
+		} catch (IllegalArgumentException | JwtException e) {
 			throw new TokenValidationException(INVALID_ACCESS_TOKEN_ERROR);
 		}
 
 		boolean isRefreshTokenExpired;
 		try {
+			jwtUtil.validateAndGetId(refreshToken);
 			isRefreshTokenExpired = jwtUtil.isExpiredStrict(refreshToken);
-		} catch (JwtException e) {
+		} catch (IllegalArgumentException | JwtException e) {
 			throw new TokenValidationException(INVALID_REFRESH_TOKEN_ERROR);
 		}
 
