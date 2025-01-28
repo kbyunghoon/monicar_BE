@@ -13,6 +13,7 @@ import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
+import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.controlcenter.vehicle.infrastructure.VehicleInformationRepositoryAdapter;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.springframework.data.domain.Page;
@@ -29,8 +30,9 @@ public class DrivingLogService {
 	private final VehicleInformationRepositoryAdapter vehicleInformationRepository;
 
 	@Transactional(readOnly = true)
-	public Page<DrivingLog> getDrivingLogList(String vehicleNumber, Pageable pageable) {
-		return drivingLogRepository.findByVehicleNumber(vehicleNumber, pageable);
+	public Page<DrivingLog> getDrivingLogList(String vehicleNumber, VehicleSortType vehicleSortType,
+		Pageable pageable) {
+		return drivingLogRepository.findByVehicleNumber(vehicleNumber, vehicleSortType, pageable);
 	}
 
 	@Transactional(readOnly = true)
