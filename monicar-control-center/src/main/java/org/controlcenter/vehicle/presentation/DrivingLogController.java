@@ -1,17 +1,21 @@
 package org.controlcenter.vehicle.presentation;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.application.DrivingLogService;
 import org.controlcenter.vehicle.domain.DrivingLog;
+import org.controlcenter.vehicle.infrastructure.jpa.VehicleTypeRepositoryAdapter;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
 import org.controlcenter.vehicle.presentation.swagger.DrivingLogApi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/driving-log")
 public class DrivingLogController implements DrivingLogApi {
 	private final DrivingLogService drivingLogService;
+	private final VehicleTypeRepositoryAdapter vehicleTypeRepositoryAdapter;
 
 	@GetMapping("/{vehicle-id}")
 	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
@@ -35,6 +40,17 @@ public class DrivingLogController implements DrivingLogApi {
 		return BaseResponse.success(drivingLogService.getVehicleDrivingLogDetails(vehicleId, start, end));
 	}
 
+	@Override
+	@GetMapping("/vehicle-type")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes() {
+		List<VehicleTypeResponse> vehicleTypes = vehicleTypeRepositoryAdapter.findAll()
+			.stream()
+			.map(VehicleTypeResponse::from)
+			.toList();
+
+		return BaseResponse.success(vehicleTypes);
+	}
 
 	@GetMapping
 	public BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
