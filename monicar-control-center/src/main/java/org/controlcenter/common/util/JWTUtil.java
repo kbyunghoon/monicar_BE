@@ -2,7 +2,6 @@ package org.controlcenter.common.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +63,6 @@ public class JWTUtil {
 			return false;
 		}
 	}
-
 
 	public boolean isExpiredStrict(String token) throws JwtException {
 		return Jwts.parserBuilder()
