@@ -1,13 +1,10 @@
 package org.controlcenter.history.infrastructure.jpa.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 import org.controlcenter.history.domain.DrivingHistory;
 import org.controlcenter.history.domain.UsePurpose;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +12,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +23,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "driving_history")
+@SQLRestriction("deleted_at IS NULL")
 public class DrivingHistoryEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

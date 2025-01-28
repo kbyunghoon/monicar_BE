@@ -14,7 +14,6 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +32,11 @@ public interface VehicleApi {
 	@Operation(summary = "차량 정보 조회", description = "차량 고유 ID를 사용하여 차량 기본 정보를 조회")
 	BaseResponse<VehicleInfoResponse> getVehicleInfo(
 		@Valid VehicleInfoSearchRequest request
+	);
+
+	@Operation(summary = "차량 정보 삭제", description = "차량 고유 ID를 사용하여 차량 정보 삭제(차량 정보 및 차량 운행 기록)")
+	BaseResponse<Void> deleteVehicle(
+		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
 	);
 
 	@Operation(summary = "차량 상세 모달 정보 조회", description = "차량 고유 ID를 사용하여 차량 상세 정보 모달 정보를 조회")

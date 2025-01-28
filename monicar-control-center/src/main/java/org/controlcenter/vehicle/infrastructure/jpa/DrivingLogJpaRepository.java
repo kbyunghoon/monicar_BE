@@ -50,19 +50,6 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 	}
 
 	@Override
-	public Integer sumByVehicleIdAndDateRangeAndNormal(Long vehicleId, LocalDate startDate, LocalDate endDate) {
-		return queryFactory
-			.select(drivingHistoryEntity.drivingDistance.sum())
-			.from(drivingHistoryEntity)
-			.where(
-				drivingHistoryEntity.vehicleId.eq(vehicleId),
-				drivingHistoryEntity.createdAt.between(startDate.atStartOfDay(), endDate.atStartOfDay()),
-				drivingHistoryEntity.usePurpose.eq(UsePurpose.NORMAL)
-			)
-			.fetchOne();
-	}
-
-	@Override
 	public Page<DrivingLog> findByVehicleNumber(String vehicleNumber, Pageable pageable) {
 		List<DrivingLog> content = queryFactory
 			.select(new QDrivingLog(
