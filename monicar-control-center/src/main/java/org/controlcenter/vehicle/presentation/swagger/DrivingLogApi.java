@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
+import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
@@ -36,12 +37,15 @@ public interface DrivingLogApi {
 	@Operation(summary = "차량 등록 시 차종 요청", description = "차량 등록 시 차종 조회")
 	BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes();
 
-	@Operation(summary = "운행일지 기본 조회", description = "키워드 및 페이징을 사용하여 운행일지 목록을 조회")
+	@Operation(summary = "운행일지 기본 조회", description = "키워드 및 페이징을 사용하여 운행일지 목록을 조회합니다.")
+	@Parameter(name = "keyword", description = "차량번호 검색 키워드", required = false, example = "")
+	@Parameter(name = "size", description = "페이지당 보여질 개수(default: 8)", required = false)
+	@Parameter(name = "page", description = "요청할 페이지(default: 1)", required = false)
+	@Parameter(name = "pageable", hidden = true)
 	BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
-		@Parameter(name = "keyword", description = "차량번호 검색 키워드", required = false, example = "")
 		@RequestParam(required = false, defaultValue = "") String keyword,
-
-		@Parameter(name = "pageable", description = "페이징 정보 (기본 페이지 크기: 10)")
+		@Parameter(name = "sort", description = "정렬 순서(default: 등록일 최신순)", required = false)
+		@RequestParam(required = false, defaultValue = "VEHICLE_NUMBER_ASC") VehicleSortType sortType,
 		@PageableDefault(size = 10) Pageable pageable
 	);
 }

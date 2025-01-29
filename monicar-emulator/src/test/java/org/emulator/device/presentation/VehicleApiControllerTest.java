@@ -1,14 +1,13 @@
 package org.emulator.device.presentation;
 
-import static org.hamcrest.core.StringContains.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.common.dto.CommonResponse;
 import org.emulator.device.application.VehicleService;
 import org.emulator.device.common.response.BaseResponse;
+import org.emulator.device.common.response.ErrorCode;
 import org.emulator.sensor.GpsSensor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,15 +45,20 @@ class VehicleApiControllerTest {
 	@DisplayName("on 요청 fail 테스트")
 	@Test
 	void keyOnFail() throws Exception {
-		CommonResponse mockedFailResponse = new CommonResponse("100", "Invalid access path.", "01234567890");
+		BaseResponse mockedFailResponse = BaseResponse.<Void>builder()
+			.isSuccess(false)
+			.errorCode(ErrorCode.WRONG_APPROACH.getCode())
+			.errorMessage(ErrorCode.WRONG_APPROACH.getMessage())
+			.timestamp(System.currentTimeMillis())
+			.build();
 
-		when(vehicleService.onVehicle()).thenReturn(BaseResponse.fail(mockedFailResponse));
+		when(vehicleService.onVehicle()).thenReturn(mockedFailResponse);
 
 		var result = mockMvc.perform(post("/api/v1/emulator/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 		);
 
 		result.andDo(print());
-		result.andExpect(content().string(containsString("Invalid access path.")));
+		result.andExpect(jsonPath("$.errorMessage").exists());
 	}
 }

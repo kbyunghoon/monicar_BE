@@ -22,13 +22,13 @@ public class CycleInfoController {
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
 
 	@PostMapping("cycle-info")
-	public BaseResponse<CommonResponse> cycleInfo(
+	public BaseResponse cycleInfo(
 		@Valid @RequestBody CycleInfoListRequest request
 	) {
 		log.info("cycle information request in !");
 		CycleInfoList cycleInfoList = request.toDomain();
 		cycleInfoEventPublisher.publishEvent(cycleInfoList);
 
-		return BaseResponse.emulatorSuccess(request.mdn());
+		return BaseResponse.success();
 	}
 }

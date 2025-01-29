@@ -1,7 +1,7 @@
 package org.emulator.device.application.port;
 
 /**
- * 차량 정보 저장 역할
+ * 차량 정보를 내부적으로 저장하고 변경하는 역할을 선언한다.
  */
 public interface EmulatorRepository {
 	int startLogDistance();

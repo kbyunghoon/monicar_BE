@@ -1,7 +1,5 @@
 package org.eventhub.presentation;
 
-import java.math.BigDecimal;
-
 import org.eventhub.domain.GpsStatus;
 import org.eventhub.domain.VehicleEventCreate;
 import org.eventhub.domain.VehicleEventType;
@@ -26,9 +24,9 @@ public record KeyOnRequest(
 		@NotNull(message = "GPS 상태는 null 또는 비어 있을 수 없습니다.")
 		GpsStatus gcd,
 		@NotNull(message = "GPS 위도는 비어 있을 수 없습니다.")
-		BigDecimal lat,
+		Long lat,
 		@NotNull(message = "GPS 경도는 비어 있을 수 없습니다.")
-		BigDecimal lon,
+		Long lng,
 		@NotNull(message = "방향은 비어 있을 수 없습니다.")
 		Integer ang,
 		@NotNull(message = "속도는 비어 있을 수 없습니다.")
