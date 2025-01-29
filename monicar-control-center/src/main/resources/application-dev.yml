@@ -28,14 +28,20 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+    redis:
+      host: localhost
+      port: 6379
 
   datasource:
     url: jdbc:mysql://localhost:3306/monicar_db
     username: local_user
     password: local_password
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration:
+    access: ${ACCESS_EXPIRATION}
+    refresh: ${REFRESH_EXPIRATION}
+
 cors:
-  allowed-origins:
-    - "http://localhost:3000"
-    - "https://monicar-git-develop-mark-kwons-projects.vercel.app,https://monicar.vercel.app"
-    - "https://monicar.vercel.app"
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:}

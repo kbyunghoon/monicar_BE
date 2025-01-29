@@ -190,7 +190,7 @@ public class JpaTest {
 			.password("test password")
 			.nickname("test nickname")
 			.role(Role.ROLE_ADMIN)
-			.lastLoginedAt(LocalDateTime.now())
+			.lastLoginAt(LocalDateTime.now())
 			.deletedAt(null)
 			.build();
 		managerJpaRepository.save(ManagerEntity.from(manager));

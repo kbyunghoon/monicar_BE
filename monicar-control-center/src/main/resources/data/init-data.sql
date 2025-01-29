@@ -87,7 +87,7 @@ INSERT INTO manager
  password,
  nickname,
  role,
- last_logined_at,
+ last_login_at,
  created_at,
  updated_at,
  deleted_at)

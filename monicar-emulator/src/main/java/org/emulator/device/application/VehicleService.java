@@ -6,7 +6,7 @@ import org.emulator.device.application.port.VehicleEventSender;
 import org.emulator.device.common.response.BaseResponse;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
-import org.emulator.device.infrastructure.GpsTime;
+import org.emulator.sensor.dto.GpsTime;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class VehicleService {
 	private final VehicleEventSender vehicleEventSender;
 
 	public BaseResponse onVehicle() {
-		GpsTime onLocation = locationReceiver.getLocation();
+		GpsTime onLocation = locationReceiver.fetchLocationRecent();
 
 		OnInfo onInfo = OnInfo.create(
 			onLocation.intervalAt(),

@@ -12,6 +12,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,6 +24,7 @@ import jakarta.validation.Valid;
 public interface VehicleApi {
 
 	@Operation(summary = "차량 정보 조회", description = "차량 고유 ID를 사용하여 차량 기본 정보를 조회")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	BaseResponse<VehicleInfoResponse> getVehicleInfo(
 		@Valid VehicleInfoSearchRequest request
 	);
