@@ -54,6 +54,8 @@ public record OnCommand(
 			.onTime(onInfo.getOnTime())
 			.offTime(onInfo.getOffTime())
 			.gcd(onInfo.getGpsStatus())
+			.lat(onInfo.getGeo().getLatitude())
+			.lng(onInfo.getGeo().getLongitude())
 			.ang(onInfo.getDirection().getValue())
 			.spd(onInfo.getSpeed().getValue())
 			.sum(onInfo.getTotalDistance().getValue())

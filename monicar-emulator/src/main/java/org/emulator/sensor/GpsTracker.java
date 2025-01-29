@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.common.dto.CommonResponse;
 import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.device.application.port.VehicleEventSender;
+import org.emulator.device.common.response.BaseResponse;
 import org.emulator.device.domain.CycleInfo;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.sensor.util.CycleTimeProvider;
@@ -41,10 +41,10 @@ public class GpsTracker implements SensorTracker {
 		int time = timeProvider.getCycleTime();
 
 		if (isReadyToSendCycleInfo(time)) {
-			List<CycleInfo> cycleInfoList = pollFromDeque(time);
-			CommonResponse response = vehicleEventSender.sendCycleInfoEvent(cycleInfoList);
+			List<CycleInfo> cycleInfoList = pollFromDeque(time); // poll all로 바꾸기(네트워크 지연되면 더 쌓여있을 수 있음)
+			BaseResponse response = vehicleEventSender.sendCycleInfoEvent(cycleInfoList);
 
-			log.info("POST request complete with response code: {}", response.rstCd());
+			log.info("POST request complete with response : {}", response.isSuccess());
 			// TODO: 장애 처리 - deque 앞으로 다시 밀어 넣기, 재시도 등
 		}
 

@@ -5,11 +5,9 @@ import static org.mockserver.model.HttpRequest.*;
 import static org.mockserver.model.HttpResponse.*;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
-import java.util.Optional;
-
-import org.common.dto.CommonResponse;
+import org.emulator.device.common.response.BaseResponse;
+import org.emulator.device.common.response.SuccessCode;
 import org.emulator.device.domain.GpsStatus;
 import org.emulator.device.domain.OnInfo;
 import org.emulator.device.infrastructure.external.command.OnCommand;
@@ -48,15 +46,10 @@ class RestClientServiceTest {
 	void postKeyOn() throws Exception {
 		//given
 		OnCommand command = OnCommand.from(OnInfo.create(LocalDateTime.now(), GpsStatus.A, 20.111111, 30.111111, 5000));
-		CommonResponse expected = new CommonResponse("000", "Success", "01234567890");
-
-		String mockResponseBody = mapper.writeValueAsString(
-			Map.of(
-				"isSuccess", true,
-				"message", "요청 성공",
-				"result", expected
-			)
-		);
+		BaseResponse expected = BaseResponse.<Void>builder()
+			.isSuccess(true)
+			.message(SuccessCode.OK.getMessage())
+			.build();
 
 		mockServer.when(
 			request()
@@ -66,16 +59,16 @@ class RestClientServiceTest {
 			.respond(
 				response()
 					.withStatusCode(200)
-					.withBody(mockResponseBody)
+					.withBody(mapper.writeValueAsString(expected))
 			);
 
 		//when
-		Optional<CommonResponse> result = restClientService.post(
+		BaseResponse result = restClientService.post(
 			"key-on",
 			command
 		);
 
 		//then
-		assertEquals(expected, result.get());
+		assertEquals(expected, result);
 	}
 }

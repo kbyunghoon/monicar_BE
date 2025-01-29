@@ -1,8 +1,5 @@
 package org.emulator.device.application;
 
-import lombok.extern.slf4j.Slf4j;
-
-import org.common.dto.CommonResponse;
 import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
 import org.emulator.device.application.port.VehicleEventSender;
@@ -13,6 +10,7 @@ import org.emulator.sensor.dto.GpsTime;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
@@ -22,7 +20,7 @@ public class VehicleService {
 	private final LocationReceiver locationReceiver;
 	private final VehicleEventSender vehicleEventSender;
 
-	public BaseResponse<Void> onVehicle() {
+	public BaseResponse onVehicle() {
 		GpsTime onLocation = locationReceiver.fetchLocationRecent();
 
 		OnInfo onInfo = OnInfo.create(
@@ -32,10 +30,9 @@ public class VehicleService {
 			onLocation.location().lng(),
 			emulatorRepository.getCurrentDistance()
 		);
+		log.info("key-on request in emulator ! ");
 
-		CommonResponse response = vehicleEventSender.sendOnEvent(onInfo);
-
-		log.debug("response code: {}", response.rstCd());
+		vehicleEventSender.sendOnEvent(onInfo);
 
 		emulatorRepository.turnOn();
 		emulatorRepository.startLogDistance();
