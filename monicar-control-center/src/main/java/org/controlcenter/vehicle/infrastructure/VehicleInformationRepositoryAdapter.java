@@ -24,6 +24,11 @@ public class VehicleInformationRepositoryAdapter implements VehicleRepository {
 	private final MyBatisVehicleInfoMapper myBatisVehicleInfoMapper;
 
 	@Override
+	public VehicleInformation save(VehicleInformation vehicle) {
+		return vehicleInformationJpaRepository.save(VehicleInformationEntity.from(vehicle)).toDomain();
+	}
+
+	@Override
 	public Optional<VehicleInformation> findById(Long vehicleId) {
 		return vehicleInformationJpaRepository.findById(vehicleId)
 			.map(VehicleInformationEntity::toDomain);

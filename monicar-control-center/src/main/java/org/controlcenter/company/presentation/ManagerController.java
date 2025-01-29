@@ -3,10 +3,8 @@ package org.controlcenter.company.presentation;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.util.JWTUtil;
 import org.controlcenter.common.util.RedisUtil;
-import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
 import org.controlcenter.company.presentation.dto.LoginRequest;
 import org.controlcenter.company.presentation.swagger.ManagerApi;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ManagerController implements ManagerApi {
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	private final ManagerJpaRepository managerJpaRepository;
 	private final RedisUtil redisUtil;
 	private final JWTUtil jwtUtil;
 

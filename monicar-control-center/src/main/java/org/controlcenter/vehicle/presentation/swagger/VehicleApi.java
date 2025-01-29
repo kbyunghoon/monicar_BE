@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
@@ -11,9 +12,11 @@ import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,9 +25,12 @@ import jakarta.validation.Valid;
 
 @Tag(name = "차량 정보 API", description = "차량 정보 관련 API")
 public interface VehicleApi {
+	@Operation(summary = "차량 정보 등록", description = "차량번호, 차량종류, 주행거리, 차량출고일로 차량 정보 등록")
+	BaseResponse<VehicleInformation> register(
+		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
+	);
 
 	@Operation(summary = "차량 정보 조회", description = "차량 고유 ID를 사용하여 차량 기본 정보를 조회")
-	@PreAuthorize("hasRole('ROLE_USER')")
 	BaseResponse<VehicleInfoResponse> getVehicleInfo(
 		@Valid VehicleInfoSearchRequest request
 	);

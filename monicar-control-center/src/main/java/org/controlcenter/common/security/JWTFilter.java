@@ -3,9 +3,12 @@ package org.controlcenter.common.security;
 import java.io.IOException;
 import java.util.List;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.exception.TokenValidationException;
+import org.controlcenter.common.util.CookieUtil;
 import org.controlcenter.common.util.JWTTokenValidator;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
+	private final CookieUtil cookieUtil;
 	private final JWTTokenValidator jwtTokenValidator;
 	private final CustomAuthenticationErrorHandler errorHandler;
 	private final CustomUserDetailService customUserDetailService;
@@ -54,6 +58,13 @@ public class JWTFilter extends OncePerRequestFilter {
 		} catch (TokenValidationException e) {
 			errorHandler.writeErrorResponse(response, e.getErrorCode());
 			return;
+		} catch (BusinessException e) {
+			response.addHeader("Set-Cookie", cookieUtil.createAccessTokenCookie("", 0L).toString());
+			response.addHeader("Set-Cookie",
+				cookieUtil.createRefreshTokenCookie("", 0L).toString());
+			errorHandler.writeErrorResponse(response, e.getErrorCode());
+			return;
+
 		}
 
 		filterChain.doFilter(request, response);
@@ -96,8 +107,7 @@ public class JWTFilter extends OncePerRequestFilter {
 				userDetails.getAuthorities()
 			);
 
-		org.springframework.security.core.context
-			.SecurityContextHolder.getContext()
+		SecurityContextHolder.getContext()
 			.setAuthentication(authenticationToken);
 	}
 }

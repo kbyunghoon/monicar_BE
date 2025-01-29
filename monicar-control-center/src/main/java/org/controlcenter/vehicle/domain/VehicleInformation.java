@@ -25,4 +25,21 @@ public class VehicleInformation {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private LocalDateTime deletedAt;
+
+	public static VehicleInformation create(VehicleRegister vehicleRegister) {
+		return VehicleInformation.builder()
+			.companyId(1L)
+			.vehicleTypeId(vehicleRegister.getVehicleTypeId())
+			.vehicleNumber(vehicleRegister.getVehicleNumber())
+			.mdn(1234567890L)
+			.tid("TID001")
+			.mid(1)
+			.pv(1)
+			.did(1)
+			.drivingDays(0)
+			.sum(vehicleRegister.getDrivingDistance())
+			.status(VehicleStatus.NOT_DRIVEN)
+			.deliveryDate(vehicleRegister.getDeliveryDate())
+			.build();
+	}
 }

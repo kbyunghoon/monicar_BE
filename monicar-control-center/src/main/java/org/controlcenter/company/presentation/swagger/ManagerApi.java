@@ -29,6 +29,6 @@ public interface ManagerApi {
 		description = "로그아웃 기능")
 	@PostMapping("/logout")
 	BaseResponse<Void> logout(
-		@CookieValue("access-token") String accessToken,
-		@CookieValue("refresh-token") String refreshToken);
+		@CookieValue("access_token") String accessToken,
+		@CookieValue("refresh_token") String refreshToken);
 }

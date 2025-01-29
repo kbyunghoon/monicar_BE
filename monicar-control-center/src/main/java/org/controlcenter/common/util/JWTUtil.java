@@ -2,7 +2,6 @@ package org.controlcenter.common.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +49,19 @@ public class JWTUtil {
 			.setSubject(subject)
 			.signWith(secretKey)
 			.compact();
+	}
+
+	public boolean isValidToken(String token) {
+		try {
+			// 만료 여부 상관없이 토큰의 유효성을 검증
+			Jwts.parserBuilder()
+				.setSigningKey(secretKey)
+				.build()
+				.parseClaimsJws(token);
+			return true;
+		} catch (JwtException e) {
+			return false;
+		}
 	}
 
 	public boolean isExpiredStrict(String token) throws JwtException {

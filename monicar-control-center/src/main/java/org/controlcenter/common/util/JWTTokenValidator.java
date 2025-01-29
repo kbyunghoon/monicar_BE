@@ -13,7 +13,7 @@ public class JWTTokenValidator {
 
 	private final RedisUtil redisUtil;
 	private final JWTUtil jwtUtil;
-	
+
 	private static final ErrorCode EXPIRED_ACCESS_TOKEN_ERROR = ErrorCode.EXPIRED_ACCESS_TOKEN;
 	private static final ErrorCode INVALID_ACCESS_TOKEN_ERROR = ErrorCode.INVALID_ACCESS_TOKEN;
 	private static final ErrorCode EXPIRED_REFRESH_TOKEN_ERROR = ErrorCode.EXPIRED_REFRESH_TOKEN;
@@ -29,19 +29,10 @@ public class JWTTokenValidator {
 			throw new TokenValidationException(FORBIDDEN_ERROR);
 		}
 
-		boolean isAccessTokenExpired;
-		try {
-			isAccessTokenExpired = jwtUtil.isExpiredStrict(accessToken);
-		} catch (JwtException e) {
-			throw new TokenValidationException(INVALID_ACCESS_TOKEN_ERROR);
-		}
+		validateTokenNullChecks(accessToken, refreshToken);
 
-		boolean isRefreshTokenExpired;
-		try {
-			isRefreshTokenExpired = jwtUtil.isExpiredStrict(refreshToken);
-		} catch (JwtException e) {
-			throw new TokenValidationException(INVALID_REFRESH_TOKEN_ERROR);
-		}
+		boolean isAccessTokenExpired = validateToken(accessToken, INVALID_ACCESS_TOKEN_ERROR);
+		boolean isRefreshTokenExpired = validateToken(refreshToken, INVALID_REFRESH_TOKEN_ERROR);
 
 		if (isAccessTokenExpired && isRefreshTokenExpired) {
 			throw new TokenValidationException(EXPIRED_TOKENS_ERROR);
@@ -51,6 +42,24 @@ public class JWTTokenValidator {
 		}
 		if (isAccessTokenExpired) {
 			throw new TokenValidationException(EXPIRED_ACCESS_TOKEN_ERROR);
+		}
+	}
+
+	private void validateTokenNullChecks(String accessToken, String refreshToken) {
+		if (accessToken == null && refreshToken != null) {
+			throw new TokenValidationException(EXPIRED_ACCESS_TOKEN_ERROR);
+		}
+		if (accessToken != null && refreshToken == null) {
+			throw new TokenValidationException(EXPIRED_REFRESH_TOKEN_ERROR);
+		}
+	}
+
+	private boolean validateToken(String token, ErrorCode errorCode) {
+		try {
+			jwtUtil.validateAndGetId(token);
+			return jwtUtil.isExpiredStrict(token);
+		} catch (IllegalArgumentException | JwtException e) {
+			throw new TokenValidationException(errorCode);
 		}
 	}
 

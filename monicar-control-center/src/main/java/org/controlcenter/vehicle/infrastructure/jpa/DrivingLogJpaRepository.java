@@ -21,11 +21,14 @@ import org.controlcenter.vehicle.domain.QDrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.QDrivingUserInfo;
 import org.controlcenter.vehicle.domain.QVehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
+import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -63,7 +66,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 	}
 
 	@Override
-	public Page<DrivingLog> findByVehicleNumber(String vehicleNumber, Pageable pageable) {
+	public Page<DrivingLog> findByVehicleNumber(String vehicleNumber, VehicleSortType sortType, Pageable pageable) {
 		List<DrivingLog> content = queryFactory
 			.select(new QDrivingLog(
 				vehicleInformationEntity.id,
@@ -81,6 +84,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 			)
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
+			.orderBy(createOrderSpecifier(sortType))
 			.fetch();
 
 		JPAQuery<Long> countQuery = queryFactory
@@ -153,5 +157,29 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 			drivingHistoryEntity.usePurpose,
 			drivingHistoryEntity.drivingDistance
 		);
+	}
+
+	private OrderSpecifier<?>[] createOrderSpecifier(VehicleSortType sortType) {
+		if (sortType == null) {
+			return new OrderSpecifier[0];
+		}
+
+		return switch (sortType) {
+			case CREATED_AT_DESC -> new OrderSpecifier[] {
+				new OrderSpecifier<>(Order.DESC, vehicleInformationEntity.createdAt)
+			};
+			case CREATED_AT_ASC -> new OrderSpecifier[] {
+				new OrderSpecifier<>(Order.ASC, vehicleInformationEntity.createdAt)
+			};
+			case VEHICLE_NUMBER_DESC -> new OrderSpecifier[] {
+				new OrderSpecifier<>(Order.DESC, vehicleInformationEntity.vehicleNumber)
+			};
+			case VEHICLE_NUMBER_ASC -> new OrderSpecifier[] {
+				new OrderSpecifier<>(Order.ASC, vehicleInformationEntity.vehicleNumber)
+			};
+			default ->
+				// 매칭되는 케이스가 없으면 정렬 미적용
+				new OrderSpecifier[0];
+		};
 	}
 }

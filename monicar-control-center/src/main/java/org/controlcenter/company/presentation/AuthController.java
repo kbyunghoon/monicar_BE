@@ -35,10 +35,10 @@ public class AuthController {
 	/**
 	 * Refresh Token으로 Access Token 갱신
 	 */
-	@PostMapping("/refresh")
+	@PostMapping("/reissue")
 	public ResponseEntity<?> refreshAccessToken(
-		@Parameter(hidden = true) @CookieValue(value = "access-token", required = false) String accessToken,
-		@Parameter(hidden = true) @CookieValue("refresh-token") String refreshToken,
+		@Parameter(hidden = true) @CookieValue(value = "access_token", required = false) String accessToken,
+		@Parameter(hidden = true) @CookieValue("refresh_token") String refreshToken,
 		HttpServletResponse response
 	) {
 		try {
@@ -57,10 +57,10 @@ public class AuthController {
 	/**
 	 * Access Token으로 Refresh Token 갱신
 	 */
-	@PostMapping("/reissue")
+	@PostMapping("/refresh")
 	public ResponseEntity<?> reissueRefreshToken(
-		@Parameter(hidden = true) @CookieValue("access-token") String accessToken,
-		@Parameter(hidden = true) @CookieValue(value = "refresh-token", required = false) String oldRefreshToken,
+		@Parameter(hidden = true) @CookieValue("access_token") String accessToken,
+		@Parameter(hidden = true) @CookieValue(value = "refresh_token", required = false) String oldRefreshToken,
 		HttpServletResponse response
 	) {
 		try {

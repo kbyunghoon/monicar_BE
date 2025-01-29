@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
-import org.controlcenter.vehicle.application.VehicleEventService;
 import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.domain.VehicleInformation;
+import org.controlcenter.vehicle.domain.VehicleRegister;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
@@ -20,10 +20,14 @@ import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,16 +40,27 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/vehicles")
 public class VehicleController implements VehicleApi {
 	private final VehicleQueryRepository vehicleQueryRepository;
-	private final VehicleEventService vehicleEventService;
 	private final VehicleClusteringService vehicleClusteringService;
 	private final VehicleService vehicleService;
 
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<VehicleInfoResponse> getVehicleInfo(
 		@Valid VehicleInfoSearchRequest request
 	) {
 		var vehicleInfoResponse = vehicleQueryRepository.getVehicleInfo(request);
 		return BaseResponse.success(vehicleInfoResponse);
+	}
+
+	@PostMapping("/register")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public BaseResponse<VehicleInformation> register(
+		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
+	) {
+		VehicleRegister vehicleRegister = vehicleRegisterRequest.toDomain();
+		VehicleInformation vehicleInformation = vehicleService.register(vehicleRegister);
+
+		return BaseResponse.success(vehicleInformation);
 	}
 
 	/**
@@ -73,6 +88,7 @@ public class VehicleController implements VehicleApi {
 	 * 차량 번호를 기반으로 최신 정보를 조회하는 API
 	 */
 	@GetMapping("/search")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<VehicleLocationResponse> getVehicleInfo(
 		@RequestParam("vehicle-number") String vehicleNumber
 	) {

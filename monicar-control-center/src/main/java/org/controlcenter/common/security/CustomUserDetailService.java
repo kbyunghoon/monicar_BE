@@ -19,7 +19,7 @@ public class CustomUserDetailService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String loginId) throws BusinessException {
 		ManagerEntity mangerEntity = managerJpaRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new BusinessException(ErrorCode.LOGIN_FAILED));
+			.orElseThrow(() -> new BusinessException(ErrorCode.FORBIDDEN_ACCESS));
 
 		return new CustomUserDetails(mangerEntity.toDomain());
 	}
