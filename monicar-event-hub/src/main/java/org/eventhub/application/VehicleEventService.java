@@ -1,8 +1,8 @@
 package org.eventhub.application;
 
+import java.util.Optional;
+
 import org.eventhub.application.port.VehicleEventRepository;
-import org.eventhub.common.exception.BusinessException;
-import org.eventhub.common.response.ErrorCode;
 import org.eventhub.domain.VehicleEvent;
 import org.eventhub.domain.VehicleEventCreate;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,7 @@ public class VehicleEventService {
 	}
 
 	@Transactional(readOnly = true)
-	public VehicleEvent getRecentVehicleEvent(long vehicleId) {
-		return vehicleEventRepository
-			.findLatestByVehicleId(vehicleId)
-			.orElseThrow(() -> new BusinessException(ErrorCode.RECENT_VEHICLE_EVENT_NOT_FOUND));
+	public Optional<VehicleEvent> getRecentVehicleEvent(long vehicleId) {
+		return vehicleEventRepository.findLatestByVehicleId(vehicleId);
 	}
 }

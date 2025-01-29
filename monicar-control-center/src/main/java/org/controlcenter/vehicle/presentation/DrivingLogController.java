@@ -6,9 +6,9 @@ import java.util.List;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.application.DrivingLogService;
+import org.controlcenter.vehicle.application.port.VehicleTypeRepository;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.VehicleSortType;
-import org.controlcenter.vehicle.infrastructure.jpa.VehicleTypeRepositoryAdapter;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/driving-log")
 public class DrivingLogController implements DrivingLogApi {
 	private final DrivingLogService drivingLogService;
-	private final VehicleTypeRepositoryAdapter vehicleTypeRepositoryAdapter;
+	private final VehicleTypeRepository vehicleTypeRepository;
 
 	@GetMapping("/{vehicle-id}")
 	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
@@ -45,7 +45,7 @@ public class DrivingLogController implements DrivingLogApi {
 	@GetMapping("/vehicle-type")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes() {
-		List<VehicleTypeResponse> vehicleTypes = vehicleTypeRepositoryAdapter.findAll()
+		List<VehicleTypeResponse> vehicleTypes = vehicleTypeRepository.findAll()
 			.stream()
 			.map(VehicleTypeResponse::from)
 			.toList();

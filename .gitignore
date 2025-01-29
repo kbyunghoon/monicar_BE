@@ -47,3 +47,7 @@ env.properties
 ### 도커 volumes 파일
 /docker/volumes
 /docker/.data
+
+### 로그 파일
+logs/
+*.log

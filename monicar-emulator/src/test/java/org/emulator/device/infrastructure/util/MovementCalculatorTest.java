@@ -1,9 +1,13 @@
 package org.emulator.device.infrastructure.util;
 
 import org.emulator.device.domain.CycleInfo;
-import org.emulator.device.infrastructure.GpsTime;
+import org.emulator.sensor.dto.GpsTime;
 import org.emulator.device.infrastructure.external.command.vo.Geo;
-import org.emulator.pipe.Gps;
+import org.emulator.sensor.dto.Gps;
+import org.emulator.sensor.util.DirectionCalculator;
+import org.emulator.sensor.util.DistanceCalculator;
+import org.emulator.sensor.util.MovementCalculator;
+import org.emulator.sensor.util.SpeedCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

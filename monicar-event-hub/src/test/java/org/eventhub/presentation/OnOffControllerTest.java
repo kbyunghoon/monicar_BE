@@ -6,9 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.eventhub.application.VehicleEventService;
 import org.eventhub.application.VehicleService;
@@ -23,6 +21,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @DisplayName("VehicleController 테스트")
 @WebMvcTest(OnOffController.class)
@@ -49,13 +49,14 @@ class OnOffControllerTest {
 			);
 
 		when(vehicleEventService.getRecentVehicleEvent(vehicleInformationId))
-			.thenReturn(VehicleEvent.builder()
+			.thenReturn(Optional.ofNullable(VehicleEvent.builder()
 				.id(vehicleEventId)
 				.type(VehicleEventType.OFF)
-				.build()
+				.build())
 			);
 
-		String json = new ObjectMapper().writeValueAsString(new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, BigDecimal.valueOf(20203030), BigDecimal.valueOf(20203030), 2, 2, 999));
+		String json = new ObjectMapper().writeValueAsString(
+			new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, 20203030L, 20203030L, 2, 2, 999));
 		var result = mockMvc.perform(post("/api/v1/event-hub/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
@@ -82,13 +83,14 @@ class OnOffControllerTest {
 			);
 
 		when(vehicleEventService.getRecentVehicleEvent(vehicleInformationId))
-			.thenReturn(VehicleEvent.builder()
+			.thenReturn(Optional.ofNullable(VehicleEvent.builder()
 				.id(vehicleEventId)
 				.type(VehicleEventType.ON)
-				.build()
+				.build())
 			);
 
-		String json = new ObjectMapper().writeValueAsString(new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, BigDecimal.valueOf(20203030), BigDecimal.valueOf(20203030), 2, 2, 999));
+		String json = new ObjectMapper().writeValueAsString(
+			new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, 20203030L, 20203030L, 2, 2, 999));
 		var result = mockMvc.perform(post("/api/v1/event-hub/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)

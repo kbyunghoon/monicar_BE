@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
+import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.BusinessInfo;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
@@ -14,7 +15,6 @@ import org.controlcenter.vehicle.domain.DrivingLogSummary;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleSortType;
-import org.controlcenter.vehicle.infrastructure.VehicleInformationRepositoryAdapter;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class DrivingLogService {
 	private final DrivingLogRepository drivingLogRepository;
-	private final VehicleInformationRepositoryAdapter vehicleInformationRepository;
+	private final VehicleRepository vehicleRepository;
 
 	@Transactional(readOnly = true)
 	public Page<DrivingLog> getDrivingLogList(String vehicleNumber, VehicleSortType vehicleSortType,
@@ -86,7 +86,7 @@ public class DrivingLogService {
 	}
 
 	private void validateVehicleId(Long vehicleId) {
-		vehicleInformationRepository.findById(vehicleId)
+		vehicleRepository.findById(vehicleId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 	}
 }
