@@ -1,6 +1,5 @@
 package org.emulator;
 
-import org.emulator.device.infrastructure.GpsTracker;
 import org.emulator.sensor.GpsSensor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

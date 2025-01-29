@@ -1,7 +1,7 @@
-package org.emulator.device.infrastructure.util;
+package org.emulator.sensor.util;
 
 import org.emulator.device.domain.CycleInfo;
-import org.emulator.device.infrastructure.GpsTime;
+import org.emulator.sensor.dto.GpsTime;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
