@@ -1,11 +1,11 @@
 package org.controlcenter.company.presentation;
 
 import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.common.util.JWTUtil;
+import org.controlcenter.common.util.RedisUtil;
 import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
 import org.controlcenter.company.presentation.dto.LoginRequest;
 import org.controlcenter.company.presentation.swagger.ManagerApi;
-import org.controlcenter.util.JWTUtil;
-import org.controlcenter.util.RedisUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
