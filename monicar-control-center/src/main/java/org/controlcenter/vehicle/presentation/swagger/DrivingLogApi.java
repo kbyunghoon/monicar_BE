@@ -1,12 +1,14 @@
 package org.controlcenter.vehicle.presentation.swagger;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,9 @@ public interface DrivingLogApi {
 		@Parameter(name = "end", description = "조회 종료 날짜(기본 값 현재) YYYY-MM-DD", required = false)
 		@RequestParam(required = false) LocalDate end
 	);
+
+	@Operation(summary = "차량 등록 시 차종 요청", description = "차량 등록 시 차종 조회")
+	BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes();
 
 	@Operation(summary = "운행일지 기본 조회", description = "키워드 및 페이징을 사용하여 운행일지 목록을 조회합니다.")
 	@Parameter(name = "keyword", description = "차량번호 검색 키워드", required = false, example = "")
