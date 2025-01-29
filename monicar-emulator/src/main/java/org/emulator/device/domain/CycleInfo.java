@@ -3,7 +3,7 @@ package org.emulator.device.domain;
 import java.time.LocalDateTime;
 
 import org.emulator.device.VehicleConstant;
-import org.emulator.device.infrastructure.GpsTime;
+import org.emulator.sensor.dto.GpsTime;
 import org.emulator.device.infrastructure.external.command.vo.Direction;
 import org.emulator.device.infrastructure.external.command.vo.Geo;
 import org.emulator.device.infrastructure.external.command.vo.Speed;

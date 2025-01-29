@@ -1,6 +1,5 @@
 package org.emulator.sensor;
 
-import org.emulator.device.infrastructure.SensorTracker;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 

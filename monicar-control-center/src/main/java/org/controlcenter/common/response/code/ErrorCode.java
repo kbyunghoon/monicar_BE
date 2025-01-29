@@ -19,7 +19,14 @@ public enum ErrorCode {
 	FORBIDDEN_ACCESS(1007, "비정상적 접근입니다."),
 	EMPTY_PATH_VARIABLE(1008, "필수 경로 변수가 누락되었습니다. 요청 경로에 올바른 값을 입력해 주세요."),
 	ENTITY_ALREADY_EXIST(1009, "이미 존재하는 엔티티 입니다."),
-
+	AUTHORIZATION_DENIED(9000, "권한이 없습니다."),
+	EXPIRED_TOKENS(9993, "토큰 만료로 인해 로그아웃 되었습니다. 다시 로그인해 주세요."),
+	EXPIRED_REFRESH_TOKEN(9994, "만료된 리프레시 토큰입니다."),
+	EXPIRED_ACCESS_TOKEN(9995, "만료된 액세스 토큰입니다."),
+	INVALID_REFRESH_TOKEN(9996, "유효하지 않은 리프레시 토큰입니다."),
+	INVALID_ACCESS_TOKEN(9997, "유효하지 않은 액세스 토큰입니다."),
+	REFRESH_TOKEN_STILL_VALID(9998, "유효한 리프레시 토큰입니다."),
+	LOGIN_FAILED(9999, "등록되지 않은 아이디이거나, 아이디 혹은 비밀번호를 잘못 입력하였습니다."),
 
 	VEHICLE_NOT_FOUND(2001, "해량 차량을 찾을 수 없습니다.");
 

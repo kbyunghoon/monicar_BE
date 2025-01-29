@@ -1,6 +1,4 @@
-package org.emulator.device.infrastructure;
-
-import org.emulator.pipe.Gps;
+package org.emulator.sensor.dto;
 
 import java.time.LocalDateTime;
 
