@@ -62,26 +62,26 @@ jobs:
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      #          cd ./monicar-collector
-      #          sudo docker build --platform linux/amd64 -t monicar-collector .
-      #          IMAGE_TAG=suxxxxhyun/monicar-collector:latest
-      #          echo "Image Tag: $IMAGE_TAG"
-      #          sudo docker tag monicar-collector $IMAGE_TAG
-      #          sudo docker push $IMAGE_TAG
-      #
+          cd ./monicar-collector
+          sudo docker build --platform linux/amd64 -t monicar-collector .
+          IMAGE_TAG=suxxxxhyun/monicar-collector:latest
+          echo "Image Tag: $IMAGE_TAG"
+          sudo docker tag monicar-collector $IMAGE_TAG
+          sudo docker push $IMAGE_TAG
+
           cd ./monicar-control-center
           sudo docker build --platform linux/amd64 -t monicar-control-center .
           IMAGE_TAG=suxxxxhyun/monicar-control-center:latest
           echo "Image Tag: $IMAGE_TAG"
           sudo docker tag monicar-control-center $IMAGE_TAG
           sudo docker push $IMAGE_TAG
-      #
-      #          cd ../monicar-event-hub
-      #          sudo docker build --platform linux/amd64 -t monicar-event-hub .
-      #          IMAGE_TAG=suxxxxhyun/monicar-event-hub:latest
-      #          echo "Image Tag: $IMAGE_TAG"
-      #          sudo docker tag monicar-event-hub $IMAGE_TAG
-      #          sudo docker push $IMAGE_TAG
+
+          cd ../monicar-event-hub
+          sudo docker build --platform linux/amd64 -t monicar-event-hub .
+          IMAGE_TAG=suxxxxhyun/monicar-event-hub:latest
+          echo "Image Tag: $IMAGE_TAG"
+          sudo docker tag monicar-event-hub $IMAGE_TAG
+          sudo docker push $IMAGE_TAG
       #
       #      - name: Connect to WAS & Execute Application (monicar-collector)
       #        uses: appleboy/ssh-action@v0.1.6
