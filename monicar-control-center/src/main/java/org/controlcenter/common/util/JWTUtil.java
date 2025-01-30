@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -51,13 +52,15 @@ public class JWTUtil {
 			.compact();
 	}
 
-	public boolean isValidToken(String token) {
+	public boolean isValidTokenIgnoreExpiration(String token) {
 		try {
-			// 만료 여부 상관없이 토큰의 유효성을 검증
 			Jwts.parserBuilder()
 				.setSigningKey(secretKey)
 				.build()
 				.parseClaimsJws(token);
+
+			return true;
+		} catch (ExpiredJwtException e) {
 			return true;
 		} catch (JwtException e) {
 			return false;
@@ -65,13 +68,16 @@ public class JWTUtil {
 	}
 
 	public boolean isExpiredStrict(String token) throws JwtException {
-		return Jwts.parserBuilder()
-			.setSigningKey(secretKey)
-			.build()
-			.parseClaimsJws(token)
-			.getBody()
-			.getExpiration()
-			.before(new Date());
+		try {
+			Jwts.parserBuilder()
+				.setSigningKey(secretKey)
+				.build()
+				.parseClaimsJws(token);
+
+			return false;
+		} catch (ExpiredJwtException e) {
+			return true;
+		}
 	}
 
 	private static Map<String, Object> createHeader() {

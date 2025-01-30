@@ -1,10 +1,10 @@
 package org.controlcenter.common.util;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.exception.TokenValidationException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -25,42 +25,34 @@ public class JWTTokenValidator {
 	 * AccessToken, RefreshToken 만료 / 유효성 / 블랙리스트 등을 종합 검증
 	 */
 	public void validateTokens(String accessToken, String refreshToken) {
-		if (redisUtil.isAccessTokenBlacklisted(accessToken)) {
-			throw new TokenValidationException(FORBIDDEN_ERROR);
+		if (refreshToken == null) {
+			throw new BusinessException(FORBIDDEN_ERROR);
 		}
 
-		validateTokenNullChecks(accessToken, refreshToken);
-
-		boolean isAccessTokenExpired = validateToken(accessToken, INVALID_ACCESS_TOKEN_ERROR);
-		boolean isRefreshTokenExpired = validateToken(refreshToken, INVALID_REFRESH_TOKEN_ERROR);
-
-		if (isAccessTokenExpired && isRefreshTokenExpired) {
-			throw new TokenValidationException(EXPIRED_TOKENS_ERROR);
+		if (!jwtUtil.isValidTokenIgnoreExpiration(refreshToken)) {
+			throw new BusinessException(FORBIDDEN_ERROR);
 		}
-		if (isRefreshTokenExpired) {
+
+		if (accessToken != null && !jwtUtil.isValidTokenIgnoreExpiration(accessToken)) {
+			throw new BusinessException(FORBIDDEN_ERROR);
+		}
+
+		boolean accessExpired = (accessToken == null) || jwtUtil.isExpiredStrict(accessToken);
+		boolean refreshExpired = jwtUtil.isExpiredStrict(refreshToken);
+
+		if (!accessExpired && !refreshExpired) {
+			return;
+		}
+
+		if (!accessExpired) {
 			throw new TokenValidationException(EXPIRED_REFRESH_TOKEN_ERROR);
 		}
-		if (isAccessTokenExpired) {
+
+		if (!refreshExpired) {
 			throw new TokenValidationException(EXPIRED_ACCESS_TOKEN_ERROR);
 		}
-	}
 
-	private void validateTokenNullChecks(String accessToken, String refreshToken) {
-		if (accessToken == null && refreshToken != null) {
-			throw new TokenValidationException(EXPIRED_ACCESS_TOKEN_ERROR);
-		}
-		if (accessToken != null && refreshToken == null) {
-			throw new TokenValidationException(EXPIRED_REFRESH_TOKEN_ERROR);
-		}
-	}
-
-	private boolean validateToken(String token, ErrorCode errorCode) {
-		try {
-			jwtUtil.validateAndGetId(token);
-			return jwtUtil.isExpiredStrict(token);
-		} catch (IllegalArgumentException | JwtException e) {
-			throw new TokenValidationException(errorCode);
-		}
+		throw new BusinessException(FORBIDDEN_ERROR);
 	}
 
 	/**
