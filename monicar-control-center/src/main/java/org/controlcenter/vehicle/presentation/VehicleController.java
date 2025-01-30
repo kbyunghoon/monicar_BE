@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.common.response.code.SuccessCode;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.domain.VehicleInformation;
@@ -24,6 +25,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +63,16 @@ public class VehicleController implements VehicleApi {
 		VehicleInformation vehicleInformation = vehicleService.register(vehicleRegister);
 
 		return BaseResponse.success(vehicleInformation);
+	}
+
+	@DeleteMapping("/{vehicle-id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public BaseResponse<Void> deleteVehicle(
+		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
+	) {
+		vehicleService.deleteVehicle(vehicleId);
+
+		return BaseResponse.success(SuccessCode.DELETED);
 	}
 
 	/**

@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleStatus;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "vehicle_information")
+@SQLRestriction("deleted_at IS NULL")
 public class VehicleInformationEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

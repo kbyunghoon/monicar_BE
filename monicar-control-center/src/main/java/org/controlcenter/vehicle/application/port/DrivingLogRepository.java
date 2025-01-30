@@ -21,6 +21,4 @@ public interface DrivingLogRepository {
 		LocalDate endDate);
 
 	Integer sumByVehicleIdAndDateRange(Long vehicleId, LocalDate startDate, LocalDate endDate);
-
-	Integer sumByVehicleIdAndDateRangeAndNormal(Long vehicleId, LocalDate startDate, LocalDate endDate);
 }

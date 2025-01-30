@@ -10,7 +10,6 @@ import static org.controlcenter.vehicle.infrastructure.jpa.entity.QVehicleTypeEn
 import java.time.LocalDate;
 import java.util.List;
 
-import org.controlcenter.history.domain.UsePurpose;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
@@ -48,19 +47,6 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 			.where(
 				drivingHistoryEntity.vehicleId.eq(vehicleId),
 				drivingHistoryEntity.createdAt.between(startDate.atStartOfDay(), endDate.atStartOfDay())
-			)
-			.fetchOne();
-	}
-
-	@Override
-	public Integer sumByVehicleIdAndDateRangeAndNormal(Long vehicleId, LocalDate startDate, LocalDate endDate) {
-		return queryFactory
-			.select(drivingHistoryEntity.drivingDistance.sum())
-			.from(drivingHistoryEntity)
-			.where(
-				drivingHistoryEntity.vehicleId.eq(vehicleId),
-				drivingHistoryEntity.createdAt.between(startDate.atStartOfDay(), endDate.atStartOfDay()),
-				drivingHistoryEntity.usePurpose.eq(UsePurpose.NORMAL)
 			)
 			.fetchOne();
 	}

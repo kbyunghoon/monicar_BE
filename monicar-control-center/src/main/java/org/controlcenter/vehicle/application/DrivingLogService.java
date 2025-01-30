@@ -41,7 +41,7 @@ public class DrivingLogService {
 		LocalDate startDate,
 		LocalDate endDate) {
 		if (startDate == null) {
-			startDate = LocalDate.now();
+			startDate = LocalDate.now().minusYears(1);
 		}
 		if (endDate == null) {
 			endDate = LocalDate.now();
