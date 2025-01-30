@@ -1,7 +1,5 @@
 package org.controlcenter.company.presentation;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ErrorCode;
@@ -20,7 +18,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -53,7 +50,6 @@ public class AuthController {
 			return ResponseEntity.ok(BaseResponse.success());
 
 		} catch (BusinessException | JwtException e) {
-			log.error(e.getMessage(), e);
 			return createErrorResponse();
 		}
 	}
@@ -75,7 +71,6 @@ public class AuthController {
 			return ResponseEntity.ok(BaseResponse.success("새로운 Refresh Token 발급 완료"));
 
 		} catch (BusinessException | JwtException e) {
-			log.error(e.getMessage(), e);
 			return createErrorResponse();
 		}
 	}
