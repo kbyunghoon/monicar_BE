@@ -58,7 +58,7 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: Build and Image Deploy to DockHub
-        if: success()
+        if: ${{ success() }}
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
