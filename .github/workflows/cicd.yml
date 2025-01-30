@@ -9,6 +9,8 @@ on:
       - 'monicar-collector/**'
       - 'monicar-control-center/**'
       - 'monicar-event-hub/**'
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   build:
