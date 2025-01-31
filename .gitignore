@@ -38,7 +38,6 @@ out/
 .vscode/
 
 ### 운영 파일 ###
-application-prod.yml
 
 ### 환경설정 파일
 .env
