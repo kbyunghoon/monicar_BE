@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/driving-log")
+@RequestMapping("/api/v1/log")
 public class DrivingLogController implements DrivingLogApi {
 	private final DrivingLogService drivingLogService;
 	private final VehicleTypeRepository vehicleTypeRepository;

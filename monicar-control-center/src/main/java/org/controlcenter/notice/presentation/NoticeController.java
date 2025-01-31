@@ -17,11 +17,11 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/control-center")
+@RequestMapping("/api/v1")
 public class NoticeController {
 	private final NoticeRepository repository;
 
-	@GetMapping("/notices")
+	@GetMapping("/notice")
 	public BaseResponse<List<SimpleNoticeResponse>> getAllNotice() {
 		List<SimpleNoticeResponse> notices = repository.findAll()
 			.stream()
@@ -33,7 +33,7 @@ public class NoticeController {
 		return BaseResponse.success(notices);
 	}
 
-	@GetMapping("/notices/{notice-id}")
+	@GetMapping("/notice/{notice-id}")
 	public BaseResponse<SimpleNoticeResponse> getNotice(
 		@PathVariable("notice-id") Long noticeId
 	) {
