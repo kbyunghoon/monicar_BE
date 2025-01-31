@@ -38,4 +38,4 @@ management:
     web:
       base-path: /monitor
       exposure:
-        include: info, health, loggers, httptrace, threaddump, heapdump
+        include: health, metrics, threaddump
