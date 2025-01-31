@@ -6,7 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @Configuration
-@Profile("!prod")
 @PropertySources(@PropertySource("classpath:properties/env.properties"))
 public class PropertyConfig {
 }
