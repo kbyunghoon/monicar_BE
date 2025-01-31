@@ -28,8 +28,6 @@ public class NoticeController {
 			.map(SimpleNoticeResponse::from)
 			.toList();
 
-		if (notices.isEmpty()) return BaseResponse.fail(ErrorCode.ENTITY_NOT_FOUND);
-
 		return BaseResponse.success(notices);
 	}
 
