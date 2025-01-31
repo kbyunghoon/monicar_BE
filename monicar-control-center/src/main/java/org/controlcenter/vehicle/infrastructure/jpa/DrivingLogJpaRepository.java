@@ -116,6 +116,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 
 	private QDrivingLogDetailsContent createDrivingLogDetailsProjection() {
 		return new QDrivingLogDetailsContent(
+			drivingHistoryEntity.id,
 			drivingHistoryEntity.createdAt.as("usageDate"),
 			createDrivingUserInfoProjection(),
 			createDrivingInfoProjection()
