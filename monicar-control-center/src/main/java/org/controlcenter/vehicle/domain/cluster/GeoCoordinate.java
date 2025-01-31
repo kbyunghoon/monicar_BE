@@ -9,10 +9,10 @@ import lombok.Getter;
 
 @Getter
 public class GeoCoordinate {
-	private static final int NORTH_EAST_KOREA_LAT = 38808478;  // 대한민국 우상단 위도
-	private static final int NORTH_EAST_KOREA_LNG = 129939734; // 대한민국 우산단 경도
-	private static final int SOUTH_WEST_KOREA_LAT = 32892556;  // 대한민국 좌하단 위도
-	private static final int SOUTH_WEST_KOREA_LNG = 124579394; // 대한민국 좌하단 경도
+	private static final int NORTH_EAST_KOREA_LAT = 38875321;  // 대한민국 우상단 위도
+	private static final int NORTH_EAST_KOREA_LNG = 135513156; // 대한민국 우상단 경도
+	private static final int SOUTH_WEST_KOREA_LAT = 32565491;  // 대한민국 좌하단 위도
+	private static final int SOUTH_WEST_KOREA_LNG = 120637522; // 대한민국 좌하단 경도
 
 	private final Integer lat;
 	private final Integer lng;
