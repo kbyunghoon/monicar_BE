@@ -80,7 +80,7 @@ class CompanyControllerTest {
 			.thenReturn(company);
 
 		// when
-		var result = mockMvc.perform(post("/v1/companies")
+		var result = mockMvc.perform(post("/api/v1/company")
 			.content(objectMapper.writeValueAsString(companyCreate))
 			.contentType(MediaType.APPLICATION_JSON)
 		);
@@ -108,7 +108,7 @@ class CompanyControllerTest {
 			.build();
 
 		// when
-		var result = mockMvc.perform(post("/v1/companies")
+		var result = mockMvc.perform(post("/api/v1/company")
 			.content(objectMapper.writeValueAsString(companyCreate))
 			.contentType(MediaType.APPLICATION_JSON)
 		);
@@ -140,7 +140,7 @@ class CompanyControllerTest {
 			.build();
 
 		// when
-		var result = mockMvc.perform(post("/v1/companies")
+		var result = mockMvc.perform(post("/api/v1/company")
 			.content(objectMapper.writeValueAsString(companyCreate))
 			.contentType(MediaType.APPLICATION_JSON)
 		);
