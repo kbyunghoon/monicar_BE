@@ -39,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/vehicles")
+@RequestMapping("api/v1/vehicle")
 public class VehicleController implements VehicleApi {
 	private final VehicleQueryRepository vehicleQueryRepository;
 	private final VehicleClusteringService vehicleClusteringService;

@@ -1,17 +1,21 @@
 package org.controlcenter.vehicle.application;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
+import org.controlcenter.history.infrastructure.jpa.DrivingHistoryJpaRepository;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
 import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.BusinessInfo;
+import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
+import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleSortType;
@@ -28,6 +32,18 @@ import lombok.RequiredArgsConstructor;
 public class DrivingLogService {
 	private final DrivingLogRepository drivingLogRepository;
 	private final VehicleRepository vehicleRepository;
+	private final DrivingHistoryJpaRepository drivingHistoryJpaRepository;
+
+	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, Period period) {
+		LocalDateTime end = LocalDateTime.now();
+		LocalDateTime start = switch (period) {
+			case WEEK -> end.minusWeeks(1);
+			case MONTH -> end.minusMonths(1);
+			case THREE_MONTHS -> end.minusMonths(3);
+		};
+
+		return drivingLogRepository.getDailySummaries(vehicleId, start, end);
+	}
 
 	@Transactional(readOnly = true)
 	public Page<DrivingLog> getDrivingLogList(String vehicleNumber, VehicleSortType vehicleSortType,

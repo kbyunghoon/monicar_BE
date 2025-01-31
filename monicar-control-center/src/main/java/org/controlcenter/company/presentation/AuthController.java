@@ -5,6 +5,7 @@ import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.common.util.CookieUtil;
 import org.controlcenter.company.application.AuthService;
+import org.controlcenter.company.presentation.swagger.AuthApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthApi {
 
 	private final AuthService authService;
 	private final CookieUtil cookieUtil;

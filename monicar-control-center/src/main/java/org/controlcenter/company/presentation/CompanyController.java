@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/companies")
+@RequestMapping("/api/v1")
 public class CompanyController {
 	private final CompanyService companyService;
 
@@ -24,7 +24,7 @@ public class CompanyController {
 	 * @param companyCreateRequest 업체(회사) 등록 요청 데이터
 	 * @return 등록된 업체 데이터를 반환
 	 */
-	@PostMapping
+	@PostMapping("/company")
 	public BaseResponse<SimpleCompanyResponse> register(
 		@Valid @RequestBody CompanyCreateRequest companyCreateRequest
 	) {

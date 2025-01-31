@@ -7,7 +7,9 @@ import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.application.DrivingLogService;
 import org.controlcenter.vehicle.application.port.VehicleTypeRepository;
+import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
+import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
@@ -27,10 +29,18 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/driving-log")
+@RequestMapping("/api/v1/log")
 public class DrivingLogController implements DrivingLogApi {
 	private final DrivingLogService drivingLogService;
 	private final VehicleTypeRepository vehicleTypeRepository;
+
+	@GetMapping("/daily/{vehicle-id}")
+	public BaseResponse<List<DailyDrivingSummary>> getDailyDrivingSummary(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam(required = false, defaultValue = "WEEK") Period period
+	){
+		return BaseResponse.success(drivingLogService.getDailySummaries(vehicleId, period));
+	}
 
 	@GetMapping("/{vehicle-id}")
 	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
