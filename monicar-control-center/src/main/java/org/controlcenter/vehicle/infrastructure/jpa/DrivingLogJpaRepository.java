@@ -7,13 +7,18 @@ import static org.controlcenter.history.infrastructure.jpa.entity.QDrivingHistor
 import static org.controlcenter.vehicle.infrastructure.jpa.entity.QVehicleInformationEntity.*;
 import static org.controlcenter.vehicle.infrastructure.jpa.entity.QVehicleTypeEntity.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.controlcenter.history.infrastructure.jpa.entity.QDrivingHistoryEntity;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
+import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.QBusinessDrivingDetails;
+import org.controlcenter.vehicle.domain.QDailyDrivingSummary;
 import org.controlcenter.vehicle.domain.QDrivingInfo;
 import org.controlcenter.vehicle.domain.QDrivingLog;
 import org.controlcenter.vehicle.domain.QDrivingLogDetailsContent;
@@ -28,6 +33,9 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.DateTemplate;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -38,6 +46,41 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DrivingLogJpaRepository implements DrivingLogRepository {
 	private final JPAQueryFactory queryFactory;
+
+	@Override
+	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, LocalDateTime start, LocalDateTime end) {
+		QDrivingHistoryEntity q = QDrivingHistoryEntity.drivingHistoryEntity;
+
+		DateTemplate<Date> dateOnly = Expressions.dateTemplate(
+			Date.class,
+			"DATE({0})",
+			q.startTime
+		);
+
+		NumberExpression<Long> drivingSeconds = Expressions.numberTemplate(
+			Long.class,
+			"TIMESTAMPDIFF(SECOND, {0}, {1})",
+			q.startTime,
+			q.endTime
+		);
+
+		return queryFactory
+			.select(
+				new QDailyDrivingSummary(
+					dateOnly,
+					q.drivingDistance.sum(),
+					drivingSeconds.sum())
+			)
+			.from(q)
+			.where(
+				q.vehicleId.eq(vehicleId),
+				q.deletedAt.isNull(),
+				q.startTime.between(start, end)
+			)
+			.groupBy(dateOnly)
+			.orderBy(dateOnly.asc())
+			.fetch();
+	}
 
 	@Override
 	public Integer sumByVehicleIdAndDateRange(Long vehicleId, LocalDate startDate, LocalDate endDate) {
@@ -164,9 +207,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 			case VEHICLE_NUMBER_ASC -> new OrderSpecifier[] {
 				new OrderSpecifier<>(Order.ASC, vehicleInformationEntity.vehicleNumber)
 			};
-			default ->
-				// 매칭되는 케이스가 없으면 정렬 미적용
-				new OrderSpecifier[0];
+			default -> new OrderSpecifier[0];
 		};
 	}
 }
