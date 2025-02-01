@@ -12,17 +12,20 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.controlcenter.cycleinfo.infrastructure.jpa.entity.QCycleInfoEntity;
 import org.controlcenter.history.infrastructure.jpa.entity.QDrivingHistoryEntity;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
 import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
+import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.QBusinessDrivingDetails;
 import org.controlcenter.vehicle.domain.QDailyDrivingSummary;
 import org.controlcenter.vehicle.domain.QDrivingInfo;
 import org.controlcenter.vehicle.domain.QDrivingLog;
 import org.controlcenter.vehicle.domain.QDrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.QDrivingUserInfo;
+import org.controlcenter.vehicle.domain.QHourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.QVehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleSortType;
@@ -37,6 +40,8 @@ import com.querydsl.core.types.dsl.DateTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -46,6 +51,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DrivingLogJpaRepository implements DrivingLogRepository {
 	private final JPAQueryFactory queryFactory;
+
+	public List<HourlyDrivingLogs> getHourlyDrivingLogs(Long vehicleId, LocalDate targetDate) {
+		QDrivingHistoryEntity drivingHistory = QDrivingHistoryEntity.drivingHistoryEntity;
+		QCycleInfoEntity cycleInfo = QCycleInfoEntity.cycleInfoEntity;
+		QCycleInfoEntity subCycleInfo = new QCycleInfoEntity("subCycleInfo");
+
+		JPQLQuery<LocalDateTime> intervalAtSubQuery = JPAExpressions
+			.select(subCycleInfo.intervalAt.max())
+			.from(subCycleInfo)
+			.where(
+				subCycleInfo.vehicleId.eq(drivingHistory.vehicleId),
+				subCycleInfo.intervalAt.loe(drivingHistory.endTime)
+			);
+
+		return queryFactory
+			.select(
+				new QHourlyDrivingLogs(
+					drivingHistory.startTime,
+					drivingHistory.endTime,
+					drivingHistory.drivingDistance,
+					cycleInfo.lat.doubleValue(),
+					cycleInfo.lng.doubleValue()
+				)
+			)
+			.from(drivingHistory)
+			.leftJoin(cycleInfo)
+			.on(
+				cycleInfo.vehicleId.eq(drivingHistory.vehicleId),
+				cycleInfo.intervalAt.eq(intervalAtSubQuery)
+			)
+			.where(
+				drivingHistory.vehicleId.eq(vehicleId),
+				drivingHistory.startTime.between(
+					targetDate.atStartOfDay(),
+					targetDate.atTime(23, 59, 59)
+				)
+			)
+			.orderBy(drivingHistory.startTime.asc())
+			.fetch();
+	}
 
 	@Override
 	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, LocalDateTime start, LocalDateTime end) {

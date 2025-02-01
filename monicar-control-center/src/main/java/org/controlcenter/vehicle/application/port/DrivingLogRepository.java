@@ -7,6 +7,7 @@ import java.util.List;
 import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
+import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface DrivingLogRepository {
 	List<DailyDrivingSummary> getDailySummaries(Long vehicleId, LocalDateTime start, LocalDateTime end);
+
+	List<HourlyDrivingLogs> getHourlyDrivingLogs(Long vehicleId, LocalDate targetDate);
 
 	Page<DrivingLog> findByVehicleNumber(String vehicleNumber, VehicleSortType sortType, Pageable pageable);
 

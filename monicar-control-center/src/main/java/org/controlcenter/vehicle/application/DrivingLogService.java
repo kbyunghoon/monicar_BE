@@ -15,6 +15,7 @@ import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
+import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
@@ -43,6 +44,9 @@ public class DrivingLogService {
 		};
 
 		return drivingLogRepository.getDailySummaries(vehicleId, start, end);
+
+	public List<HourlyDrivingLogs> getHourlySummaries(Long vehicleId, LocalDate date) {
+		return drivingLogRepository.getHourlyDrivingLogs(vehicleId, date);
 	}
 
 	@Transactional(readOnly = true)
