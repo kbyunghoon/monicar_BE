@@ -93,7 +93,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 	}
 
 	@Override
-	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, LocalDateTime start, LocalDateTime end) {
+	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, LocalDate start, LocalDate end) {
 		QDrivingHistoryEntity q = QDrivingHistoryEntity.drivingHistoryEntity;
 
 		DateTemplate<Date> dateOnly = Expressions.dateTemplate(
@@ -120,7 +120,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 			.where(
 				q.vehicleId.eq(vehicleId),
 				q.deletedAt.isNull(),
-				q.startTime.between(start, end)
+				q.startTime.between(start.atStartOfDay(), end.atStartOfDay())
 			)
 			.groupBy(dateOnly)
 			.orderBy(dateOnly.asc())
