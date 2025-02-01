@@ -43,7 +43,7 @@ public class DrivingLogController implements DrivingLogApi {
 		return BaseResponse.success(drivingLogService.getDailySummaries(vehicleId, period));
 	}
 
-	@GetMapping("/hourly{vehicle-id}")
+	@GetMapping("/hourly/{vehicle-id}")
 	public BaseResponse<List<HourlyDrivingLogs>> getDailyDrivingSummary(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam LocalDate date
