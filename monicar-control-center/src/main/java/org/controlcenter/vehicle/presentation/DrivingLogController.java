@@ -75,10 +75,10 @@ public class DrivingLogController implements DrivingLogApi {
 	@GetMapping
 	public BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
 		@RequestParam(required = false, defaultValue = "") String keyword,
-		@RequestParam(required = false, defaultValue = "CREATED_AT_DESC") VehicleSortType sortType,
+		@RequestParam(required = false, defaultValue = "CREATED_AT_DESC") VehicleSortType sort,
 		@PageableDefault(size = 8) Pageable pageable
 	) {
-		Page<DrivingLog> drivingLogPage = drivingLogService.getDrivingLogList(keyword, sortType, pageable);
+		Page<DrivingLog> drivingLogPage = drivingLogService.getDrivingLogList(keyword, sort, pageable);
 		Page<DrivingLogResponse> responsePage = drivingLogPage.map(DrivingLogResponse::from);
 
 		return BaseResponse.success(new PageResponse<>(responsePage));
