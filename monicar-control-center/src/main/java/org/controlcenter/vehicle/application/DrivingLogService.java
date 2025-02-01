@@ -15,6 +15,7 @@ import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
+import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
@@ -32,17 +33,20 @@ import lombok.RequiredArgsConstructor;
 public class DrivingLogService {
 	private final DrivingLogRepository drivingLogRepository;
 	private final VehicleRepository vehicleRepository;
-	private final DrivingHistoryJpaRepository drivingHistoryJpaRepository;
 
 	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, Period period) {
-		LocalDateTime end = LocalDateTime.now();
-		LocalDateTime start = switch (period) {
+		LocalDate end = LocalDate.now();
+		LocalDate start = switch (period) {
 			case WEEK -> end.minusWeeks(1);
 			case MONTH -> end.minusMonths(1);
 			case THREE_MONTHS -> end.minusMonths(3);
 		};
 
-		return drivingLogRepository.getDailySummaries(vehicleId, start, end);
+		return drivingLogRepository.getDailySummaries(vehicleId, start, end.plusDays(1));
+	}
+
+	public List<HourlyDrivingLogs> getHourlySummaries(Long vehicleId, LocalDate date) {
+		return drivingLogRepository.getHourlyDrivingLogs(vehicleId, date);
 	}
 
 	@Transactional(readOnly = true)

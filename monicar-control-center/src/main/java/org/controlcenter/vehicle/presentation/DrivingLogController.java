@@ -9,6 +9,7 @@ import org.controlcenter.vehicle.application.DrivingLogService;
 import org.controlcenter.vehicle.application.port.VehicleTypeRepository;
 import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
+import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
@@ -42,6 +43,14 @@ public class DrivingLogController implements DrivingLogApi {
 		return BaseResponse.success(drivingLogService.getDailySummaries(vehicleId, period));
 	}
 
+	@GetMapping("/hourly{vehicle-id}")
+	public BaseResponse<List<HourlyDrivingLogs>> getDailyDrivingSummary(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam LocalDate date
+	){
+		return BaseResponse.success(drivingLogService.getHourlySummaries(vehicleId, date));
+	}
+
 	@GetMapping("/{vehicle-id}")
 	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
 		@PathVariable("vehicle-id") Long vehicleId,
@@ -66,10 +75,10 @@ public class DrivingLogController implements DrivingLogApi {
 	@GetMapping
 	public BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
 		@RequestParam(required = false, defaultValue = "") String keyword,
-		@RequestParam(required = false, defaultValue = "CREATED_AT_DESC") VehicleSortType sortType,
+		@RequestParam(required = false, defaultValue = "CREATED_AT_DESC") VehicleSortType sort,
 		@PageableDefault(size = 8) Pageable pageable
 	) {
-		Page<DrivingLog> drivingLogPage = drivingLogService.getDrivingLogList(keyword, sortType, pageable);
+		Page<DrivingLog> drivingLogPage = drivingLogService.getDrivingLogList(keyword, sort, pageable);
 		Page<DrivingLogResponse> responsePage = drivingLogPage.map(DrivingLogResponse::from);
 
 		return BaseResponse.success(new PageResponse<>(responsePage));

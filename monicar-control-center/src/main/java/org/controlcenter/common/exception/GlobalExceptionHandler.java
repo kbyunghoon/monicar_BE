@@ -17,6 +17,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
 /**
  * 애플리케이션 전역 예외를 처리하는 클래스
  */
@@ -34,6 +36,14 @@ public class GlobalExceptionHandler {
 	protected BaseResponse<Void> handleBusinessException(final BusinessException e) {
 		log.error("Business Exception 발생: {}", e.getMessage(), e);
 		return BaseResponse.fail(e.getErrorCode());
+	}
+
+	@ExceptionHandler(NoResourceFoundException.class)
+	protected ResponseEntity<BaseResponse<Void>> handleNoResourceFoundException(final NoResourceFoundException e) {
+		log.error("NoResourceFound Exception 발생: {}", e.getMessage(), e);
+		return ResponseEntity
+			.status(HttpStatus.NOT_FOUND)
+			.body(BaseResponse.fail(ErrorCode.NOT_FOUND));
 	}
 
 	/**
