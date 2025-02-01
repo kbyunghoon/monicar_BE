@@ -28,9 +28,7 @@ public interface DrivingLogApi {
 	@Parameter(name = "end", description = "조회 종료 날짜(기본 값 현재) YYYY-MM-DD", required = false)
 	BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
 		@PathVariable("vehicle-id") Long vehicleId,
-
 		@RequestParam(required = false) LocalDate start,
-
 		@RequestParam(required = false) LocalDate end
 	);
 

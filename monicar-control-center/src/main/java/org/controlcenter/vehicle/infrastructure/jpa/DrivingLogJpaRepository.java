@@ -199,6 +199,7 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 				drivingHistoryEntity.vehicleId.eq(vehicleId),
 				drivingHistoryEntity.createdAt.between(startDate.atStartOfDay(), endDate.atStartOfDay())
 			)
+			.orderBy(drivingHistoryEntity.createdAt.asc())
 			.fetch();
 	}
 
