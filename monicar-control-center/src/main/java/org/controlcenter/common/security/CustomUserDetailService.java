@@ -1,5 +1,7 @@
 package org.controlcenter.common.security;
 
+import java.time.LocalDateTime;
+
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
@@ -18,9 +20,9 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String loginId) throws BusinessException {
-		ManagerEntity mangerEntity = managerJpaRepository.findByLoginId(loginId)
+		ManagerEntity managerEntity = managerJpaRepository.findByLoginId(loginId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.FORBIDDEN_ACCESS));
 
-		return new CustomUserDetails(mangerEntity.toDomain());
+		return new CustomUserDetails(managerEntity.toDomain());
 	}
 }
