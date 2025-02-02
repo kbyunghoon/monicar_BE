@@ -14,10 +14,9 @@ public class GpsListCircular {
 
 	public GpsListCircular() {
 		gpsList = new ArrayList<>();
-		gpsListSize = 0;
-		interruptedIdx = 0;
-
 		gpsList.add(new Gps(20.111111, 30.111111));
+		gpsListSize = gpsList.size();
+		interruptedIdx = 0;
 	}
 
 	public void loadFileData(Queue<Gps> fileData) {
