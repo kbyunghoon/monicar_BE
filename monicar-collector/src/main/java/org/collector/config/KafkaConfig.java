@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -67,5 +68,10 @@ public class KafkaConfig {
 	@Bean
 	public KafkaTemplate<String, ?> kafkaTemplate(KafkaProperties kafkaProperties) {
 		return new KafkaTemplate<>(producerFactory(kafkaProperties));
+	}
+
+	@Bean
+	public PartitionFinder finder(@Qualifier("consumerFactory") ConsumerFactory<String, Object> consumerFactory) {
+		return new PartitionFinder(consumerFactory);
 	}
 }
