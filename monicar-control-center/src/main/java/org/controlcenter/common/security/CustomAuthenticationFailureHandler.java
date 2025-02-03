@@ -3,7 +3,6 @@ package org.controlcenter.common.security;
 import java.io.IOException;
 import java.util.List;
 
-import org.controlcenter.common.response.code.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -21,13 +20,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException exception) throws IOException {
-		ErrorCode errorCode = ErrorCode.LOGIN_FAILED;
-
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(objectMapper.writeValueAsString(
-			new CustomAuthenticationFailureHandler.FailResponse(errorCode.getCode(), false,
-				List.of(errorCode.getMessage()))
+			new CustomAuthenticationFailureHandler.FailResponse(9999, false,
+				List.of(exception.getMessage()))
 		));
 	}
 
