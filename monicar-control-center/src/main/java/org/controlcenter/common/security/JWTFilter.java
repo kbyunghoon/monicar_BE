@@ -29,13 +29,22 @@ public class JWTFilter extends OncePerRequestFilter {
 	private static final List<String> EXCLUDED_URIS = List.of(
 		"/auth/refresh",
 		"/api/v1/sign-in",
-		"/api/v1/sign-up",
-		"/auth/reissue"
+		"/auth/reissue",
+		"/api/v1/logout",
+		"/swagger-ui/index.html"
 	);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
+		StringBuilder fullURL = new StringBuilder(request.getRequestURL().toString());
+
+		String queryString = request.getQueryString();
+		if (queryString != null) {
+			fullURL.append('?').append(queryString);
+		}
+
+		System.out.printf("요청 엔드포인트: %s / %s\n", fullURL, request.getMethod());
 
 		if (isExcludedUri(request.getRequestURI())) {
 			filterChain.doFilter(request, response);

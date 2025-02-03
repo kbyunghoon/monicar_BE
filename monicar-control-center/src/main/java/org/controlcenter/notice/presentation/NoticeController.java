@@ -6,6 +6,7 @@ import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.notice.application.NoticeRepository;
+import org.controlcenter.notice.presentation.swagger.NoticeApi;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
-public class NoticeController {
+public class NoticeController implements NoticeApi {
 	private final NoticeRepository repository;
 
 	@GetMapping("/notice")

@@ -106,6 +106,8 @@ VALUES (1, 1, 'john@example.com', '김난아', 'password', '회장', 'ROLE_ADMIN
        (7, 7, 'kevin@example.com', '정지훈', 'password', '주임', 'ROLE_USER', '2025-01-07 15:30:00',
         '2025-01-07 15:00:00', '2025-01-07 15:00:00', NULL),
        (8, 8, 'lucy@example.com', '박수현', 'password', '차장', 'ROLE_ADMIN', '2025-01-08 16:30:00',
+        '2025-01-08 16:00:00', '2025-01-08 16:00:00', NULL),
+       (9, 1, 'test@test.com', 'test', '$2a$10$o8udzx8fhAfSKzQl8QhlgO3.YXBZ7mtuglZr8Xm/EQpbrrct.qvw.', '테스트', 'ROLE_USER', '2025-01-08 16:30:00',
         '2025-01-08 16:00:00', '2025-01-08 16:00:00', NULL);
 
 

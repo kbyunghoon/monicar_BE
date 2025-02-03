@@ -2,8 +2,6 @@ package org.controlcenter.company.presentation;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.security.CustomUserDetails;
-import org.controlcenter.common.util.JWTUtil;
-import org.controlcenter.common.util.RedisUtil;
 import org.controlcenter.company.application.ManagerService;
 import org.controlcenter.company.domain.ManagerInformation;
 import org.controlcenter.company.presentation.dto.LoginRequest;
@@ -17,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ManagerController implements ManagerApi {
-	private final RedisUtil redisUtil;
-	private final JWTUtil jwtUtil;
 	private final ManagerService managerService;
 
 	@Override
@@ -35,15 +32,11 @@ public class ManagerController implements ManagerApi {
 	@Override
 	@PostMapping("/logout")
 	public BaseResponse<Void> logout(
-		@CookieValue("access-token") String accessToken,
-		@CookieValue("refresh-token") String refreshToken
+		@CookieValue(value = "access_token", required = false, defaultValue = "") String accessToken,
+		@CookieValue(value = "refresh_token", required = false, defaultValue = "") String refreshToken,
+		HttpServletResponse response
 	) {
-		String userId = jwtUtil.validateAndGetId(refreshToken);
-
-		if (redisUtil.isRefreshTokenValid(userId) && !redisUtil.isAccessTokenBlacklisted(accessToken)) {
-			redisUtil.saveAccessToken(accessToken, jwtUtil.getExpiredMs(accessToken));
-			redisUtil.removeRefreshToken(userId);
-		}
+		managerService.logout(accessToken, refreshToken, response);
 
 		return BaseResponse.success();
 	}

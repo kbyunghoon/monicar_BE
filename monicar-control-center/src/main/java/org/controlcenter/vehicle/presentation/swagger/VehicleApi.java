@@ -14,6 +14,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @Tag(name = "차량 정보 API", description = "차량 정보 관련 API")
+@PreAuthorize("hasRole('ROLE_USER')")
 public interface VehicleApi {
 	@Operation(summary = "차량 정보 등록", description = "차량번호, 차량종류, 주행거리, 차량출고일로 차량 정보 등록")
 	BaseResponse<VehicleInformation> register(

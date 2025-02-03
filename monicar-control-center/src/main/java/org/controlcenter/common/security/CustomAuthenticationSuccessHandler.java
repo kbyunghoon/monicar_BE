@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.controlcenter.common.util.CookieUtil;
 import org.controlcenter.common.util.JWTUtil;
 import org.controlcenter.common.util.RedisUtil;
+import org.controlcenter.company.application.ManagerService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	private final JWTUtil jwtUtil;
 	private final RedisUtil redisUtil;
 	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ManagerService managerService;
 
 	@Value("${jwt.expiration.access}")
 	private Long accessExpiration;
@@ -37,6 +39,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		Authentication authentication) throws IOException {
 
 		String userId = authentication.getName();
+		managerService.updateLastLoginAt(userId);
 
 		String accessToken = jwtUtil.createJwt(userId, accessExpiration, "access");
 

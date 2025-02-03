@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.controlcenter.company.domain.Manager;
 import org.controlcenter.company.domain.Role;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "manager")
+@DynamicUpdate
 public class ManagerEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -80,5 +82,9 @@ public class ManagerEntity {
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
 			.build();
+	}
+
+	public void setLastLoginAt(LocalDateTime lastLoginAt) {
+		this.lastLoginAt = lastLoginAt;
 	}
 }

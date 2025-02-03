@@ -14,10 +14,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 애플리케이션 전역 예외를 처리하는 클래스
@@ -39,8 +39,17 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(NoResourceFoundException.class)
-	protected ResponseEntity<BaseResponse<Void>> handleNoResourceFoundException(final NoResourceFoundException e) {
-		log.error("NoResourceFound Exception 발생: {}", e.getMessage(), e);
+	protected ResponseEntity<BaseResponse<Void>> handleNoResourceFoundException(HttpServletRequest request) {
+		StringBuilder fullURL = new StringBuilder(request.getRequestURL().toString());
+
+		String queryString = request.getQueryString();
+		if (queryString != null) {
+			fullURL.append('?').append(queryString);
+		}
+
+		log.error("NoResourceFound Exception 발생 - 요청 URL: {}",
+			fullURL);
+
 		return ResponseEntity
 			.status(HttpStatus.NOT_FOUND)
 			.body(BaseResponse.fail(ErrorCode.NOT_FOUND));
