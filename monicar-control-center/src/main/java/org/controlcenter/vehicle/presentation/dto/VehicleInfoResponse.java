@@ -8,7 +8,7 @@ import lombok.Builder;
 public record VehicleInfoResponse(
 	Long vehicleId,
 	String vehicleNumber,
-	LocalDateTime firstDataAt,
-	LocalDateTime lastDataAt
+	LocalDateTime firstDateAt,
+	LocalDateTime lastDateAt
 ) {
 }
