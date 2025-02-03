@@ -33,9 +33,9 @@ spring:
       port: 6379
 
   datasource:
-    url: jdbc:mysql://localhost:3306/monicar_db
-    username: local_user
-    password: local_password
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
 jwt:
   secret: ${JWT_SECRET}
