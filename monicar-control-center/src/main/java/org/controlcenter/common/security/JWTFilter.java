@@ -37,6 +37,14 @@ public class JWTFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
+		StringBuilder fullURL = new StringBuilder(request.getRequestURL().toString());
+
+		String queryString = request.getQueryString();
+		if (queryString != null) {
+			fullURL.append('?').append(queryString);
+		}
+
+		System.out.printf("요청 엔드포인트: %s / %s\n", fullURL, request.getMethod());
 
 		if (isExcludedUri(request.getRequestURI())) {
 			filterChain.doFilter(request, response);
