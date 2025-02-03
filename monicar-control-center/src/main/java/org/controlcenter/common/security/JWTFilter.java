@@ -29,7 +29,6 @@ public class JWTFilter extends OncePerRequestFilter {
 	private static final List<String> EXCLUDED_URIS = List.of(
 		"/auth/refresh",
 		"/api/v1/sign-in",
-		"/api/v1/sign-up",
 		"/auth/reissue",
 		"/api/v1/logout",
 		"/swagger-ui/index.html"
