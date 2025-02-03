@@ -4,6 +4,7 @@ import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.company.application.CompanyService;
 import org.controlcenter.company.presentation.dto.CompanyCreateRequest;
 import org.controlcenter.company.presentation.dto.SimpleCompanyResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class CompanyController {
 	private final CompanyService companyService;
 

@@ -46,7 +46,6 @@ public class VehicleController implements VehicleApi {
 	private final VehicleService vehicleService;
 
 	@GetMapping
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<VehicleInfoResponse> getVehicleInfo(
 		@Valid VehicleInfoSearchRequest request
 	) {
@@ -55,7 +54,6 @@ public class VehicleController implements VehicleApi {
 	}
 
 	@PostMapping("/register")
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<VehicleInformation> register(
 		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
 	) {
@@ -66,7 +64,6 @@ public class VehicleController implements VehicleApi {
 	}
 
 	@DeleteMapping("/{vehicle-id}")
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<Void> deleteVehicle(
 		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
 	) {

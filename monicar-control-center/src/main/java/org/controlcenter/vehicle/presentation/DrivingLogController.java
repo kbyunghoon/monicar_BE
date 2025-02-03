@@ -19,7 +19,6 @@ import org.controlcenter.vehicle.presentation.swagger.DrivingLogApi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,22 +34,7 @@ public class DrivingLogController implements DrivingLogApi {
 	private final DrivingLogService drivingLogService;
 	private final VehicleTypeRepository vehicleTypeRepository;
 
-	@GetMapping("/daily/{vehicle-id}")
-	public BaseResponse<List<DailyDrivingSummary>> getDailyDrivingSummary(
-		@PathVariable("vehicle-id") Long vehicleId,
-		@RequestParam(required = false, defaultValue = "WEEK") Period period
-	){
-		return BaseResponse.success(drivingLogService.getDailySummaries(vehicleId, period));
-	}
-
-	@GetMapping("/hourly/{vehicle-id}")
-	public BaseResponse<List<HourlyDrivingLogs>> getDailyDrivingSummary(
-		@PathVariable("vehicle-id") Long vehicleId,
-		@RequestParam LocalDate date
-	){
-		return BaseResponse.success(drivingLogService.getHourlySummaries(vehicleId, date));
-	}
-
+	@Override
 	@GetMapping("/{vehicle-id}")
 	public BaseResponse<VehicleDrivingLogDetailsResponse> getDrivingLogByVehicleId(
 		@PathVariable("vehicle-id") Long vehicleId,
@@ -61,17 +45,6 @@ public class DrivingLogController implements DrivingLogApi {
 	}
 
 	@Override
-	@GetMapping("/vehicle-type")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes() {
-		List<VehicleTypeResponse> vehicleTypes = vehicleTypeRepository.findAll()
-			.stream()
-			.map(VehicleTypeResponse::from)
-			.toList();
-
-		return BaseResponse.success(vehicleTypes);
-	}
-
 	@GetMapping
 	public BaseResponse<PageResponse<DrivingLogResponse>> getDrivingLogList(
 		@RequestParam(required = false, defaultValue = "") String keyword,
@@ -82,5 +55,34 @@ public class DrivingLogController implements DrivingLogApi {
 		Page<DrivingLogResponse> responsePage = drivingLogPage.map(DrivingLogResponse::from);
 
 		return BaseResponse.success(new PageResponse<>(responsePage));
+	}
+
+	@Override
+	@GetMapping("/vehicle-type")
+	public BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes() {
+		List<VehicleTypeResponse> vehicleTypes = vehicleTypeRepository.findAll()
+			.stream()
+			.map(VehicleTypeResponse::from)
+			.toList();
+
+		return BaseResponse.success(vehicleTypes);
+	}
+
+	@Override
+	@GetMapping("/daily/{vehicle-id}")
+	public BaseResponse<List<DailyDrivingSummary>> getDailyDrivingSummary(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam(required = false, defaultValue = "WEEK") Period period
+	) {
+		return BaseResponse.success(drivingLogService.getDailySummaries(vehicleId, period));
+	}
+
+	@Override
+	@GetMapping("/hourly/{vehicle-id}")
+	public BaseResponse<List<HourlyDrivingLogs>> getDailyDrivingSummary(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam LocalDate date
+	) {
+		return BaseResponse.success(drivingLogService.getHourlySummaries(vehicleId, date));
 	}
 }
