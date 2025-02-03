@@ -1,7 +1,7 @@
 <configuration>
 
+    <springProperty name="LOG_PATH" source="logging.file.path"/>
     <property name="SERVER_NAME" value="${server.name:-emulator}" />
-    <property name="LOG_PATH" value="${user.dir}/logs" />
 
     <!-- 콘솔 출력 Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -32,9 +32,7 @@
     <!-- INFO 이상(INFO, WARN, ERROR)의 로그만 출력 -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
-        <logger name="ROOT" level="TRACE" additivity="false">
-            <appender-ref ref="FILE" />
-        </logger>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>

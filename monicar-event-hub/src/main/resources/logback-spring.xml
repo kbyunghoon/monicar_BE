@@ -1,7 +1,7 @@
 <configuration>
 
+    <springProperty name="LOG_PATH" source="logging.file.path"/>
     <property name="SERVER_NAME" value="${server.name:-event-hub}" />
-    <property name="LOG_PATH" value="${user.dir}/logs" />
 
     <!-- 콘솔 출력 Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
