@@ -1,10 +1,14 @@
 package org.controlcenter.common.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CookieUtil {
+	@Value("${cookie.domain}")
+	private String cookieDomain;
+
 	public ResponseCookie createAccessTokenCookie(String value, Long expirationMillis) {
 		int maxAgeSec = (int)(expirationMillis / 1000);
 
@@ -13,6 +17,7 @@ public class CookieUtil {
 			.path("/")
 			.secure(true)
 			.sameSite("None")
+			.domain(cookieDomain)
 			.httpOnly(true)
 			.build();
 	}
@@ -25,6 +30,7 @@ public class CookieUtil {
 			.path("/")
 			.secure(true)
 			.sameSite("None")
+			.domain(cookieDomain)
 			.httpOnly(true)
 			.build();
 	}
