@@ -2,7 +2,6 @@ package org.controlcenter.company.presentation.swagger;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,7 +13,6 @@ public interface AuthApi {
 
 	@Operation(summary = "액세스 토큰 재발급 API",
 		description = "리프레시 토큰으로 액세스 토큰 재발급")
-	@PostMapping("/logout")
 	ResponseEntity<?> refreshAccessToken(
 		@Parameter(hidden = true) @CookieValue(value = "access_token", required = false) String accessToken,
 		@Parameter(hidden = true) @CookieValue("refresh_token") String refreshToken,

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Tag(name = "사용자 기본 API", description = "사용자 관련 기본 기능 API")
 public interface ManagerApi {
@@ -29,6 +30,7 @@ public interface ManagerApi {
 		description = "로그아웃 기능")
 	@PostMapping("/logout")
 	BaseResponse<Void> logout(
-		@CookieValue("access_token") String accessToken,
-		@CookieValue("refresh_token") String refreshToken);
+		@CookieValue(value = "access_token", required = false, defaultValue = "") String accessToken,
+		@CookieValue(value = "refresh_token", required = false, defaultValue = "") String refreshToken,
+		HttpServletResponse response);
 }

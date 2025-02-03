@@ -30,7 +30,9 @@ public class JWTFilter extends OncePerRequestFilter {
 		"/auth/refresh",
 		"/api/v1/sign-in",
 		"/api/v1/sign-up",
-		"/auth/reissue"
+		"/auth/reissue",
+		"/api/v1/logout",
+		"/swagger-ui/index.html"
 	);
 
 	@Override
