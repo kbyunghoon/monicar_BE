@@ -3,6 +3,7 @@ package org.emulator.device.application.port;
 import org.common.dto.CommonResponse;
 import org.emulator.device.common.response.BaseResponse;
 import org.emulator.device.domain.CycleInfo;
+import org.emulator.device.domain.OffInfo;
 import org.emulator.device.domain.OnInfo;
 
 import java.util.List;
@@ -12,5 +13,6 @@ import java.util.List;
  */
 public interface VehicleEventSender {
 	BaseResponse sendOnEvent(OnInfo onInfo);
+	BaseResponse sendOffEvent(OffInfo offInfo);
 	BaseResponse sendCycleInfoEvent(List<CycleInfo> cycleInfo);
 }

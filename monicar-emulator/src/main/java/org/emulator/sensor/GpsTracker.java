@@ -75,7 +75,9 @@ public class GpsTracker implements SensorTracker {
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
 
-		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "collecting data. . .");
+		log.info("collecting data. . .");
+		log.info("💌cycle info lat: {}, lng: {}", currentLocation.location().lat(), currentLocation.location().lng());
+		log.info("💌interval distance: {}", intervalDistance);
 	}
 
 	private boolean isReadyToSendCycleInfo(int time) {

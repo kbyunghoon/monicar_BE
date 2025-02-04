@@ -15,12 +15,22 @@ public class InMemoryEmulatorRepository implements EmulatorRepository {
 
 	@Override
 	public int getCurrentDistance() {
+		return vehicleEntity.getCurrentDistance();
+	}
+
+	@Override
+	public int getTotalDistance() {
 		return vehicleEntity.getTotalDistance();
 	}
 
 	@Override
 	public int updateCurrentDistance(int intervalDistance) {
 		return vehicleEntity.addCurrentDistance(intervalDistance);
+	}
+
+	@Override
+	public int updateTotalDistance() {
+		return vehicleEntity.addFromOnToOffDistance();
 	}
 
 	@Override

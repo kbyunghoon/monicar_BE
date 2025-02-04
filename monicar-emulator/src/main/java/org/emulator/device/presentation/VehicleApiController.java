@@ -18,4 +18,9 @@ public class VehicleApiController {
 	public BaseResponse keyOn() {
 		return vehicleService.onVehicle();
 	}
+
+	@PostMapping("/key-off")
+	public BaseResponse keyOff() {
+		return vehicleService.offVehicle();
+	}
 }
