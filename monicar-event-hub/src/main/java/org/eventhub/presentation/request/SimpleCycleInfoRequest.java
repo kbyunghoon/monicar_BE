@@ -1,4 +1,4 @@
-package org.eventhub.presentation;
+package org.eventhub.presentation.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

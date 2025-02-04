@@ -1,7 +1,9 @@
-package org.eventhub.presentation;
+package org.eventhub.presentation.request;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.eventhub.domain.GpsStatus;
-import org.eventhub.domain.VehicleEventCreate;
+import org.eventhub.domain.VehicleOnEventCreate;
 import org.eventhub.domain.VehicleEventType;
 
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +20,8 @@ public record KeyOnRequest(
 		Integer pv,
 		@NotNull(message = "디바이스 아이디는 비어 있을 수 없습니다.")
 		Integer did,
-		@NotBlank(message = "차량 시동 On 시간은 비어 있을 수 없습니다.")
+		@JsonFormat(pattern = "yyyyMMddHHmmss")
+		@NotNull(message = "차량 시동 On 시간은 비어 있을 수 없습니다.")
 		String onTime,
 		String offTime,
 		@NotNull(message = "GPS 상태는 null 또는 비어 있을 수 없습니다.")
@@ -32,10 +35,10 @@ public record KeyOnRequest(
 		@NotNull(message = "속도는 비어 있을 수 없습니다.")
 		Integer spd,
 		@NotNull(message = "누적 주행 거리는 비어 있을 수 없습니다.")
-		Integer sum
+		Long sum
 ) {
-	public VehicleEventCreate toDomain(final Long existedVehicleId, final int existedSum) {
-		return VehicleEventCreate.of(
+	public VehicleOnEventCreate toDomain(final Long existedVehicleId, final long existedSum) {
+		return VehicleOnEventCreate.of(
 				existedVehicleId,
 				existedSum,
 				VehicleEventType.ON,

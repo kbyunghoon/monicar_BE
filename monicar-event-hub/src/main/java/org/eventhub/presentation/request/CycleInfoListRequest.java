@@ -1,8 +1,6 @@
-package org.eventhub.presentation;
+package org.eventhub.presentation.request;
 
 import java.util.List;
-
-import java.util.stream.Collectors;
 
 import lombok.Builder;
 

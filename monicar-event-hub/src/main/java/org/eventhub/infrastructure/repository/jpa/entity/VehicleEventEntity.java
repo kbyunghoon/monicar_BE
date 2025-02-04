@@ -1,4 +1,4 @@
-package org.eventhub.infrastructure.repository.jpa;
+package org.eventhub.infrastructure.repository.jpa.entity;
 
 import java.time.LocalDateTime;
 

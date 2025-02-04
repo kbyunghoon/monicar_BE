@@ -8,12 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Optional;
 
+import org.eventhub.application.DrivingHistoryService;
 import org.eventhub.application.VehicleEventService;
 import org.eventhub.application.VehicleService;
 import org.eventhub.domain.GpsStatus;
 import org.eventhub.domain.VehicleEvent;
 import org.eventhub.domain.VehicleEventType;
 import org.eventhub.domain.VehicleInformation;
+import org.eventhub.presentation.request.KeyOnRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@DisplayName("VehicleController 테스트")
+@DisplayName("OnOffController 테스트")
 @WebMvcTest(OnOffController.class)
 class OnOffControllerTest {
 	@Autowired
@@ -33,6 +35,8 @@ class OnOffControllerTest {
 	private VehicleService vehicleService;
 	@MockBean
 	private VehicleEventService vehicleEventService;
+	@MockBean
+	private DrivingHistoryService drivingHistoryService;
 
 	@DisplayName("on 요청 success 테스트")
 	@Test
@@ -40,7 +44,7 @@ class OnOffControllerTest {
 		long vehicleInformationId = 1L;
 		long vehicleEventId = 2L;
 		long mdn = 1234567890L;
-		int sum = 999;
+		long sum = 999L;
 		when(vehicleService.getVehicleInformation(mdn))
 			.thenReturn(VehicleInformation.builder()
 				.id(vehicleInformationId)
@@ -56,7 +60,7 @@ class OnOffControllerTest {
 			);
 
 		String json = new ObjectMapper().writeValueAsString(
-			new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, 20203030L, 20203030L, 2, 2, 999));
+			new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, 20203030L, 20203030L, 2, 2, sum));
 		var result = mockMvc.perform(post("/api/v1/event-hub/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +78,7 @@ class OnOffControllerTest {
 		long vehicleInformationId = 1L;
 		long vehicleEventId = 2L;
 		long mdn = 1234567890L;
-		int sum = 999;
+		long sum = 999L;
 		when(vehicleService.getVehicleInformation(mdn))
 			.thenReturn(VehicleInformation.builder()
 				.id(vehicleInformationId)
@@ -90,7 +94,7 @@ class OnOffControllerTest {
 			);
 
 		String json = new ObjectMapper().writeValueAsString(
-			new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, 20203030L, 20203030L, 2, 2, 999));
+			new KeyOnRequest(mdn, "1111", 11, 1, 111, "20250101080808", "20250101080808", GpsStatus.P, 20203030L, 20203030L, 2, 2, sum));
 		var result = mockMvc.perform(post("/api/v1/event-hub/key-on")
 			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)

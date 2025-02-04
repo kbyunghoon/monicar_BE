@@ -28,7 +28,7 @@ public class VehicleOnEventCreate extends VehicleEventCreateAbs {
 			final long existedSum,
 			final VehicleEventType onEvent,
 			final String rawEventAt,
-			final int sum) {
+			final long sum) {
 		LocalDateTime onTime = validateEventAt(rawEventAt);
 		validateSum(existedSum, sum);
 
