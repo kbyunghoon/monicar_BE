@@ -33,8 +33,8 @@ CREATE TABLE manager
 (
     `manager_id`      VARCHAR(255) NOT NULL PRIMARY KEY COMMENT '담당자 PK',
     `department_id`   BIGINT       NOT NULL COMMENT '부서 PK',
-    `email`           VARCHAR(255) NOT NULL COMMENT '이메일',
-    `login_id`        VARCHAR(255) NOT NULL COMMENT '아이디',
+    `email`           VARCHAR(255) NOT NULL COMMENT '이메일' UNIQUE,
+    `login_id`        VARCHAR(255) NOT NULL COMMENT '아이디' UNIQUE,
     `password`        VARCHAR(255) NOT NULL COMMENT '비밀번호',
     `nickname`        VARCHAR(255) NOT NULL COMMENT '닉네임',
     `role`            VARCHAR(255) NOT NULL COMMENT '권한',
