@@ -21,6 +21,8 @@ public enum ErrorCode {
 	ENTITY_ALREADY_EXIST(1009, "이미 존재하는 엔티티 입니다."),
 	NOT_FOUND(1010, "요청한 리소스를 찾을 수 없습니다."),
 	INVALID_TYPE_USERID_VALUE(1011, "아이디는 영문자와 숫자만 입력할 수 있습니다."),
+	EMAIL_ALREADY_EXIST(1012, "다른 이메일을 입력해주세요."),
+	USER_ID_ALREADY_EXIST(1013, "다른 아이디를 입력해주세요."),
 
 	AUTHORIZATION_DENIED(9000, "권한이 없습니다."),
 	EXPIRED_TOKENS(9993, "토큰 만료로 인해 로그아웃 되었습니다. 다시 로그인해 주세요."),
