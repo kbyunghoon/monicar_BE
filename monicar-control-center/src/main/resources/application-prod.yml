@@ -2,11 +2,12 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: monicar-control-center
+
   config:
     activate:
       on-profile: prod
-  application:
-    name: monicar-control-center
 
   datasource:
     url: ${DB_URL}
@@ -19,10 +20,11 @@ spring:
       ddl-auto: none
     show-sql: true
     properties:
-      hibernate.format_sql: true
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
-      jdbc:
-        time_zone: Asia/Seoul
 
   sql:
     init:
@@ -48,3 +50,7 @@ cors:
 
 cookie:
   domain: ${COOKIE_DOMAIN}
+
+logging:
+  file:
+    path: /var/log/app-logs

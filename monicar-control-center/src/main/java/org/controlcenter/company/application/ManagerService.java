@@ -8,6 +8,7 @@ import org.controlcenter.common.util.CookieUtil;
 import org.controlcenter.common.util.JWTUtil;
 import org.controlcenter.common.util.RedisUtil;
 import org.controlcenter.company.application.port.ManagerRepository;
+import org.controlcenter.company.domain.Manager;
 import org.controlcenter.company.domain.ManagerInformation;
 import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
 import org.controlcenter.company.infrastructure.jpa.entity.ManagerEntity;
@@ -27,6 +28,19 @@ public class ManagerService {
 	private final JWTUtil jwtUtil;
 	private final RedisUtil redisUtil;
 	private final CookieUtil cookieUtil;
+
+	@Transactional
+	public void signUp(Manager manager) {
+		managerJpaRepository.findByLoginId(manager.getLoginId())
+			.ifPresent(existUser -> {
+				throw new BusinessException(ErrorCode.USER_ID_ALREADY_EXIST);
+			});
+		managerJpaRepository.findByEmail(manager.getEmail())
+			.ifPresent(existUser -> {
+				throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXIST);
+			});
+		managerJpaRepository.save(ManagerEntity.from(manager));
+	}
 
 	public ManagerInformation getProfile(String id) {
 		return managerRepository.getUserProfile(id);
