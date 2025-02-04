@@ -26,7 +26,7 @@ public class GpsDetector implements SensorDetector {
 	@Scheduled(initialDelay = 1000, fixedDelay = 1000)
 	@Override
 	public void detect() {
-		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "Detecting... GPS");
+		log.info("Detecting GPS. . .");
 		if (emulatorRepository.isTurnOn()) {
 			locationHolder.addGpsData(gpsListCircular.getMovingGps());
 		} else {
