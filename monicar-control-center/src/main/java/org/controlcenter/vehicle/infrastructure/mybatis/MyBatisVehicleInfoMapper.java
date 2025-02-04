@@ -20,9 +20,15 @@ public interface MyBatisVehicleInfoMapper {
 			select
 				vi.vehicle_id as vehicleId,
 					vi.vehicle_number as vehicleNumber,
-				vi.created_at as firstDateAt,
 				(
-					select ci.created_at
+					select ci.interval_at
+					from cycle_info ci
+					where ci.vehicle_id = vi.vehicle_id
+					order by ci.interval_at ASC
+					limit 1
+				) as firstDateAt,
+				(
+					select ci.interval_at
 					from cycle_info ci
 					where ci.vehicle_id = vi.vehicle_id
 					order by ci.interval_at DESC
