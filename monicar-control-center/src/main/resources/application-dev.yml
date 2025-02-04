@@ -48,3 +48,7 @@ cors:
 
 cookie:
   domain: ${COOKIE_DOMAIN}
+
+logging:
+  file:
+    path: ${user.dir}/logs
