@@ -6,6 +6,7 @@ spring:
     name: monicar-emulator
 
 logging:
+  config: classpath:logback-spring-dev.xml
   file:
     path: ${user.dir}/logs
 

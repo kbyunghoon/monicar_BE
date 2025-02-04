@@ -29,6 +29,7 @@ spring:
       ddl-auto: none
 
 logging:
+  config: classpath:logback-spring-dev.xml
   file:
     path: ${user.dir}/logs
 

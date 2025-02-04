@@ -52,5 +52,6 @@ cookie:
   domain: ${COOKIE_DOMAIN}
 
 logging:
+  config: classpath:logback-spring-dev.xml
   file:
     path: /var/log/app-logs
