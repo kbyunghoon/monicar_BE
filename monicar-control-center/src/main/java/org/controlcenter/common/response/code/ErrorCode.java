@@ -33,7 +33,7 @@ public enum ErrorCode {
 	REFRESH_TOKEN_STILL_VALID(9998, "유효한 리프레시 토큰입니다."),
 	LOGIN_FAILED(9999, "등록되지 않은 아이디이거나, 아이디 혹은 비밀번호를 잘못 입력하였습니다."),
 
-	VEHICLE_NOT_FOUND(2001, "해량 차량을 찾을 수 없습니다."),
+	VEHICLE_NOT_FOUND(2001, "해당 차량을 찾을 수 없습니다."),
 	VEHICLE_ALREADY_EXIST(2002, "이미 등록되어 있는 차량입니다."),
 	VEHICLE_NUMBER_ERROR(2003, "입력된 차량 번호 형식이 올바르지 않습니다. 형식: 숫자 2~3자리 + 한글 1자리 + 숫자 4자리");
 
