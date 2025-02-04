@@ -6,7 +6,9 @@
     <!-- 콘솔 출력 Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss, Asia/Seoul} [%thread] %highlight(%-5level)
+                %cyan(%logger{36}) - %msg%n
+            </pattern>
         </layout>
     </appender>
 
@@ -25,7 +27,9 @@
 
         <!-- 로그 출력 포맷 -->
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss, Asia/Seoul}:%-3relative][%thread] %-5level
+                %logger{36} - %msg%n
+            </pattern>
         </encoder>
     </appender>
 
