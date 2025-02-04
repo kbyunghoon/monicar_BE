@@ -18,7 +18,7 @@ public class VehicleInformation {
 	private Integer pv;
 	private Integer did;
 	private Integer drivingDays;
-	private Integer sum;
+	private Long sum;
 	private VehicleStatus status;
 	private LocalDate deliveryDate;
 	private LocalDateTime createdAt;

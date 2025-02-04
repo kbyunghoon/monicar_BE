@@ -1,10 +1,10 @@
 package org.eventhub.application;
 
-import org.eventhub.application.port.VehicleEventRepository;
 import org.eventhub.application.port.VehicleRepository;
 import org.eventhub.common.exception.BusinessException;
 import org.eventhub.common.response.ErrorCode;
 import org.eventhub.domain.VehicleInformation;
+import org.eventhub.domain.UpdateTotalDistance;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +27,13 @@ public class VehicleService {
 		return vehicleRepository.findByMdn(mdn)
 			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 
+	}
+
+	public Long updateTotalDistance(UpdateTotalDistance updateTotalDistanceDto) {
+		return vehicleRepository.updateTotalDistance(updateTotalDistanceDto);
+	}
+
+	public void updateDrivingDaysAll() {
+		vehicleRepository.updateDrivingDaysAll();
 	}
 }
