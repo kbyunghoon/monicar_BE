@@ -5,52 +5,44 @@ import java.time.format.DateTimeFormatter;
 
 import lombok.Getter;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.eventhub.common.exception.BusinessException;
 import org.eventhub.common.response.ErrorCode;
 
 @Getter
-public class VehicleEventCreate {
+@Slf4j
+public class VehicleOnEventCreate extends VehicleEventCreateAbs {
 	private static final int EXPECTED_ON_OFF_TIME_LENGTH = 14; // ccyyMMddHHmmss
 	private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
 
-	private final long vehicleId;
-	private final VehicleEventType eventType;
-	private final LocalDateTime eventAt;
-
-	private VehicleEventCreate() {
-		this.vehicleId = 0;
-		this.eventType = null;
-		this.eventAt = null;
-	}
-
-	private VehicleEventCreate(
+	private VehicleOnEventCreate(
 			final long vehicleId,
 			final VehicleEventType eventType,
 			final LocalDateTime eventAt) {
-		this.vehicleId = vehicleId;
-		this.eventType = eventType;
-		this.eventAt = eventAt;
+		super(vehicleId, eventType, eventAt);
 	}
 
-	public static VehicleEventCreate of(
+	public static VehicleOnEventCreate of(
 			final long existedVehicleId,
-			final int existedSum,
+			final long existedSum,
 			final VehicleEventType onEvent,
 			final String rawEventAt,
 			final int sum) {
 		LocalDateTime onTime = validateEventAt(rawEventAt);
 		validateSum(existedSum, sum);
 
-		return new VehicleEventCreate(
+		return new VehicleOnEventCreate(
 				existedVehicleId,
 				onEvent,
 				onTime
 		);
 	}
 
-	private static void validateSum(final int existedSum, final int sum) {
+	private static void validateSum(final long existedSum, final long sum) {
 		if (existedSum != sum) {
-			throw new BusinessException(ErrorCode.HANDLE_ACCESS_DENIED);
+			log.info("existedSum: {}, sum: {}", existedSum, sum);
+			throw new BusinessException(ErrorCode.TOTALDISTANCE_INCONSISTENCY);
 		}
 	}
 

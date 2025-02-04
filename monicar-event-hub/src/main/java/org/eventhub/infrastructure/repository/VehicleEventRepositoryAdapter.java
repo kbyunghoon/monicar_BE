@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.eventhub.application.port.VehicleEventRepository;
 import org.eventhub.domain.VehicleEvent;
-import org.eventhub.infrastructure.repository.jpa.VehicleEventEntity;
+import org.eventhub.infrastructure.repository.jpa.entity.VehicleEventEntity;
 import org.eventhub.infrastructure.repository.jpa.VehicleEventJpaRepository;
 import org.springframework.stereotype.Repository;
 
