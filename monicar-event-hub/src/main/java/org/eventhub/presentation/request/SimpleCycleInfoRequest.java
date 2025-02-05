@@ -15,8 +15,8 @@ public record SimpleCycleInfoRequest(
 	GpsStatus gcd,
 	Long lat,
 	Long lng,
-	Integer spd,
-	Integer sum
+	Integer ang,
+	Integer spd
 ) {
 	public CycleInfo toDomain() {
 		return CycleInfo.builder()
@@ -24,7 +24,8 @@ public record SimpleCycleInfoRequest(
 			.gcd(gcd)
 			.lat(lat)
 			.lng(lng)
-			.sum(sum)
+			.ang(ang)
+			.spd(spd)
 			.build();
 	}
 }

@@ -45,7 +45,7 @@ public class OnOffController {
 		Optional<VehicleEvent> vehicleEvent = vehicleEventService.getRecentVehicleEvent(vehicleInformation.getId());
 		boolean isAlreadyOn = vehicleEvent.map(VehicleEvent::isTypeOn).orElse(false);
 
-		log.info("is already ON? : {}", isAlreadyOn);
+		log.info("is already ON? : {}! {}", isAlreadyOn, isAlreadyOn ? "" : "Engine ON");
 		if (isAlreadyOn) {
 			return BaseResponse.fail(ErrorCode.WRONG_APPROACH);
 		}
@@ -66,7 +66,7 @@ public class OnOffController {
 		Optional<VehicleEvent> vehicleEvent = vehicleEventService.getRecentVehicleEvent(vehicleInformation.getId());
 		boolean isAlreadyOff = vehicleEvent.map(VehicleEvent::isTypeOff).orElse(false);
 
-		log.info("is already OFF? : {}", isAlreadyOff);
+		log.info("is already OFF? : {}! {}", isAlreadyOff, isAlreadyOff ? "" : "Engine OFF");
 		if (isAlreadyOff) {
 			return BaseResponse.fail(ErrorCode.WRONG_APPROACH);
 		}
