@@ -14,11 +14,11 @@ public class VehicleEvent {
 	private LocalDateTime eventAt;
 	private LocalDateTime createdAt;
 
-	public static VehicleEvent create(VehicleEventCreate vehicleEventCreate) {
+	public static VehicleEvent create(VehicleEventCreateAbs vehicleOnEventCreate) {
 		return VehicleEvent.builder()
-			.vehicleId(vehicleEventCreate.getVehicleId())
-			.type(vehicleEventCreate.getEventType())
-			.eventAt(vehicleEventCreate.getEventAt())
+			.vehicleId(vehicleOnEventCreate.getVehicleId())
+			.type(vehicleOnEventCreate.getEventType())
+			.eventAt(vehicleOnEventCreate.getEventAt())
 			.build();
 	}
 

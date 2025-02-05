@@ -1,4 +1,4 @@
-package org.eventhub.infrastructure.repository.jpa;
+package org.eventhub.infrastructure.repository.jpa.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,7 +44,7 @@ public class VehicleInformationEntity {
 
 	private Integer drivingDays;
 
-	private Integer sum;
+	private Long sum;
 
 	private LocalDate deliveryDate;
 

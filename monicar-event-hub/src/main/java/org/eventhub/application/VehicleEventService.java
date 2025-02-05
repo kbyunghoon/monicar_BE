@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.eventhub.application.port.VehicleEventRepository;
 import org.eventhub.domain.VehicleEvent;
-import org.eventhub.domain.VehicleEventCreate;
+import org.eventhub.domain.VehicleEventCreateAbs;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,7 @@ public class VehicleEventService {
 	private final VehicleEventRepository vehicleEventRepository;
 
 	@Transactional
-	public VehicleEvent saveVehicleEvent(final VehicleEventCreate command) {
+	public VehicleEvent saveVehicleEvent(final VehicleEventCreateAbs command) {
 		return vehicleEventRepository.save(VehicleEvent.create(command));
 	}
 

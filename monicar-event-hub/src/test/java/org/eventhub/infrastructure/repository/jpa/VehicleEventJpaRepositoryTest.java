@@ -9,6 +9,7 @@ import org.eventhub.config.JpaConfig;
 import org.eventhub.domain.VehicleEvent;
 import org.eventhub.domain.VehicleEventType;
 import org.eventhub.infrastructure.repository.VehicleEventRepositoryAdapter;
+import org.eventhub.infrastructure.repository.jpa.entity.VehicleEventEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

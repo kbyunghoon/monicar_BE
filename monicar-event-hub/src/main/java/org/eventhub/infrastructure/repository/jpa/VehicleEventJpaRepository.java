@@ -2,6 +2,7 @@ package org.eventhub.infrastructure.repository.jpa;
 
 import java.util.Optional;
 
+import org.eventhub.infrastructure.repository.jpa.entity.VehicleEventEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
