@@ -2,3 +2,5 @@
 POST http://localhost:8090/api/v1/emulator/key-on
 
 ###
+
+POST http://localhost:8090/api/v1/emulator/key-off

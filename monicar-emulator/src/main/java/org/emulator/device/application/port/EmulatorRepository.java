@@ -7,12 +7,11 @@ public interface EmulatorRepository {
 	int startLogDistance();
 
 	int getCurrentDistance();
-
+	int getTotalDistance();
 	int updateCurrentDistance(int intervalDistance);
+	int updateTotalDistance();
 
 	boolean isTurnOn();
-
 	void turnOn();
-
 	void turnOff();
 }

@@ -14,4 +14,4 @@ api:
   base-url: http://localhost:8082/api/v1/event-hub/
   transmission-time: 60
 
-file-name: Gangnam-to-Pyeongchang-formatted.gpx
+file-name: suwon-daejon-gumi-optimized.gpx

@@ -19,13 +19,13 @@ import lombok.Builder;
  * @param pv      패킷 버전 - 데이터 패킷의 버전 정보
  * @param did     디바이스 아이디 - 설치된 디바이스의 고유 식별자
  * @param onTime  시동 ON 시간
- * @param offTime 직전 시동 OFF 시간
+ * @param offTime null
  * @param gcd     GPS 상태 - GPS 수신 상태 ('A': 정상, 'V': 비정상, '0': 미장착, 시동 on시 비정상: 'P')
- * @param lat     GPS 위도 - 차량의 현재 위도 좌표
- * @param lng     GPS 경도 - 차량의 현재 경도 좌표
- * @param ang     방향 - 차량의 현재 진행 방향
- * @param spd     속도 - 차량의 현재 속도
- * @param sum     누적 주행 거리 - 차량의 현재 총 주행 거리
+ * @param lat     GPS 위도 - 차량의 현재 위도 좌표(x1000000)
+ * @param lng     GPS 경도 - 차량의 현재 경도 좌표(x1000000)
+ * @param ang     0
+ * @param spd     0
+ * @param sum     차량의 총 누적 주행 거리
  */
 @Builder
 public record OnCommand(

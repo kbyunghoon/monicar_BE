@@ -2,25 +2,40 @@ package org.emulator.device.domain;
 
 import java.time.LocalDateTime;
 
-public class OffInfo {
-	private LocalDateTime vehicleOnTime;
-	private LocalDateTime vehicleOffTime;
-	private String gpsStatus;
-	private double latitude;
-	private double longitude;
-	private int direction;
-	private int speed;
-	private int totalDistance;
+import lombok.Builder;
+import lombok.Getter;
 
-	public OffInfo(LocalDateTime vehicleOnTime, LocalDateTime vehicleOffTime, String gpsStatus, double latitude,
-		double longitude, int totalDistance) {
-		this.vehicleOnTime = vehicleOnTime;
-		this.vehicleOffTime = vehicleOffTime;
-		this.gpsStatus = gpsStatus;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.direction = 0;
-		this.speed = 0;
-		this.totalDistance = totalDistance;
+import org.emulator.device.infrastructure.external.command.vo.Direction;
+import org.emulator.device.infrastructure.external.command.vo.Geo;
+import org.emulator.device.infrastructure.external.command.vo.Speed;
+import org.emulator.device.infrastructure.external.command.vo.TotalDistance;
+
+@Getter
+@Builder
+public class OffInfo {
+	private LocalDateTime onTime;
+	private LocalDateTime offTime;
+	private GpsStatus gpsStatus;
+	private Geo geo;
+	private Direction direction;
+	private Speed speed;
+	private TotalDistance fromOnToOffDistance;
+
+	public static OffInfo create(
+		LocalDateTime offTime,
+		GpsStatus gpsStatus,
+		double latitude,
+		double longitude,
+		int fromOnToOffDistance
+	) {
+		return OffInfo.builder()
+			.onTime(null)
+			.offTime(offTime)
+			.gpsStatus(gpsStatus)
+			.geo(new Geo(latitude, longitude))
+			.direction(new Direction())
+			.speed(new Speed())
+			.fromOnToOffDistance(new TotalDistance(fromOnToOffDistance))
+			.build();
 	}
 }

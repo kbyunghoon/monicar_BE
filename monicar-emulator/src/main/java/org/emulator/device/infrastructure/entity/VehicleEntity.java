@@ -1,5 +1,7 @@
 package org.emulator.device.infrastructure.entity;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import lombok.Getter;
 
 /**
@@ -7,27 +9,42 @@ import lombok.Getter;
  *
  * @field isOn  시동 On/Off 플래그
  */
-@Getter
 public class VehicleEntity {
+	@Getter
 	private boolean isOn;
-	private int totalDistance;
-	private int currentDistance = 0;
+	private AtomicInteger totalDistance;
+	private AtomicInteger currentDistance;
 
 	public VehicleEntity() {
 		isOn = false;
-		totalDistance = 0;
+		totalDistance = new AtomicInteger(0);
+		currentDistance = new AtomicInteger(0);
 	}
 
 	public int resetCurrentDistance() {
-		currentDistance = 0;
-		return currentDistance;
+		return currentDistance.getAndSet(0);
+	}
+
+	public int getCurrentDistance() {
+		return currentDistance.get();
 	}
 
 	public int addCurrentDistance(int distance) {
 		if (isOn) {
-			this.currentDistance += distance;
+			return currentDistance.addAndGet(distance);
 		}
-		return currentDistance;
+		return currentDistance.get();
+	}
+
+	public int getTotalDistance() {
+		return totalDistance.get();
+	}
+
+	public int addFromOnToOffDistance() {
+		if (!isOn) {
+			return totalDistance.addAndGet(currentDistance.get());
+		}
+		return totalDistance.get();
 	}
 
 	public void turnOn() {
