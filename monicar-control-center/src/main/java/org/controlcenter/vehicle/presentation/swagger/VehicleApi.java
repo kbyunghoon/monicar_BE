@@ -88,7 +88,7 @@ public interface VehicleApi {
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval,
-		@RequestParam(value = "page", defaultValue = "1") Integer page,
+		@RequestParam(value = "page", defaultValue = "0") Integer page,
 		@RequestParam(value = "size", defaultValue = "5") Integer size
 	);
 
