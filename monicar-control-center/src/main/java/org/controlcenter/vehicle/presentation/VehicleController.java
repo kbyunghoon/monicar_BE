@@ -165,6 +165,25 @@ public class VehicleController implements VehicleApi {
 
 
 	/**
+	 * (실시간 용) 개별 차량 경로 조회 API
+	 */
+	@GetMapping("/{vehicle-id}/recent/routes")
+	public BaseResponse<VehicleRouteResponse> getRecentRoutesByVehicle(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam(value = "currentTime") LocalDateTime currentTime
+	) {
+		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
+
+		List<RouteResponse> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId, currentTime);
+
+		VehicleRouteResponse response = VehicleRouteResponse.builder()
+			.vehicleNumber(vehicleNumber)
+			.routes(routesResponses)
+			.build();
+		return BaseResponse.success(response);
+	}
+
+	/**
 	 * 지도 클러스터링 조회 API
 	 */
 	@GetMapping("/cluster")

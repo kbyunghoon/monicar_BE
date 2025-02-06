@@ -55,6 +55,13 @@ public class VehicleQueryRepository {
 		);
 	}
 
+	public List<RouteResponse> getRecentRoutesByVehicle(Long vehicleId, LocalDateTime currentTime) {
+		return myBatisVehicleInfoMapper.getRecentRoutesByVehicle(
+			vehicleId,
+			currentTime
+		);
+	}
+
 	public VehicleModalResponse.RecentVehicleInfo getRecentVehicleInfo(Long vehicleId) {
 		return myBatisVehicleInfoMapper.getRecentVehicleInfo(vehicleId);
 	}
