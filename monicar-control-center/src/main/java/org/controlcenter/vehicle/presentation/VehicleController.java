@@ -140,7 +140,6 @@ public class VehicleController implements VehicleApi {
 	/**
 	 *  개별 차량 경로 페이진이션 API
 	 */
-	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/{vehicle-id}/routes/detail")
 	public BaseResponse<VehicleRouteResponse> getVehicleRouteWithPagination(
 		@PathVariable("vehicle-id") Long vehicleId,
