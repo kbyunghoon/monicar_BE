@@ -103,6 +103,23 @@ public interface MyBatisVehicleInfoMapper {
 
 
 	@Select("""
+		select
+		  lat,
+		  lng,
+		  spd,
+		  interval_at
+		from cycle_info
+		where vehicle_id = #{vehicleId}
+			and interval_at <= #{currentTime}
+  		order by interval_at desc
+  		limit 60;
+		""")
+	List<RouteResponse> getRecentRoutesByVehicle(
+		@Param("vehicleId") Long vehicleId,
+		@Param("currentTime") LocalDateTime currentTime
+	);
+
+	@Select("""
 			select
 				vi.vehicle_id,
 				vi.vehicle_number,

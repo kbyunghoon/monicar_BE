@@ -59,6 +59,12 @@ public interface VehicleApi {
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval
 	);
 
+	@Operation(summary = "실시간용 개별 차량 경로 조회", description = "차량 고유 ID를 통해 특정 시간 기준 최근 60개 경로 정보를 조회")
+	BaseResponse<VehicleRouteResponse> getRecentRoutesByVehicle(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam(value = "currentTime") LocalDateTime currentTime
+	);
+
 	@Operation(summary = "지도 클러스터링 조회", description = "특정 회사의 모든 차량 지도 클러스터링을 조회")
 	BaseResponse<List<GeoClusteringResponse>> clusterCoordinate(
 		@RequestParam(value = "level") Integer level,
