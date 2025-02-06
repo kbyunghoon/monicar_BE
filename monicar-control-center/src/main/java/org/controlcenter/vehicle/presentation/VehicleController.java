@@ -140,13 +140,14 @@ public class VehicleController implements VehicleApi {
 	/**
 	 *  개별 차량 경로 페이진이션 API
 	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/{vehicle-id}/routes/detail")
 	public BaseResponse<VehicleRouteResponse> getVehicleRouteWithPagination(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval,
-		@RequestParam(value = "page", defaultValue = "1") Integer page,
+		@RequestParam(value = "page", defaultValue = "0") Integer page,
 		@RequestParam(value = "size", defaultValue = "5") Integer size
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);

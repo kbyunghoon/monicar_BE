@@ -44,7 +44,7 @@ public class VehicleQueryRepository {
 		Integer page,
 		Integer size
 	) {
-		int offset = (page - 1) * size;
+		int offset = page * size;
 		return myBatisVehicleInfoMapper.getVehicleRouteFromWithPagination(
 			vehicleId,
 			startTime,
