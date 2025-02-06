@@ -79,4 +79,17 @@ public interface VehicleApi {
 
 	@Operation(summary = "시동 여부에 따른 전체 차량 수 조회", description = "특정 회사의 시동 여부에 따른 전체 차량 수 조회")
 	BaseResponse<VehicleEngineStatusResponse> getVehicleEngineStatus();
+
+	@Operation(
+		summary = "개별 차량 경로 페이징 조회",
+		description = "차량 고유 ID를 통해 특정 시간 안에 일정한 간격의 경로 정보를 페이지네이션으로 조회")
+	BaseResponse<VehicleRouteResponse> getVehicleRouteWithPagination(
+		@PathVariable("vehicle-id") Long vehicleId,
+		@RequestParam(value = "startTime") LocalDateTime startTime,
+		@RequestParam(value = "endTime") LocalDateTime endTime,
+		@RequestParam(value = "interval", defaultValue = "60") Integer interval,
+		@RequestParam(value = "page", defaultValue = "0") Integer page,
+		@RequestParam(value = "size", defaultValue = "5") Integer size
+	);
+
 }

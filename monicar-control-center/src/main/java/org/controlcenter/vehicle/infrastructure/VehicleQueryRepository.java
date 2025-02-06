@@ -36,6 +36,25 @@ public class VehicleQueryRepository {
 		);
 	}
 
+	public List<RouteResponse> getVehicleRouteFromWithPagination(
+		Long vehicleId,
+		LocalDateTime startTime,
+		LocalDateTime endTime,
+		Integer interval,
+		Integer page,
+		Integer size
+	) {
+		int offset = page * size;
+		return myBatisVehicleInfoMapper.getVehicleRouteFromWithPagination(
+			vehicleId,
+			startTime,
+			endTime,
+			interval,
+			size,
+			offset
+		);
+	}
+
 	public VehicleModalResponse.RecentVehicleInfo getRecentVehicleInfo(Long vehicleId) {
 		return myBatisVehicleInfoMapper.getRecentVehicleInfo(vehicleId);
 	}

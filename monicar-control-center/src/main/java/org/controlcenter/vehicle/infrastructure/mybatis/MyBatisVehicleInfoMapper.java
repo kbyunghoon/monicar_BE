@@ -69,6 +69,39 @@ public interface MyBatisVehicleInfoMapper {
 		@Param("interval") Integer interval
 	);
 
+	/**
+	 * 1억개 데이터 기준
+	 * 멀티 컬럼 인덱스 : (vehicle_id, interval_at) 적용
+	 * 페이지 네이션 추가
+	 */
+	@Select("""
+		SELECT
+			filtering_cycle_info.lat,
+			filtering_cycle_info.lng,
+			filtering_cycle_info.spd,
+			filtering_cycle_info.interval_at
+		FROM (
+			SELECT
+				*,
+				ROW_NUMBER() OVER (ORDER BY interval_at) AS row_num
+			FROM cycle_info
+			WHERE vehicle_id = #{vehicleId}
+			  AND #{startTime} <= interval_at
+			  AND interval_at <= #{endTime}
+		) AS filtering_cycle_info
+		WHERE (row_num - 1) % #{interval} = 0
+		LIMIT #{size} OFFSET #{offset};
+	""")
+	List<RouteResponse> getVehicleRouteFromWithPagination(
+		@Param("vehicleId") Long vehicleId,
+		@Param("startTime") LocalDateTime startTime,
+		@Param("endTime") LocalDateTime endTime,
+		@Param("interval") Integer interval,
+		@Param("size") Integer size,
+		@Param("offset") Integer offset
+	);
+
+
 	@Select("""
 			select
 				vi.vehicle_id,
