@@ -101,6 +101,29 @@ public interface MyBatisVehicleInfoMapper {
 		@Param("offset") Integer offset
 	);
 
+	/**
+	 * 1억개 데이터 기준
+	 * 멀티 컬럼 인덱스 : (vehicle_id, interval_at) 적용
+	 * 전체 데이터 개수 조회
+	 */
+	@Select("""
+		SELECT COUNT(*) 
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY interval_at) AS row_num
+			FROM cycle_info
+			WHERE vehicle_id = #{vehicleId}
+			  AND #{startTime} <= interval_at
+			  AND interval_at <= #{endTime}
+		) AS filtered_data
+		WHERE (row_num - 1) % #{interval} = 0
+	""")
+	int countVehicleRoutes(
+		@Param("vehicleId") Long vehicleId,
+		@Param("startTime") LocalDateTime startTime,
+		@Param("endTime") LocalDateTime endTime,
+		@Param("interval") Integer interval
+	);
+
 
 	@Select("""
 			select
