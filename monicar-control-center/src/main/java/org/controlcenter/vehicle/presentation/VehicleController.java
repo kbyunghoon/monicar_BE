@@ -20,6 +20,7 @@ import org.controlcenter.vehicle.presentation.dto.ClusterResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -27,6 +28,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleRouteWithAngResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteWithStatusResponse;
 import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
 import org.springframework.data.domain.Page;
@@ -128,7 +130,7 @@ public class VehicleController implements VehicleApi {
 	 * 개별 차량 경로 조회 API
 	 */
 	@GetMapping("/{vehicle-id}/routes")
-	public BaseResponse<VehicleRouteResponse> getVehicleRoute(
+	public BaseResponse<VehicleRouteWithAngResponse> getVehicleRoute(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
@@ -136,10 +138,10 @@ public class VehicleController implements VehicleApi {
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponse> routesResponses = vehicleQueryRepository.getVehicleRouteFrom(vehicleId, startTime, endTime,
+		List<RouteResponseWithAng> routesResponses = vehicleQueryRepository.getVehicleRouteFrom(vehicleId, startTime, endTime,
 			interval);
 
-		VehicleRouteResponse response = VehicleRouteResponse.builder()
+		VehicleRouteWithAngResponse response = VehicleRouteWithAngResponse.builder()
 			.vehicleNumber(vehicleNumber)
 			.routes(routesResponses)
 			.build();

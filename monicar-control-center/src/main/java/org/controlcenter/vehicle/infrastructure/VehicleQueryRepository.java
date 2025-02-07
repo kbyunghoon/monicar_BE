@@ -6,6 +6,7 @@ import java.util.List;
 import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper;
 import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -26,7 +27,7 @@ public class VehicleQueryRepository {
 		return myBatisVehicleInfoMapper.selectVehicleInfo(request.vehicleNumber());
 	}
 
-	public List<RouteResponse> getVehicleRouteFrom(
+	public List<RouteResponseWithAng> getVehicleRouteFrom(
 		Long vehicleId,
 		LocalDateTime startTime,
 		LocalDateTime endTime,
