@@ -1,11 +1,18 @@
 package org.controlcenter.vehicle.presentation.swagger;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.domain.VehicleInformation;
+import org.controlcenter.vehicle.domain.VehicleStatus;
+import org.controlcenter.vehicle.presentation.dto.ClusterResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
@@ -68,6 +75,7 @@ public interface VehicleApi {
 		@RequestParam(value = "currentTime") LocalDateTime currentTime
 	);
 
+	@Hidden
 	@Operation(summary = "지도 클러스터링 조회", description = "특정 회사의 모든 차량 지도 클러스터링을 조회")
 	BaseResponse<List<GeoClusteringResponse>> clusterCoordinate(
 		@RequestParam(value = "level") Integer level,
@@ -77,6 +85,7 @@ public interface VehicleApi {
 		@RequestParam(value = "swLng") Integer swLng
 	);
 
+	@Hidden
 	@Operation(summary = "지도 클러스터링 상세 조회", description = "클러스터링한 차량 개수가 적다면 상세 조회 한다")
 	BaseResponse<List<GeoCoordinateDetailsResponse>> clusterCoordinateDetail(
 		@RequestParam(value = "level") Integer level,
@@ -100,4 +109,19 @@ public interface VehicleApi {
 		@PageableDefault(size = 5) Pageable pageable
 	);
 
+
+	@Operation(summary = "지도 클러스터링 조회", description = "모든 차량 지도 클러스터링을 조회")
+	BaseResponse<List<ClusterResponse>> getClusters(
+		@Parameter(description = "북동 좌표 위도 (정수, 원래 값 * 1,000,000)", required = true, in = ParameterIn.QUERY)
+		@RequestParam("neLat") int neLat,
+		@Parameter(description = "북동 좌표 경도 (정수, 원래 값 * 1,000,000)", required = true, in = ParameterIn.QUERY)
+		@RequestParam("neLng") int neLng,
+		@Parameter(description = "남서 좌표 위도 (정수, 원래 값 * 1,000,000)", required = true, in = ParameterIn.QUERY)
+		@RequestParam("swLat") int swLat,
+		@Parameter(description = "남서 좌표 경도 (정수, 원래 값 * 1,000,000)", required = true, in = ParameterIn.QUERY)
+		@RequestParam("swLng") int swLng,
+		@Parameter(description = "줌 레벨 (최소 1 ~ 최대 13)", required = true, in = ParameterIn.QUERY)
+		@RequestParam("zoomLevel") int zoomLevel,
+		@Parameter(description = "조회할 차량 상태 (예: NOT_REGISTERED, NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
+		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
 }

@@ -79,6 +79,8 @@ CREATE TABLE vehicle_information
     `did`             INT          NOT NULL COMMENT '디바이스 아이디',
     `driving_days`    INT          NOT NULL DEFAULT 0 COMMENT '운행 일수',
     `sum`             BIGINT       NOT NULL COMMENT '누적 주행 거리',
+    `lat`             INT          NULL COMMENT '위도 * 1000000 한값(소수점 6자리)',
+    `lng`             INT          NULL COMMENT '경도 * 1000000 한값(소수점 6자리)',
     `status`          VARCHAR(100) NOT NULL DEFAULT 'NOT_REGISTERED' COMMENT '차량 상태',
     `delivery_date`   DATE         NOT NULL COMMENT '출고일자',
     `created_at`      TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',

@@ -6,14 +6,17 @@ import java.util.List;
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.common.response.code.SuccessCode;
+import org.controlcenter.vehicle.application.ClusterService;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleRegister;
+import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
+import org.controlcenter.vehicle.presentation.dto.ClusterResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
@@ -48,6 +51,7 @@ public class VehicleController implements VehicleApi {
 	private final VehicleQueryRepository vehicleQueryRepository;
 	private final VehicleClusteringService vehicleClusteringService;
 	private final VehicleService vehicleService;
+	private final ClusterService clusterService;
 
 	@GetMapping
 	public BaseResponse<VehicleInfoResponse> getVehicleInfo(
@@ -267,5 +271,20 @@ public class VehicleController implements VehicleApi {
 			.engineOffVehicles(engineStatusResponse.engineOffVehicles())
 			.build();
 		return BaseResponse.success(response);
+	}
+
+	@GetMapping("/clusters")
+	public BaseResponse<List<ClusterResponse>> getClusters(
+		@RequestParam("neLat") int neLat,
+		@RequestParam("neLng") int neLng,
+		@RequestParam("swLat") int swLat,
+		@RequestParam("swLng") int swLng,
+		@RequestParam("zoomLevel") int zoomLevel,
+		@RequestParam(value = "status", defaultValue = "") VehicleStatus status) {
+
+		List<ClusterResponse> clusterResponses = clusterService
+			.getClusters(neLat, neLng, swLat, swLng, zoomLevel, status)
+			.stream().map(ClusterResponse::from).toList();
+		return BaseResponse.success(clusterResponses);
 	}
 }
