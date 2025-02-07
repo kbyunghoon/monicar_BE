@@ -52,6 +52,10 @@ public class VehicleInformationEntity {
 
 	private Integer sum;
 
+	private Integer lat;
+
+	private Integer lng;
+
 	@Enumerated(value = EnumType.STRING)
 	private VehicleStatus status;
 

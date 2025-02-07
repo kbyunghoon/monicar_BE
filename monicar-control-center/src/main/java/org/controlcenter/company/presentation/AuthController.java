@@ -51,7 +51,7 @@ public class AuthController implements AuthApi {
 			return ResponseEntity.ok(BaseResponse.success());
 
 		} catch (BusinessException | JwtException e) {
-			return createErrorResponse();
+			return createErrorResponse(response);
 		}
 	}
 
@@ -72,11 +72,14 @@ public class AuthController implements AuthApi {
 			return ResponseEntity.ok(BaseResponse.success("새로운 Refresh Token 발급 완료"));
 
 		} catch (BusinessException | JwtException e) {
-			return createErrorResponse();
+			return createErrorResponse(response);
 		}
 	}
 
-	private ResponseEntity<BaseResponse<?>> createErrorResponse() {
+	private ResponseEntity<BaseResponse<?>> createErrorResponse(HttpServletResponse response) {
+		response.addHeader("Set-Cookie", cookieUtil.createAccessTokenCookie("", 0L).toString());
+		response.addHeader("Set-Cookie",
+			cookieUtil.createRefreshTokenCookie("", 0L).toString());
 		return ResponseEntity.status(HttpStatus.FORBIDDEN)
 			.body(BaseResponse.fail(ErrorCode.FORBIDDEN_ACCESS));
 	}
