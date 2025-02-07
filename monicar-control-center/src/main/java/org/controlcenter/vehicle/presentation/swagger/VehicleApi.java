@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
@@ -14,6 +15,8 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -89,13 +92,12 @@ public interface VehicleApi {
 	@Operation(
 		summary = "개별 차량 경로 페이징 조회",
 		description = "차량 고유 ID를 통해 특정 시간 안에 일정한 간격의 경로 정보를 페이지네이션으로 조회")
-	BaseResponse<VehicleRouteResponse> getVehicleRouteWithPagination(
+	BaseResponse<PageResponse<VehicleRouteResponse>> getVehicleRouteWithPagination(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval,
-		@RequestParam(value = "page", defaultValue = "0") Integer page,
-		@RequestParam(value = "size", defaultValue = "5") Integer size
+		@PageableDefault(size = 5) Pageable pageable
 	);
 
 }

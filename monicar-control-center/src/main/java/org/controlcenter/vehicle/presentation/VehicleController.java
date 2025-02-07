@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.common.response.code.SuccessCode;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleService;
@@ -24,6 +25,9 @@ import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
 import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -141,26 +145,29 @@ public class VehicleController implements VehicleApi {
 	 *  개별 차량 경로 페이진이션 API
 	 */
 	@GetMapping("/{vehicle-id}/routes/detail")
-	public BaseResponse<VehicleRouteResponse> getVehicleRouteWithPagination(
+	public BaseResponse<PageResponse<VehicleRouteResponse>> getVehicleRouteWithPagination(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval,
-		@RequestParam(value = "page", defaultValue = "0") Integer page,
-		@RequestParam(value = "size", defaultValue = "5") Integer size
+		@PageableDefault(size = 5) Pageable pageable
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponse> routesResponses = vehicleQueryRepository.getVehicleRouteFromWithPagination(
-			vehicleId, startTime, endTime, interval, page, size
+		Page<RouteResponse> routePage = vehicleQueryRepository.getVehicleRouteFromWithPagination(
+			vehicleId, startTime, endTime, interval, pageable
 		);
 
-		VehicleRouteResponse response = VehicleRouteResponse.builder()
+		VehicleRouteResponse vehicleRouteResponse = VehicleRouteResponse.builder()
 			.vehicleNumber(vehicleNumber)
-			.routes(routesResponses)
+			.routes(routePage.getContent())
 			.build();
 
-		return BaseResponse.success(response);
+		PageResponse<VehicleRouteResponse> pageResponse = new PageResponse<>(
+			List.of(vehicleRouteResponse), pageable, routePage.getTotalElements()
+		);
+
+		return BaseResponse.success(pageResponse);
 	}
 
 

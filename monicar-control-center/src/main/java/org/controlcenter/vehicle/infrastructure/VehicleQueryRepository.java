@@ -9,6 +9,9 @@ import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -36,23 +39,25 @@ public class VehicleQueryRepository {
 		);
 	}
 
-	public List<RouteResponse> getVehicleRouteFromWithPagination(
+	public Page<RouteResponse> getVehicleRouteFromWithPagination(
 		Long vehicleId,
 		LocalDateTime startTime,
 		LocalDateTime endTime,
 		Integer interval,
-		Integer page,
-		Integer size
+		Pageable pageable
 	) {
-		int offset = page * size;
-		return myBatisVehicleInfoMapper.getVehicleRouteFromWithPagination(
-			vehicleId,
-			startTime,
-			endTime,
-			interval,
-			size,
-			offset
+		int size = pageable.getPageSize();
+		int offset = (int) pageable.getOffset();
+
+		List<RouteResponse> routes = myBatisVehicleInfoMapper.getVehicleRouteFromWithPagination(
+			vehicleId, startTime, endTime, interval, size, offset
 		);
+
+		int totalElements = myBatisVehicleInfoMapper.countVehicleRoutes(
+			vehicleId, startTime, endTime, interval
+		);
+
+		return new PageImpl<>(routes, pageable, totalElements);
 	}
 
 	public List<RouteResponse> getRecentRoutesByVehicle(Long vehicleId, LocalDateTime currentTime) {
