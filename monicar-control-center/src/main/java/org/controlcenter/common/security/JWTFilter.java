@@ -31,8 +31,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		"/api/v1/sign-in",
 		"/api/v1/sign-up",
 		"/auth/reissue",
-		"/api/v1/logout",
-		"/swagger-ui/index.html"
+		"/api/v1/logout"
 	);
 
 	@Override
@@ -47,7 +46,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
 		System.out.printf("요청 엔드포인트: %s / %s\n", fullURL, request.getMethod());
 
-		if (isExcludedUri(request.getRequestURI())) {
+		if (isExcludedUri(request.getRequestURI()) || request.getRequestURI().startsWith("/swagger-ui")
+			|| request.getRequestURI().startsWith("/v3/api-docs")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
