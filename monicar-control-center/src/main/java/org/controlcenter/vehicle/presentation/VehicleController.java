@@ -289,4 +289,22 @@ public class VehicleController implements VehicleApi {
 			.stream().map(ClusterResponse::from).toList();
 		return BaseResponse.success(clusterResponses);
 	}
+
+	@GetMapping("/clusters/{vehicle-id}")
+	public BaseResponse<VehicleLocationResponse> getVehicleByVehicleId(
+		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
+	) {
+		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(vehicleId);
+
+		String status = vehicleQueryRepository.getVehicleStatus(vehicleInformation.getId());
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId());
+
+		VehicleLocationResponse response = VehicleLocationResponse.builder()
+			.vehicleId(vehicleInformation.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.recentCycleInfo(recentCycleInfo)
+			.status(status)
+			.build();
+		return BaseResponse.success(response);
+	}
 }
