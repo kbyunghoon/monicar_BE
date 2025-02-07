@@ -10,6 +10,7 @@ import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDetails
 import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDto;
 import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
+import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
@@ -49,7 +50,7 @@ public interface MyBatisVehicleInfoMapper {
 		select
 		    filtering_cycle_info.lat,
 		    filtering_cycle_info.lng,
-		    filtering_cycle_info.spd,
+		    filtering_cycle_info.ang,
 		    filtering_cycle_info.interval_at
 				from (
 		           select
@@ -62,7 +63,7 @@ public interface MyBatisVehicleInfoMapper {
 		       ) as filtering_cycle_info
 		  where (row_num - 1) % #{interval} = 0;
 		""")
-	List<RouteResponse> getVehicleRouteFrom(
+	List<RouteResponseWithAng> getVehicleRouteFrom(
 		@Param("vehicleId") Long vehicleId,
 
 		@Param("startTime") LocalDateTime startTime,

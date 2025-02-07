@@ -22,6 +22,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleRouteWithAngResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteWithStatusResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -63,7 +64,7 @@ public interface VehicleApi {
 	);
 
 	@Operation(summary = "개별 차량 경로 조회", description = "차량 고유 ID를 통해 특정 시간 안에 일정한 간격의 경로 정보를 조회")
-	BaseResponse<VehicleRouteResponse> getVehicleRoute(
+	BaseResponse<VehicleRouteWithAngResponse> getVehicleRoute(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "startTime") LocalDateTime startTime,
 		@RequestParam(value = "endTime") LocalDateTime endTime,
