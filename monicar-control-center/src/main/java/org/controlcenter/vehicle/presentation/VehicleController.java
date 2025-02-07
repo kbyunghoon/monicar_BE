@@ -27,6 +27,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleRouteWithStatusResponse;
 import org.controlcenter.vehicle.presentation.swagger.VehicleApi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -174,20 +175,19 @@ public class VehicleController implements VehicleApi {
 		return BaseResponse.success(pageResponse);
 	}
 
-
 	/**
 	 * (실시간 용) 개별 차량 경로 조회 API
 	 */
 	@GetMapping("/{vehicle-id}/recent/routes")
-	public BaseResponse<VehicleRouteResponse> getRecentRoutesByVehicle(
+	public BaseResponse<VehicleRouteWithStatusResponse> getRecentRoutesByVehicle(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "currentTime") LocalDateTime currentTime
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponse> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId, currentTime);
+		List<RouteResponseWithStatus> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId, currentTime);
 
-		VehicleRouteResponse response = VehicleRouteResponse.builder()
+		VehicleRouteWithStatusResponse response = VehicleRouteWithStatusResponse.builder()
 			.vehicleNumber(vehicleNumber)
 			.routes(routesResponses)
 			.build();

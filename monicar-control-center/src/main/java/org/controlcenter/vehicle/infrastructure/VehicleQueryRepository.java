@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper;
+import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
@@ -60,7 +61,7 @@ public class VehicleQueryRepository {
 		return new PageImpl<>(routes, pageable, totalElements);
 	}
 
-	public List<RouteResponse> getRecentRoutesByVehicle(Long vehicleId, LocalDateTime currentTime) {
+	public List<RouteResponseWithStatus> getRecentRoutesByVehicle(Long vehicleId, LocalDateTime currentTime) {
 		return myBatisVehicleInfoMapper.getRecentRoutesByVehicle(
 			vehicleId,
 			currentTime
