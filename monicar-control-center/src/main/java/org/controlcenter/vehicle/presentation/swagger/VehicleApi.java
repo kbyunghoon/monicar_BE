@@ -15,6 +15,7 @@ import org.controlcenter.vehicle.presentation.dto.VehicleLocationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleRegisterRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleRouteResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleRouteWithStatusResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,8 +63,8 @@ public interface VehicleApi {
 		@RequestParam(value = "interval", defaultValue = "60") Integer interval
 	);
 
-	@Operation(summary = "실시간용 개별 차량 경로 조회", description = "차량 고유 ID를 통해 특정 시간 기준 최근 60개 경로 정보를 조회")
-	BaseResponse<VehicleRouteResponse> getRecentRoutesByVehicle(
+	@Operation(summary = "실시간용 개별 차량 경로 조회", description = "차량 고유 ID를 통해 특정 시간 기준 2분전 최근 65개 경로 정보를 조회")
+	BaseResponse<VehicleRouteWithStatusResponse> getRecentRoutesByVehicle(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(value = "currentTime") LocalDateTime currentTime
 	);

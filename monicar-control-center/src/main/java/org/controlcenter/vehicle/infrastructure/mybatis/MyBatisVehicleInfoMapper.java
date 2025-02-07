@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDetailsDto;
 import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDto;
+import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
@@ -124,20 +125,22 @@ public interface MyBatisVehicleInfoMapper {
 		@Param("interval") Integer interval
 	);
 
-
 	@Select("""
-		select
-		  lat,
-		  lng,
-		  spd,
-		  interval_at
-		from cycle_info
-		where vehicle_id = #{vehicleId}
-			and interval_at <= #{currentTime}
-  		order by interval_at desc
-  		limit 60;
+		SELECT
+		  ci.lat,
+		  ci.lng,
+		  ci.spd,
+		  vi.status,
+		  ci.interval_at
+  		FROM cycle_info ci
+           JOIN vehicle_information vi ON ci.vehicle_id = vi.vehicle_id
+  		WHERE ci.vehicle_id = #{vehicleId}
+    		AND vi.status = 'IN_OPERATION'
+    		AND ci.interval_at <= DATE_SUB(#{currentTime}, INTERVAL 2 MINUTE)
+      	ORDER BY ci.interval_at DESC
+       	LIMIT 65;
 		""")
-	List<RouteResponse> getRecentRoutesByVehicle(
+	List<RouteResponseWithStatus> getRecentRoutesByVehicle(
 		@Param("vehicleId") Long vehicleId,
 		@Param("currentTime") LocalDateTime currentTime
 	);
