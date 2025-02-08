@@ -177,7 +177,8 @@ public class DrivingLogJpaRepository implements DrivingLogRepository {
 				vehicleTypeEntity.vehicleTypesName,
 				companyEntity.id,
 				companyEntity.companyName,
-				companyEntity.businessRegistrationNumber
+				companyEntity.businessRegistrationNumber,
+				vehicleInformationEntity.status
 			))
 			.from(vehicleInformationEntity)
 			.join(vehicleTypeEntity).on(vehicleInformationEntity.vehicleTypeId.eq(vehicleTypeEntity.id))
