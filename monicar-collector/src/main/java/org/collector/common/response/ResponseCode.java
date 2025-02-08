@@ -26,7 +26,8 @@ public enum ResponseCode {
 	MISMATCHED_MDN("304", "Mismatched MDN"),
 	DATA_PROCESSING_ERROR("400", "An error occured while processing data"),
 	UNDEFINED_ERROR("500", "An Undefined error has occurred"),
-	ENTITY_NOT_FOUND("500", "Entity not found");
+	ENTITY_NOT_FOUND("500", "Entity not found"),
+	NOT_CYCLE_INFO_SIZE_ERROR("500", "The number of CycleInfo is not 60.");
 
 	private final String code;
 	private final String message;
