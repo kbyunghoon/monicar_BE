@@ -80,9 +80,10 @@ public class DrivingLogService {
 			drivingLogRepository.sumByVehicleIdAndDateRange(vehicleId, startDate, endDate.plusDays(1))
 		).orElse(0);
 
-		SpecificVehicleInformation vehicleType = SpecificVehicleInformation.builder()
+		SpecificVehicleInformation vehicleInfo = SpecificVehicleInformation.builder()
 			.vehicleNumber(header.getVehicleNumber())
 			.vehicleModel(header.getVehicleTypesName())
+			.status(header.getStatus())
 			.build();
 
 		BusinessInfo businessInfo = BusinessInfo.builder()
@@ -99,7 +100,7 @@ public class DrivingLogService {
 			.taxStartPeriod(startDate)
 			.taxEndPeriod(endDate)
 			.businessInfo(businessInfo)
-			.vehicleType(vehicleType)
+			.vehicleInfo(vehicleInfo)
 			.records(drivingLogsPage)
 			.taxPeriodDistance(sumDistance)
 			.taxPeriodBusinessDistance(summary.getCommuteCount())

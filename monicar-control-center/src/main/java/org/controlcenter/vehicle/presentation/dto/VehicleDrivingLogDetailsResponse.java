@@ -3,11 +3,11 @@ package org.controlcenter.vehicle.presentation.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import lombok.Builder;
-
 import org.controlcenter.vehicle.domain.BusinessInfo;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
+
+import lombok.Builder;
 
 @Builder
 public record VehicleDrivingLogDetailsResponse(
@@ -17,7 +17,7 @@ public record VehicleDrivingLogDetailsResponse(
 	int taxPeriodDistance,
 	int taxPeriodBusinessDistance,
 	int businessUseRatio,
-	SpecificVehicleInformation vehicleType,
+	SpecificVehicleInformation vehicleInfo,
 	List<DrivingLogDetailsContent> records
 ) {
 }

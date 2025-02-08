@@ -13,7 +13,7 @@ public record DrivingLogResponse(
 	String vehicleModel,
 	Integer drivingDays,
 	Integer totalDistance,
-	String status
+	VehicleStatus status
 ) {
 	public static DrivingLogResponse from(DrivingLog drivingLog) {
 		return DrivingLogResponse.builder()
@@ -22,7 +22,7 @@ public record DrivingLogResponse(
 			.vehicleModel(drivingLog.getVehicleModel())
 			.drivingDays(drivingLog.getDrivingDays())
 			.totalDistance(drivingLog.getTotalDistance())
-			.status(drivingLog.getStatus().getLabel())
+			.status(drivingLog.getStatus())
 			.build();
 	}
 }

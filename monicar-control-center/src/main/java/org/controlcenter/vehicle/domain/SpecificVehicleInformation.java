@@ -10,10 +10,12 @@ import lombok.Getter;
 public class SpecificVehicleInformation {
 	private String vehicleNumber;
 	private String vehicleModel;
+	private VehicleStatus status;
 
 	@QueryProjection
-	public SpecificVehicleInformation(String vehicleNumber, String vehicleModel) {
+	public SpecificVehicleInformation(String vehicleNumber, String vehicleModel, VehicleStatus status) {
 		this.vehicleNumber = vehicleNumber;
 		this.vehicleModel = vehicleModel;
+		this.status = status;
 	}
 }
