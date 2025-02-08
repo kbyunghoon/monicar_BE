@@ -5,6 +5,7 @@ import java.util.List;
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.vehicle.domain.Cluster;
+import org.controlcenter.vehicle.domain.ClusterDetail;
 import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationJpaRepository;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,9 @@ public class ClusterService {
 		int gridLng = (int)(lngRange * factor);
 
 		return vehicleInformationJpaRepository.findClusters(swLat, neLat, swLng, neLng, gridLat, gridLng, status);
+	}
+
+	public List<ClusterDetail> getClustersDetail(int neLat, int neLng, int swLat, int swLng, VehicleStatus status) {
+		return vehicleInformationJpaRepository.findClustersDetail(swLat, neLat, swLng, neLng, status);
 	}
 }

@@ -38,15 +38,15 @@ public class VehicleService {
 			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 	}
 
+	@Transactional(readOnly = true)
+	public VehicleInformation getVehicleInformation(Long vehicleId) {
+		return vehicleRepository.findById(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
+	}
+
 	@Transactional
 	public VehicleEvent saveVehicleEvent(final VehicleEventCreate command) {
 		return vehicleEventRepository.save(VehicleEvent.create(command));
-	}
-
-	@Transactional(readOnly = true)
-	public VehicleInformation getVehicleInformation(final Long mdn) {
-		return vehicleRepository.findByMdn(mdn)
-			.orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 	}
 
 	@Transactional
