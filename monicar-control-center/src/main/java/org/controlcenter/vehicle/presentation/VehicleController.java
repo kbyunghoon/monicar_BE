@@ -9,6 +9,7 @@ import org.controlcenter.common.response.code.SuccessCode;
 import org.controlcenter.vehicle.application.ClusterService;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleService;
+import org.controlcenter.vehicle.domain.ClusterDetail;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleRegister;
 import org.controlcenter.vehicle.domain.VehicleStatus;
@@ -138,7 +139,8 @@ public class VehicleController implements VehicleApi {
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponseWithAng> routesResponses = vehicleQueryRepository.getVehicleRouteFrom(vehicleId, startTime, endTime,
+		List<RouteResponseWithAng> routesResponses = vehicleQueryRepository.getVehicleRouteFrom(vehicleId, startTime,
+			endTime,
 			interval);
 
 		VehicleRouteWithAngResponse response = VehicleRouteWithAngResponse.builder()
@@ -187,7 +189,8 @@ public class VehicleController implements VehicleApi {
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponseWithStatus> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId, currentTime);
+		List<RouteResponseWithStatus> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId,
+			currentTime);
 
 		VehicleRouteWithStatusResponse response = VehicleRouteWithStatusResponse.builder()
 			.vehicleNumber(vehicleNumber)
@@ -287,6 +290,20 @@ public class VehicleController implements VehicleApi {
 		List<ClusterResponse> clusterResponses = clusterService
 			.getClusters(neLat, neLng, swLat, swLng, zoomLevel, status)
 			.stream().map(ClusterResponse::from).toList();
+		return BaseResponse.success(clusterResponses);
+	}
+
+	@GetMapping("/clusters/detail")
+	public BaseResponse<List<ClusterDetail>> getClustersDetail(
+		@RequestParam("neLat") int neLat,
+		@RequestParam("neLng") int neLng,
+		@RequestParam("swLat") int swLat,
+		@RequestParam("swLng") int swLng,
+		@RequestParam(value = "status", defaultValue = "") VehicleStatus status
+	) {
+		List<ClusterDetail> clusterResponses = clusterService
+			.getClustersDetail(neLat, neLng, swLat, swLng, status);
+
 		return BaseResponse.success(clusterResponses);
 	}
 
