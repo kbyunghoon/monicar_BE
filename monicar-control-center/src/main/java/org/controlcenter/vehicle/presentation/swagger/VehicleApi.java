@@ -137,4 +137,9 @@ public interface VehicleApi {
 		@RequestParam("swLng") int swLng,
 		@Parameter(description = "조회할 차량 상태 (예: NOT_REGISTERED, NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
 		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
+
+	@Operation(summary = "차량 고유 아이디로 차량 정보 조회 API", description = "차량 고유 번호를 사용하여 최신 정보를 조회")
+	BaseResponse<VehicleLocationResponse> getVehicleByVehicleId(
+		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
+	);
 }

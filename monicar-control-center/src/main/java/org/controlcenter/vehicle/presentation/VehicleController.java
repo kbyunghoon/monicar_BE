@@ -139,7 +139,8 @@ public class VehicleController implements VehicleApi {
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponseWithAng> routesResponses = vehicleQueryRepository.getVehicleRouteFrom(vehicleId, startTime, endTime,
+		List<RouteResponseWithAng> routesResponses = vehicleQueryRepository.getVehicleRouteFrom(vehicleId, startTime,
+			endTime,
 			interval);
 
 		VehicleRouteWithAngResponse response = VehicleRouteWithAngResponse.builder()
@@ -188,7 +189,8 @@ public class VehicleController implements VehicleApi {
 	) {
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
 
-		List<RouteResponseWithStatus> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId, currentTime);
+		List<RouteResponseWithStatus> routesResponses = vehicleQueryRepository.getRecentRoutesByVehicle(vehicleId,
+			currentTime);
 
 		VehicleRouteWithStatusResponse response = VehicleRouteWithStatusResponse.builder()
 			.vehicleNumber(vehicleNumber)
@@ -303,5 +305,23 @@ public class VehicleController implements VehicleApi {
 			.getClustersDetail(neLat, neLng, swLat, swLng, status);
 
 		return BaseResponse.success(clusterResponses);
+	}
+
+	@GetMapping("/clusters/{vehicle-id}")
+	public BaseResponse<VehicleLocationResponse> getVehicleByVehicleId(
+		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
+	) {
+		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(vehicleId);
+
+		String status = vehicleQueryRepository.getVehicleStatus(vehicleInformation.getId());
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId());
+
+		VehicleLocationResponse response = VehicleLocationResponse.builder()
+			.vehicleId(vehicleInformation.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.recentCycleInfo(recentCycleInfo)
+			.status(status)
+			.build();
+		return BaseResponse.success(response);
 	}
 }
