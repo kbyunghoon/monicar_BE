@@ -23,6 +23,7 @@ public enum ErrorCode {
 	INVALID_TYPE_USERID_VALUE(1011, "아이디는 영문자와 숫자만 입력할 수 있습니다."),
 	EMAIL_ALREADY_EXIST(1012, "다른 이메일을 입력해주세요."),
 	USER_ID_ALREADY_EXIST(1013, "다른 아이디를 입력해주세요."),
+	INVALID_DATE_RANGE(1014, "시작 날짜가 종료 날짜보다 이후로 입력하였습니다. 날짜를 확인해주세요."),
 
 	VEHICLE_NOT_FOUND(2001, "해당 차량을 찾을 수 없습니다."),
 	VEHICLE_ALREADY_EXIST(2002, "이미 등록되어 있는 차량입니다."),

@@ -1,13 +1,11 @@
 package org.controlcenter.vehicle.application;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
-import org.controlcenter.history.infrastructure.jpa.DrivingHistoryJpaRepository;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
 import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.BusinessInfo;
@@ -65,6 +63,10 @@ public class DrivingLogService {
 		}
 		if (endDate == null) {
 			endDate = LocalDate.now();
+		}
+
+		if (startDate.isAfter(endDate)) {
+			throw new BusinessException(ErrorCode.INVALID_DATE_RANGE);
 		}
 
 		validateVehicleId(vehicleId);

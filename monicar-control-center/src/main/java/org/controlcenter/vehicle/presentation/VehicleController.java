@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
+import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.common.response.code.SuccessCode;
 import org.controlcenter.vehicle.application.ClusterService;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
 import org.controlcenter.vehicle.application.VehicleService;
+import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.ClusterDetail;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleRegister;
@@ -56,6 +58,7 @@ public class VehicleController implements VehicleApi {
 	private final VehicleClusteringService vehicleClusteringService;
 	private final VehicleService vehicleService;
 	private final ClusterService clusterService;
+	private final VehicleRepository vehicleRepository;
 
 	@GetMapping
 	public BaseResponse<VehicleInfoResponse> getVehicleInfo(
@@ -291,6 +294,18 @@ public class VehicleController implements VehicleApi {
 			.getClusters(neLat, neLng, swLat, swLng, zoomLevel, status)
 			.stream().map(ClusterResponse::from).toList();
 		return BaseResponse.success(clusterResponses);
+	}
+
+	@GetMapping("/check")
+	public BaseResponse<Void> isExistVehicleNumber(
+		@RequestParam("vehicleNumber") String vehicleNumber
+	) {
+		boolean exists = vehicleRepository.findByVehicleNumber(vehicleNumber).isPresent();
+		if (exists) {
+			return BaseResponse.fail(ErrorCode.VEHICLE_ALREADY_EXIST);
+		} else {
+			return BaseResponse.success();
+		}
 	}
 
 	@GetMapping("/clusters/detail")
