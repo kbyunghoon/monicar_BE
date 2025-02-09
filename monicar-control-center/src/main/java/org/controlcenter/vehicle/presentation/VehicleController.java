@@ -9,6 +9,7 @@ import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.common.response.code.SuccessCode;
 import org.controlcenter.vehicle.application.ClusterService;
 import org.controlcenter.vehicle.application.VehicleClusteringService;
+import org.controlcenter.vehicle.application.VehicleSearchService;
 import org.controlcenter.vehicle.application.VehicleService;
 import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.ClusterDetail;
@@ -24,6 +25,7 @@ import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
+import org.controlcenter.vehicle.presentation.dto.SimpleVehicleInformationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -59,6 +61,7 @@ public class VehicleController implements VehicleApi {
 	private final VehicleService vehicleService;
 	private final ClusterService clusterService;
 	private final VehicleRepository vehicleRepository;
+	private final VehicleSearchService vehicleSearchService;
 
 	@GetMapping
 	public BaseResponse<VehicleInfoResponse> getVehicleInfo(
@@ -338,5 +341,18 @@ public class VehicleController implements VehicleApi {
 			.status(status)
 			.build();
 		return BaseResponse.success(response);
+	}
+
+	@GetMapping("/find")
+	public BaseResponse<List<SimpleVehicleInformationResponse>> searchVehicles(
+		@RequestParam("keyword") String keyword) {
+		String sanitizedKeyword = (keyword == null) ? "" : keyword.replaceAll("\\s+", "");
+
+		if (sanitizedKeyword.isEmpty()) {
+			return BaseResponse.success(List.of());
+		}
+
+		List<SimpleVehicleInformationResponse> result = vehicleSearchService.searchEventsByKeyword(sanitizedKeyword);
+		return BaseResponse.success(result);
 	}
 }
