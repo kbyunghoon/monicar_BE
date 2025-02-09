@@ -77,6 +77,7 @@ public class VehicleController implements VehicleApi {
 	) {
 		VehicleRegister vehicleRegister = vehicleRegisterRequest.toDomain();
 		VehicleInformation vehicleInformation = vehicleService.register(vehicleRegister);
+		vehicleSearchService.syncVehicleToElasticsearch(vehicleInformation);
 
 		return BaseResponse.success(vehicleInformation);
 	}

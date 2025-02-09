@@ -11,6 +11,7 @@ import org.controlcenter.vehicle.domain.VehicleEvent;
 import org.controlcenter.vehicle.domain.VehicleEventCreate;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleRegister;
+import org.controlcenter.vehicle.infrastructure.elasticsearch.repository.VehicleInformationElasticsearchRepository;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class VehicleService {
 	private final VehicleEventRepository vehicleEventRepository;
 	private final VehicleInformationJpaRepository vehicleInformationJpaRepository;
 	private final DrivingHistoryJpaRepository drivingHistoryJpaRepository;
+	private final VehicleInformationElasticsearchRepository vehicleInformationElasticsearchRepository;
 
 	@Transactional(readOnly = true)
 	public String getVehicleNumber(Long vehicleId) {
@@ -67,7 +69,7 @@ public class VehicleService {
 		vehicleRepository.findById(vehicleId).orElseThrow(() -> new BusinessException(ErrorCode.ENTITY_NOT_FOUND));
 
 		LocalDateTime now = LocalDateTime.now();
-
+		vehicleInformationElasticsearchRepository.deleteById(vehicleId);
 		vehicleInformationJpaRepository.softDeleteById(vehicleId, now);
 		drivingHistoryJpaRepository.softDeleteById(vehicleId, now);
 	}
