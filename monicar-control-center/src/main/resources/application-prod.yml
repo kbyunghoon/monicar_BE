@@ -8,6 +8,8 @@ spring:
   config:
     activate:
       on-profile: prod
+  elasticsearch:
+    uris: ${ELASTIC_SEARCH_URI}
 
   datasource:
     url: ${DB_URL}
