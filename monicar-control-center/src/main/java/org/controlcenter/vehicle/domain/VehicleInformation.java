@@ -56,4 +56,8 @@ public class VehicleInformation {
 
 		return Long.parseLong(dateStr + randomStr);
 	}
+
+	public boolean isInOperation() {
+		return status == VehicleStatus.IN_OPERATION;
+	}
 }
