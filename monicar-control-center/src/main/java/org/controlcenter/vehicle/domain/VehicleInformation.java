@@ -1,7 +1,10 @@
 package org.controlcenter.vehicle.domain;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Random;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +34,7 @@ public class VehicleInformation {
 			.companyId(1L)
 			.vehicleTypeId(vehicleRegister.getVehicleTypeId())
 			.vehicleNumber(vehicleRegister.getVehicleNumber())
-			.mdn(1234567890L)
+			.mdn(generateMdnGUID())
 			.tid("TID001")
 			.mid(1)
 			.pv(1)
@@ -41,6 +44,17 @@ public class VehicleInformation {
 			.status(VehicleStatus.NOT_DRIVEN)
 			.deliveryDate(vehicleRegister.getDeliveryDate())
 			.build();
+	}
+
+	public static long generateMdnGUID() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+		String dateStr = sdf.format(new Date());
+
+		Random random = new Random();
+		int randomNumber = random.nextInt(1000);
+		String randomStr = String.format("%03d", randomNumber);
+
+		return Long.parseLong(dateStr + randomStr);
 	}
 
 	public boolean isInOperation() {

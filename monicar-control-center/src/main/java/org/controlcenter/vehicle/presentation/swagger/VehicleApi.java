@@ -38,7 +38,7 @@ import jakarta.validation.Valid;
 @PreAuthorize("hasRole('ROLE_USER')")
 public interface VehicleApi {
 	@Operation(summary = "차량 정보 등록", description = "차량번호, 차량종류, 주행거리, 차량출고일로 차량 정보 등록")
-	BaseResponse<VehicleInformation> register(
+	BaseResponse<Void> register(
 		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
 	);
 
