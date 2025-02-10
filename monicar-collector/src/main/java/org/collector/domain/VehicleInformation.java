@@ -42,12 +42,11 @@ public class VehicleInformation implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "company_id")
 	private Company company;
-
 	@ManyToOne
 	@JoinColumn(name = "vehicle_type_id")
 	private VehicleType vehicleType;
-
 	private String vehicleNumber;
+	@Column(unique = true)
 	private Long mdn;
 	private String tid;
 	private Long mid;
