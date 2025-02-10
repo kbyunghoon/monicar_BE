@@ -69,13 +69,12 @@ public class VehicleController implements VehicleApi {
 	}
 
 	@PostMapping("/register")
-	public BaseResponse<VehicleInformation> register(
+	public BaseResponse<Void> register(
 		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
 	) {
-		VehicleRegister vehicleRegister = vehicleRegisterRequest.toDomain();
-		VehicleInformation vehicleInformation = vehicleService.register(vehicleRegister);
+		vehicleService.register(vehicleRegisterRequest.toDomain());
 
-		return BaseResponse.success(vehicleInformation);
+		return BaseResponse.success();
 	}
 
 	@DeleteMapping("/{vehicle-id}")
