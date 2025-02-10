@@ -23,7 +23,7 @@ public class CycleInfoController {
 
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
-		CycleInfoSize.MAX_SIZE.validate(request.cList().size());
+		CycleInfoSize.MIN_SIZE.validate(request.cList().size());
 
 		Long mdn = cycleInfoService.cycleInfoSave(request);
 		cycleInfoProducer.sendMessage(request);

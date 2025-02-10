@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 public enum CycleInfoSize {
-	MAX_SIZE(60),
+	MIN_SIZE(60),
 	LAST_INDEX(59);
 
 	private final int size;
