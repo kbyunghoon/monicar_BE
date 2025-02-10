@@ -2,6 +2,7 @@ package org.collector.domain;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -39,6 +40,10 @@ public class VehicleInformation implements Serializable {
 	private Long id;
 
 	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private Company company;
+
+	@ManyToOne
 	@JoinColumn(name = "vehicle_type_id")
 	private VehicleType vehicleType;
 
@@ -48,12 +53,15 @@ public class VehicleInformation implements Serializable {
 	private Long mid;
 	private Integer pv;
 	private Long did;
+	private Integer drivingDays;
 	private Integer sum;
 	private Integer lat;
 	private Integer lng;
 
 	@Enumerated(value = EnumType.STRING)
 	private VehicleStatus status;
+
+	private LocalDate deliveryDate;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
