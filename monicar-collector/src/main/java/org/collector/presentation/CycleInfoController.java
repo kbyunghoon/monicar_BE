@@ -1,6 +1,7 @@
 package org.collector.presentation;
 
 import org.collector.application.CycleInfoService;
+import org.collector.common.constant.CycleInfoSize;
 import org.collector.common.response.CommonResponse;
 import org.collector.presentation.dto.CycleInfoRequest;
 import org.collector.producer.CycleInfoProducer;
@@ -20,10 +21,11 @@ public class CycleInfoController {
 	private final CycleInfoProducer cycleInfoProducer;
 	private final CycleInfoService cycleInfoService;
 
-	// FIXME: 테스트를 위한 코드. 추후 수정 필요.
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
-		long mdn = cycleInfoService.cycleInfoSave(request);
+		CycleInfoSize.MIN_SIZE.validate(request.cList().size());
+
+		Long mdn = cycleInfoService.cycleInfoSave(request);
 		cycleInfoProducer.sendMessage(request);
 		return CommonResponse.ok(mdn);
 	}

@@ -1,8 +1,5 @@
 package org.collector.domain;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.collector.presentation.dto.CListRequest;
@@ -32,23 +29,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class CycleInfo implements Serializable {
-	@Serial
-	private static final long serialVersionUID = 1L;
+public class CycleInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cycle_info_id")
-	private long id;
-
+	private Long id;
 	private LocalDateTime intervalAt;
-
 	@Enumerated(EnumType.STRING)
 	private GCD status;
-
-	private int lat;
-	private int lng;
-	private int ang;
-	private int spd;
+	private Integer lat;
+	private Integer lng;
+	private Integer ang;
+	private Integer spd;
 
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id")

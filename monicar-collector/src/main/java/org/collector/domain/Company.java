@@ -1,9 +1,9 @@
 package org.collector.domain;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -13,24 +13,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "vehicle_types")
+@Getter
+@Entity
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class VehicleType {
+public class Company implements Serializable {
+	@Serial
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "vehicle_types_id")
+	@Column(name = "company_id")
 	private Long id;
-
-	private String vehicleTypesName;
-
-	@CreatedDate
+	private String companyName;
+	private String businessRegistrationNumber;
 	private LocalDateTime createdAt;
-
-	@LastModifiedDate
 	private LocalDateTime updatedAt;
-
 	private LocalDateTime deletedAt;
 }
