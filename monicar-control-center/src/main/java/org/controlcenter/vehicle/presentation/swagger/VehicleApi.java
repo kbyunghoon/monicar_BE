@@ -39,7 +39,7 @@ import jakarta.validation.Valid;
 @PreAuthorize("hasRole('ROLE_USER')")
 public interface VehicleApi {
 	@Operation(summary = "차량 정보 등록", description = "차량번호, 차량종류, 주행거리, 차량출고일로 차량 정보 등록")
-	BaseResponse<VehicleInformation> register(
+	BaseResponse<Void> register(
 		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
 	);
 
@@ -125,6 +125,11 @@ public interface VehicleApi {
 		@RequestParam("zoomLevel") int zoomLevel,
 		@Parameter(description = "조회할 차량 상태 (예: NOT_REGISTERED, NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
 		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
+
+	@Operation(summary = "현재 운행중인 차량인지 조회", description = "차량 고유 ID를 통해 현재 차량이 운행중인지 조회")
+	BaseResponse<Boolean> isVehicleInOperation(
+		@PathVariable("vehicle-id") Long vehicleId
+	);
 
 	@Operation(summary = "지도 클러스터링 상세 조회", description = "특정 줌 레벨까지 도달했을 경우에 대한 차량 지도 클러스터링을 조회")
 	BaseResponse<List<ClusterDetail>> getClustersDetail(

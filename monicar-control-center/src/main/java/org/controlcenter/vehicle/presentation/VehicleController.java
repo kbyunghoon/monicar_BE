@@ -72,14 +72,14 @@ public class VehicleController implements VehicleApi {
 	}
 
 	@PostMapping("/register")
-	public BaseResponse<VehicleInformation> register(
+	public BaseResponse<Void> register(
 		@Valid @RequestBody VehicleRegisterRequest vehicleRegisterRequest
 	) {
 		VehicleRegister vehicleRegister = vehicleRegisterRequest.toDomain();
 		VehicleInformation vehicleInformation = vehicleService.register(vehicleRegister);
 		vehicleSearchService.syncVehicleToElasticsearch(vehicleInformation);
 
-		return BaseResponse.success(vehicleInformation);
+		return BaseResponse.success();
 	}
 
 	@DeleteMapping("/{vehicle-id}")
@@ -298,6 +298,18 @@ public class VehicleController implements VehicleApi {
 			.getClusters(neLat, neLng, swLat, swLng, zoomLevel, status)
 			.stream().map(ClusterResponse::from).toList();
 		return BaseResponse.success(clusterResponses);
+	}
+
+	/**
+	 * 운행중인 차량인지 조회
+	 */
+	@GetMapping("/{vehicle-id}/operaton-status")
+	public BaseResponse<Boolean> isVehicleInOperation(
+		@PathVariable("vehicle-id") Long vehicleId
+	) {
+		boolean inOperation = vehicleService.isVehicleInOperation(vehicleId);
+
+		return BaseResponse.success(inOperation);
 	}
 
 	@GetMapping("/check")

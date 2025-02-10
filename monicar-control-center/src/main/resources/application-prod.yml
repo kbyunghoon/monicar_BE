@@ -57,3 +57,7 @@ logging:
   config: classpath:logback-spring-dev.xml
   file:
     path: /var/log/app-logs
+swagger:
+  server:
+    prod-url: ${PROD_URL}
+    dev-url: ${DEV_URL}
