@@ -40,7 +40,7 @@ public class CycleInfoService {
 	}
 
 	private void saveVehicleLocation(final VehicleInformation vehicleInformation, final CycleInfoRequest request) {
-		CListRequest cListRequest = request.cList().get(CYCLE_INFO_LAST_INDEX.getSize());
+		CListRequest cListRequest = request.cList().get(LAST_INDEX.getSize());
 		vehicleInformation.saveLocation(cListRequest.lat(), cListRequest.lng());
 		vehicleInformationRepository.save(vehicleInformation);
 	}

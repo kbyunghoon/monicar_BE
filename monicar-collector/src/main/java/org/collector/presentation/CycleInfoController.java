@@ -2,9 +2,7 @@ package org.collector.presentation;
 
 import org.collector.application.CycleInfoService;
 import org.collector.common.constant.CycleInfoSize;
-import org.collector.common.exception.CustomException;
 import org.collector.common.response.CommonResponse;
-import org.collector.common.response.ResponseCode;
 import org.collector.presentation.dto.CycleInfoRequest;
 import org.collector.producer.CycleInfoProducer;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +23,7 @@ public class CycleInfoController {
 
 	@PostMapping
 	public CommonResponse<Void> cycleInfoSave(final @Valid @RequestBody CycleInfoRequest request) {
-		if(request.cList().size() != CycleInfoSize.CYCLE_INFO_MAX_SIZE.getSize()){
-			throw new CustomException(ResponseCode.NOT_CYCLE_INFO_SIZE_ERROR);
-		}
+		CycleInfoSize.MAX_SIZE.validate(request.cList().size());
 
 		Long mdn = cycleInfoService.cycleInfoSave(request);
 		cycleInfoProducer.sendMessage(request);
