@@ -38,12 +38,14 @@ public interface VehicleInformationJpaRepository extends JpaRepository<VehicleIn
 		@Param("gridLng") int gridLng,
 		@Param("status") VehicleStatus status);
 
-	@Query("SELECT new org.controlcenter.vehicle.domain.ClusterDetail(vi.id, vi.vehicleNumber, vi.lat, vi.lng) " +
-		"FROM vehicle_information vi " +
-		"WHERE (vi.lat IS NOT null and vi.lng IS NOT null)" +
-		"AND vi.lat BETWEEN :swLat AND :neLat " +
-		"AND vi.lng BETWEEN :swLng AND :neLng " +
-		"AND (:status IS NULL OR vi.status = :status)")
+	@Query(
+		"SELECT new org.controlcenter.vehicle.domain.ClusterDetail"
+			+ "(vi.id, vi.vehicleNumber, vi.lat, vi.lng, vi.status) " +
+			"FROM vehicle_information vi " +
+			"WHERE (vi.lat IS NOT null and vi.lng IS NOT null)" +
+			"AND vi.lat BETWEEN :swLat AND :neLat " +
+			"AND vi.lng BETWEEN :swLng AND :neLng " +
+			"AND (:status IS NULL OR vi.status = :status)")
 	List<ClusterDetail> findClustersDetail(
 		@Param("swLat") int swLat,
 		@Param("neLat") int neLat,

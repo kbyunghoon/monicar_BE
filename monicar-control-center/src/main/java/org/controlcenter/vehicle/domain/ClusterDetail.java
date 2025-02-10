@@ -10,4 +10,5 @@ public class ClusterDetail {
 	private String vehicleNumber;
 	private Integer lat;
 	private Integer lng;
+	private VehicleStatus status;
 }
