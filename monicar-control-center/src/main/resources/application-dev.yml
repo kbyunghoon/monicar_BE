@@ -57,5 +57,5 @@ logging:
     path: ${user.dir}/logs
 swagger:
   server:
-    prod-url: ${DEV_URL}
-    dev-url: ${PROD_URL}
+    prod-url: ${PROD_URL}
+    dev-url: ${DEV_URL}
