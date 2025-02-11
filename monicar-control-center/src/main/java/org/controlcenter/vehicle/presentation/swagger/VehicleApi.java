@@ -11,6 +11,7 @@ import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.presentation.dto.ClusterResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
+import org.controlcenter.vehicle.presentation.dto.SimpleVehicleInformationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
@@ -147,4 +148,9 @@ public interface VehicleApi {
 	BaseResponse<VehicleLocationResponse> getVehicleByVehicleId(
 		@Valid @PathVariable(name = "vehicle-id") Long vehicleId
 	);
+
+	@Operation(summary = "차량번호 검색 자동완성 API", description = "차량번호 검색 입력 시 자동완성 API")
+	BaseResponse<List<SimpleVehicleInformationResponse>> searchVehicles(
+		@Parameter(description = "검색어", required = true, in = ParameterIn.QUERY)
+		@RequestParam("keyword") String keyword);
 }

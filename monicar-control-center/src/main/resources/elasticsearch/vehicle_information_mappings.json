@@ -1,0 +1,13 @@
+{
+  "properties": {
+    "vehicleNumber": {
+      "type": "keyword",
+      "copy_to": "vehicleNumber_ngram"
+    },
+    "vehicleNumber_ngram": {
+      "type": "text",
+      "analyzer": "ngram_jamo_analyzer",
+      "search_analyzer": "jamo_analyzer"
+    }
+  }
+}
