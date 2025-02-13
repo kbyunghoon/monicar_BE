@@ -13,11 +13,12 @@ import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
+import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleSortType;
-import org.controlcenter.vehicle.presentation.dto.HourlyDrivingLogsResponse;
+import org.controlcenter.vehicle.presentation.dto.DailyDrivingLogsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class DrivingLogService {
 	private final VehicleRepository vehicleRepository;
 	private final VehicleService vehicleService;
 
-	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, Period period) {
+	public DailyDrivingLogsResponse getDailySummaries(Long vehicleId, Period period) {
 		LocalDate end = LocalDate.now();
 		LocalDate start = switch (period) {
 			case WEEK -> end.minusWeeks(1);
@@ -41,12 +42,14 @@ public class DrivingLogService {
 			case THREE_MONTHS -> end.minusMonths(3);
 		};
 
-		return drivingLogRepository.getDailySummaries(vehicleId, start, end.plusDays(1));
+		var dailyDrivingLogs = drivingLogRepository.getDailySummaries(vehicleId, start, end.plusDays(1));
+		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
+
+		return new DailyDrivingLogsResponse(vehicleNumber, dailyDrivingLogs);
 	}
 
-	public HourlyDrivingLogsResponse getHourlySummaries(Long vehicleId, LocalDate date) {
-		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
-		return new HourlyDrivingLogsResponse(vehicleNumber, drivingLogRepository.getHourlyDrivingLogs(vehicleId, date));
+	public List<HourlyDrivingLogs> getHourlySummaries(Long vehicleId, LocalDate date) {
+		return drivingLogRepository.getHourlyDrivingLogs(vehicleId, date);
 	}
 
 	@Transactional(readOnly = true)
