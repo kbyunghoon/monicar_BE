@@ -1,30 +1,32 @@
 package org.controlcenter.vehicle.domain;
 
-import lombok.Getter;
-
 import org.controlcenter.history.domain.UsePurpose;
+
+import lombok.Getter;
 
 @Getter
 public class DrivingLogSummary {
 	int totalCount = 0;
-	int commuteCount = 0;
+	int normalCount = 0;
+	int businessDrivingDistance = 0;
 
 	public void accumulate(DrivingLogDetailsContent log) {
 		totalCount++;
 		if (log.getDrivingInfo() != null
 			&& log.getDrivingInfo().getBusinessDrivingDetails() != null
-			&& UsePurpose.COMMUTE.equals(
+			&& UsePurpose.NORMAL.equals(
 			log.getDrivingInfo().getBusinessDrivingDetails().getUsePurpose())) {
-			commuteCount++;
+			normalCount++;
+			businessDrivingDistance += log.getDrivingInfo().getTotalDriving();
 		}
 	}
 
 	public void combine(DrivingLogSummary other) {
 		this.totalCount += other.totalCount;
-		this.commuteCount += other.commuteCount;
+		this.normalCount += other.normalCount;
 	}
 
 	public int getCommutePercent() {
-		return totalCount == 0 ? 0 : (int)((commuteCount * 100) / totalCount);
+		return totalCount == 0 ? 0 : (int)((normalCount * 100) / totalCount);
 	}
 }
