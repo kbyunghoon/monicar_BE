@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import org.controlcenter.vehicle.domain.Cluster;
 import org.controlcenter.vehicle.domain.ClusterDetail;
+import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.infrastructure.jpa.entity.VehicleInformationEntity;
+import org.controlcenter.vehicle.presentation.dto.SimpleRankResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +19,9 @@ public interface VehicleInformationJpaRepository extends JpaRepository<VehicleIn
 	Optional<VehicleInformationEntity> findByMdn(Long mdn);
 
 	Optional<VehicleInformationEntity> findByVehicleNumber(String vehicleNumber);
+
+	@Query("SELECT new org.controlcenter.vehicle.presentation.dto.SimpleRankResponse(v.id,v.vehicleNumber,v.sum) FROM vehicle_information v ORDER BY v.sum DESC LIMIT 3")
+	List<SimpleRankResponse> getRank();
 
 	@Modifying
 	@Query("UPDATE vehicle_information v SET v.deletedAt = :deletedAt WHERE v.id = :id")
