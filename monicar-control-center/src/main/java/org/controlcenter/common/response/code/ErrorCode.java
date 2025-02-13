@@ -25,8 +25,8 @@ public enum ErrorCode {
 	USER_ID_ALREADY_EXIST(1013, "다른 아이디를 입력해주세요."),
 	INVALID_DATE_RANGE(1014, "시작 날짜가 종료 날짜보다 이후로 입력하였습니다. 날짜를 확인해주세요."),
 
-	VEHICLE_NOT_FOUND(2001, "해당 차량을 찾을 수 없습니다."),
 	VEHICLE_NOT_MONITORED_YET(2000, "해당 차량의 위치 데이터를 찾을 수 없습니다"),
+	VEHICLE_NOT_FOUND(2001, "해당 차량을 찾을 수 없습니다."),
 	VEHICLE_ALREADY_EXIST(2002, "이미 등록되어 있는 차량입니다."),
 	VEHICLE_NUMBER_ERROR(2003, "입력된 차량 번호 형식이 올바르지 않습니다. 형식: 숫자 2~3자리 + 한글 1자리 + 숫자 4자리"),
 	INVALID_ZOOM_LEVEL(2004, "지도의 줌 레벨은 1~13 사이여야합니다."),

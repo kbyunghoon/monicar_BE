@@ -74,7 +74,7 @@ public class AlarmService {
 
 		Integer drivingDistance = null;
 
-		if (currentStatus == AlarmStatus.IN_PROGRESS) {
+		if (currentStatus == AlarmStatus.INPROGRESS) {
 			VehicleInformation vehicleInformation = vehicleRepository.findById(previousAlarm.getVehicleId())
 				.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 			drivingDistance = vehicleInformation.getSum();
