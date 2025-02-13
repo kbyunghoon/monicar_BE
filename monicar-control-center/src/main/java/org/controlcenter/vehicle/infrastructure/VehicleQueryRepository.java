@@ -3,6 +3,8 @@ package org.controlcenter.vehicle.infrastructure;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.controlcenter.common.exception.BusinessException;
+import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper;
 import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
@@ -24,7 +26,8 @@ public class VehicleQueryRepository {
 	private final MyBatisVehicleInfoMapper myBatisVehicleInfoMapper;
 
 	public VehicleInfoResponse getVehicleInfo(VehicleInfoSearchRequest request) {
-		return myBatisVehicleInfoMapper.selectVehicleInfo(request.vehicleNumber());
+		return myBatisVehicleInfoMapper.selectVehicleInfo(request.vehicleNumber())
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 	}
 
 	public List<RouteResponseWithAng> getVehicleRouteFrom(
@@ -74,7 +77,8 @@ public class VehicleQueryRepository {
 	}
 
 	public VehicleModalResponse.RecentCycleInfo getRecentCycleInfo(Long vehicleId) {
-		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId);
+		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_MONITORED_YET));
 	}
 
 	public VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(Long vehicleId) {

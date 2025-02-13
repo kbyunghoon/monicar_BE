@@ -2,6 +2,7 @@ package org.controlcenter.vehicle.infrastructure.mybatis;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -40,7 +41,7 @@ public interface MyBatisVehicleInfoMapper {
 			where vi.vehicle_number = #{vehicleNumber}
 			  and vi.deleted_at is null;
 		""")
-	VehicleInfoResponse selectVehicleInfo(@Param("vehicleNumber") String vehicleNumber);
+	Optional<VehicleInfoResponse> selectVehicleInfo(@Param("vehicleNumber") String vehicleNumber);
 
 	/**
 	 * 1억개 데이터 기준
@@ -179,7 +180,7 @@ public interface MyBatisVehicleInfoMapper {
 		order by ci.interval_at DESC
 		limit 1
 		""")
-	VehicleModalResponse.RecentCycleInfo getRecentCycleInfo(@Param("vehicleId") Long vehicleId);
+	Optional<VehicleModalResponse.RecentCycleInfo> getRecentCycleInfo(@Param("vehicleId") Long vehicleId);
 
 	@Select("""
 		select
