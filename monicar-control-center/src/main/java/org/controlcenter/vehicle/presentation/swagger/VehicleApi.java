@@ -11,6 +11,7 @@ import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.presentation.dto.ClusterResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
+import org.controlcenter.vehicle.presentation.dto.SimpleRankResponse;
 import org.controlcenter.vehicle.presentation.dto.SimpleVehicleInformationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
@@ -158,4 +159,7 @@ public interface VehicleApi {
 	BaseResponse<Void> isExistVehicleNumber(
 		@RequestParam("vehicleNumber") String vehicleNumber
 	);
+
+	@Operation(summary = "주행거리 많은 순 랭킹(1~3)위", description = "대시보드 주행거리 많은 순 랭킹(1~3)위")
+	BaseResponse<List<SimpleRankResponse>> rank();
 }
