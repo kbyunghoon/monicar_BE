@@ -23,6 +23,8 @@ public class VehicleInformation {
 	private Integer did;
 	private Integer drivingDays;
 	private Integer sum;
+	private Integer lat;
+	private Integer lng;
 	private VehicleStatus status;
 	private LocalDate deliveryDate;
 	private LocalDateTime createdAt;

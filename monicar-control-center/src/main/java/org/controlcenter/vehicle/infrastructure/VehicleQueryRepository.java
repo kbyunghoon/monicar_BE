@@ -2,6 +2,7 @@ package org.controlcenter.vehicle.infrastructure;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
@@ -76,9 +77,8 @@ public class VehicleQueryRepository {
 		return myBatisVehicleInfoMapper.getRecentVehicleInfo(vehicleId);
 	}
 
-	public VehicleModalResponse.RecentCycleInfo getRecentCycleInfo(Long vehicleId) {
-		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId)
-			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_MONITORED_YET));
+	public Optional<VehicleModalResponse.RecentCycleInfo> getRecentCycleInfo(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId);
 	}
 
 	public VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(Long vehicleId) {

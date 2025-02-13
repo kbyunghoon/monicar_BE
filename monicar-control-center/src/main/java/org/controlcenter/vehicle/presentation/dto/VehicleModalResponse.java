@@ -21,6 +21,7 @@ public record VehicleModalResponse(
 	) {
 	}
 
+	@Builder
 	public record RecentCycleInfo(
 		Integer speed,
 		Integer lat,

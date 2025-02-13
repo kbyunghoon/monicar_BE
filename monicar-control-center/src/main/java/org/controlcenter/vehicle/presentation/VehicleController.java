@@ -98,8 +98,16 @@ public class VehicleController implements VehicleApi {
 	public BaseResponse<VehicleModalResponse> getVehicleInfo(
 		@PathVariable(name = "vehicle-id") Long vehicleId
 	) {
+		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(vehicleId);
 		var recentVehicleInfo = vehicleQueryRepository.getRecentVehicleInfo(vehicleId);
-		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleId);
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleId)
+			.orElse(VehicleModalResponse.RecentCycleInfo.builder()
+				.speed(0)
+				.lat(vehicleInformation.getLat())
+				.lng(vehicleInformation.getLng())
+				.lastUpdated(vehicleInformation.getUpdatedAt())
+				.build());
+		;
 		var todayDrivingHistory = vehicleQueryRepository.getTodayDrivingHistory(vehicleId);
 		var vehicleCompanyInfo = vehicleQueryRepository.getVehicleCompanyInfo(vehicleId);
 
@@ -123,7 +131,13 @@ public class VehicleController implements VehicleApi {
 		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(vehicleNumber);
 
 		String status = vehicleQueryRepository.getVehicleStatus(vehicleInformation.getId());
-		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId());
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId())
+			.orElse(VehicleModalResponse.RecentCycleInfo.builder()
+				.speed(0)
+				.lat(vehicleInformation.getLat())
+				.lng(vehicleInformation.getLng())
+				.lastUpdated(vehicleInformation.getUpdatedAt())
+				.build());
 
 		VehicleLocationResponse response = VehicleLocationResponse.builder()
 			.vehicleId(vehicleInformation.getId())
@@ -345,7 +359,13 @@ public class VehicleController implements VehicleApi {
 		VehicleInformation vehicleInformation = vehicleService.getVehicleInformation(vehicleId);
 
 		String status = vehicleQueryRepository.getVehicleStatus(vehicleInformation.getId());
-		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId());
+		var recentCycleInfo = vehicleQueryRepository.getRecentCycleInfo(vehicleInformation.getId())
+			.orElse(VehicleModalResponse.RecentCycleInfo.builder()
+				.speed(0)
+				.lat(vehicleInformation.getLat())
+				.lng(vehicleInformation.getLng())
+				.lastUpdated(vehicleInformation.getUpdatedAt())
+				.build());
 
 		VehicleLocationResponse response = VehicleLocationResponse.builder()
 			.vehicleId(vehicleInformation.getId())
