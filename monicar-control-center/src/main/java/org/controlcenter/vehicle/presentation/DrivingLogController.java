@@ -13,6 +13,7 @@ import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.VehicleSortType;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
+import org.controlcenter.vehicle.presentation.dto.HourlyDrivingLogsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
 import org.controlcenter.vehicle.presentation.swagger.DrivingLogApi;
@@ -79,7 +80,7 @@ public class DrivingLogController implements DrivingLogApi {
 
 	@Override
 	@GetMapping("/hourly/{vehicle-id}")
-	public BaseResponse<List<HourlyDrivingLogs>> getDailyDrivingSummary(
+	public BaseResponse<HourlyDrivingLogsResponse> getDailyDrivingSummary(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam LocalDate date
 	) {

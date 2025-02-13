@@ -13,11 +13,11 @@ import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.DrivingLogDetailsContent;
 import org.controlcenter.vehicle.domain.DrivingLogSummary;
-import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.SpecificVehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleHeaderInfo;
 import org.controlcenter.vehicle.domain.VehicleSortType;
+import org.controlcenter.vehicle.presentation.dto.HourlyDrivingLogsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class DrivingLogService {
 	private final DrivingLogRepository drivingLogRepository;
 	private final VehicleRepository vehicleRepository;
+	private final VehicleService vehicleService;
 
 	public List<DailyDrivingSummary> getDailySummaries(Long vehicleId, Period period) {
 		LocalDate end = LocalDate.now();
@@ -43,8 +44,9 @@ public class DrivingLogService {
 		return drivingLogRepository.getDailySummaries(vehicleId, start, end.plusDays(1));
 	}
 
-	public List<HourlyDrivingLogs> getHourlySummaries(Long vehicleId, LocalDate date) {
-		return drivingLogRepository.getHourlyDrivingLogs(vehicleId, date);
+	public HourlyDrivingLogsResponse getHourlySummaries(Long vehicleId, LocalDate date) {
+		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
+		return new HourlyDrivingLogsResponse(vehicleNumber, drivingLogRepository.getHourlyDrivingLogs(vehicleId, date));
 	}
 
 	@Transactional(readOnly = true)
@@ -103,7 +105,7 @@ public class DrivingLogService {
 			.vehicleInfo(vehicleInfo)
 			.records(drivingLogsPage)
 			.taxPeriodDistance(sumDistance)
-			.taxPeriodBusinessDistance(summary.getCommuteCount())
+			.taxPeriodBusinessDistance(summary.getBusinessDrivingDistance())
 			.businessUseRatio(summary.getCommutePercent())
 			.build();
 	}
