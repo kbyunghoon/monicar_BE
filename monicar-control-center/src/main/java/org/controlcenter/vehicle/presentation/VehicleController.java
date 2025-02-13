@@ -20,11 +20,13 @@ import org.controlcenter.vehicle.domain.cluster.ClusterCreateCommand;
 import org.controlcenter.vehicle.domain.cluster.GeoClustering;
 import org.controlcenter.vehicle.domain.cluster.GeoCoordinateDetails;
 import org.controlcenter.vehicle.infrastructure.VehicleQueryRepository;
+import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationJpaRepository;
 import org.controlcenter.vehicle.presentation.dto.ClusterResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoClusteringResponse;
 import org.controlcenter.vehicle.presentation.dto.GeoCoordinateDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
+import org.controlcenter.vehicle.presentation.dto.SimpleRankResponse;
 import org.controlcenter.vehicle.presentation.dto.SimpleVehicleInformationResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
@@ -62,6 +64,7 @@ public class VehicleController implements VehicleApi {
 	private final ClusterService clusterService;
 	private final VehicleRepository vehicleRepository;
 	private final VehicleSearchService vehicleSearchService;
+	private final VehicleInformationJpaRepository vehicleInformationJpaRepository;
 
 	@GetMapping
 	public BaseResponse<VehicleInfoResponse> getVehicleInfo(
@@ -387,5 +390,11 @@ public class VehicleController implements VehicleApi {
 
 		List<SimpleVehicleInformationResponse> result = vehicleSearchService.searchEventsByKeyword(sanitizedKeyword);
 		return BaseResponse.success(result);
+	}
+
+	@GetMapping("/rank")
+	public BaseResponse<List<SimpleRankResponse>> rank() {
+		var rankList = vehicleInformationJpaRepository.getRank();
+		return BaseResponse.success(rankList);
 	}
 }

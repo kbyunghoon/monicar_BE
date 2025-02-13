@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
-import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.VehicleSortType;
+import org.controlcenter.vehicle.presentation.dto.DailyDrivingLogsResponse;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
@@ -52,7 +52,7 @@ public interface DrivingLogApi {
 	BaseResponse<List<VehicleTypeResponse>> requestVehicleTypes();
 
 	@Operation(summary = "일별 운행기록", description = "일별 운행기록")
-	BaseResponse<List<DailyDrivingSummary>> getDailyDrivingSummary(
+	BaseResponse<DailyDrivingLogsResponse> getDailyDrivingSummary(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(required = false, defaultValue = "WEEK") Period period
 	);
