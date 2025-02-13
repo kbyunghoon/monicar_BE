@@ -28,12 +28,16 @@ public class AlarmEntity {
 	@Column(name = "alarm_id")
 	private Long id;
 
-	private Long managerId;
+	private String managerId;
 
-	private String description;
+	private long vehicleId;
+
+	private Integer drivingDistance;
 
 	@Enumerated(value = EnumType.STRING)
 	private AlarmStatus status;
+
+	private boolean isChecked;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -47,7 +51,9 @@ public class AlarmEntity {
 		AlarmEntity alarmEntity = new AlarmEntity();
 		alarmEntity.id = alarm.getId();
 		alarmEntity.managerId = alarm.getManagerId();
-		alarmEntity.description = alarm.getDescription();
+		alarmEntity.vehicleId = alarm.getVehicleId();
+		alarmEntity.drivingDistance = alarm.getDrivingDistance();
+		alarmEntity.isChecked = alarm.isChecked();
 		alarmEntity.status = alarm.getStatus();
 		alarmEntity.createdAt = alarm.getCreatedAt();
 		alarmEntity.updatedAt = alarm.getUpdatedAt();
@@ -59,11 +65,17 @@ public class AlarmEntity {
 		return Alarm.builder()
 			.id(id)
 			.managerId(managerId)
-			.description(description)
+			.vehicleId(vehicleId)
+			.drivingDistance(drivingDistance)
+			.isChecked(isChecked)
 			.status(status)
 			.createdAt(createdAt)
 			.updatedAt(updatedAt)
 			.deletedAt(deletedAt)
 			.build();
+	}
+
+	public void checked() {
+		this.isChecked = true;
 	}
 }

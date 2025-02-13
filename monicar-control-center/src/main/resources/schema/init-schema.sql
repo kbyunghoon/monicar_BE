@@ -46,13 +46,15 @@ CREATE TABLE manager
 
 CREATE TABLE alarm
 (
-    `alarm_id`    BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '알림 PK',
-    `manager_id`  BIGINT       NOT NULL COMMENT '담당자 PK',
-    `description` TEXT         NOT NULL COMMENT '알림 내용',
-    `status`      VARCHAR(100) NOT NULL COMMENT '알림 상태',
-    `created_at`  TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
-    `updated_at`  TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
-    `deleted_at`  TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
+    `alarm_id`         BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '알림 PK',
+    `manager_id`       VARCHAR(255) NULL COMMENT '담당자 PK',
+    `vehicle_id`       BIGINT       NOT NULL COMMENT '차량 PK',
+    `driving_distance` INT          NULL COMMENT '주행 거리',
+    `is_checked`       BOOLEAN      NOT NULL DEFAULT FALSE COMMENT '사용자 체크 확인',
+    `status`           VARCHAR(100) NOT NULL DEFAULT 'REQUIRED' COMMENT '알림 상태',
+    `created_at`       TIMESTAMP    NOT NULL COMMENT '테이블 생성 시간',
+    `updated_at`       TIMESTAMP    NOT NULL COMMENT '테이블 수정 시간',
+    `deleted_at`       TIMESTAMP    NULL COMMENT '테이블 삭제 시간'
 ) ENGINE = InnoDB COMMENT ='알림';
 
 CREATE TABLE notice
