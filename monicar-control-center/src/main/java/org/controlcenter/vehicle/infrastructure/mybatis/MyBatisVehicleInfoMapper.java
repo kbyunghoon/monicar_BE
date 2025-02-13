@@ -183,12 +183,13 @@ public interface MyBatisVehicleInfoMapper {
 
 	@Select("""
 		select
-			sum(driving_distance),
-			sum(timestampdiff(second, start_time, end_time))
+			IFNULL(sum(di.driving_distance), 0),
+			IFNULL(sum(timestampdiff(second, di.start_time, di.end_time)), 0)
 		from
-			driving_history
+			driving_history di
 		where
-			date(end_time) = curdate();
+			di.vehicle_id = #{vehicleId}
+			and date(end_time) = curdate();
 		""")
 	VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(@Param("vehicleId") Long vehicleId);
 
