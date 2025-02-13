@@ -21,7 +21,6 @@ public record VehicleModalResponse(
 	) {
 	}
 
-	@Builder
 	public record RecentCycleInfo(
 		Integer speed,
 		Integer lat,
@@ -31,7 +30,7 @@ public record VehicleModalResponse(
 	}
 
 	public record TodayDrivingHistory(
-		Double distance,
+		Integer distance,
 		Integer drivingTime
 	) {
 	}

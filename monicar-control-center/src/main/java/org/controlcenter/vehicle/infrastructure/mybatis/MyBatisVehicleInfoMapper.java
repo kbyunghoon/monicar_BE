@@ -151,13 +151,7 @@ public interface MyBatisVehicleInfoMapper {
 			select
 				vi.vehicle_id,
 				vi.vehicle_number,
-				(
-					select ve2.type
-					from vehicle_event ve2
-					where ve2.vehicle_id = #{vehicleId}
-					order by ve2.event_at desc
-					limit 1
-				) as status,
+				vi.status,
 				max(case when ve.type = 'on' then ve.event_at end) as last_on_time,
 				max(case when ve.type = 'off' then ve.event_at end) as last_off_time
 			from
@@ -167,7 +161,7 @@ public interface MyBatisVehicleInfoMapper {
 			where
 				vi.vehicle_id = #{vehicleId};
 		""")
-	VehicleModalResponse.RecentVehicleInfo getRecentVehicleInfo(@Param("vehicleId") Long vehicleId);
+	Optional<VehicleModalResponse.RecentVehicleInfo> getRecentVehicleInfo(@Param("vehicleId") Long vehicleId);
 
 	@Select("""
 		select

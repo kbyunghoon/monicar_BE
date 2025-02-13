@@ -74,11 +74,13 @@ public class VehicleQueryRepository {
 	}
 
 	public VehicleModalResponse.RecentVehicleInfo getRecentVehicleInfo(Long vehicleId) {
-		return myBatisVehicleInfoMapper.getRecentVehicleInfo(vehicleId);
+		return myBatisVehicleInfoMapper.getRecentVehicleInfo(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_ON_YET));
 	}
 
-	public Optional<VehicleModalResponse.RecentCycleInfo> getRecentCycleInfo(Long vehicleId) {
-		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId);
+	public VehicleModalResponse.RecentCycleInfo getRecentCycleInfo(Long vehicleId) {
+		return myBatisVehicleInfoMapper.getRecentCycleInfo(vehicleId)
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_MONITORED_YET));
 	}
 
 	public VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(Long vehicleId) {
