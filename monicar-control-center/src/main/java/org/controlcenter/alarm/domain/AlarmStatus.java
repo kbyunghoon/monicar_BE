@@ -13,10 +13,10 @@ public enum AlarmStatus {
 	SCHEDULED {
 		@Override
 		public AlarmStatus next() {
-			return IN_PROGRESS;
+			return INPROGRESS;
 		}
 	},
-	IN_PROGRESS {
+	INPROGRESS {
 		@Override
 		public AlarmStatus next() {
 			return COMPLETED;

@@ -93,7 +93,7 @@ public class JpaTest {
 		// given
 		Alarm alarm = Alarm.builder()
 			.managerId("100")
-			.status(AlarmStatus.IN_PROGRESS)
+			.status(AlarmStatus.INPROGRESS)
 			.build();
 		alarmJpaRepository.save(AlarmEntity.from(alarm));
 
@@ -110,7 +110,7 @@ public class JpaTest {
 		assertAll(
 			() -> assertThat(savedAlarm.getId()).isNotNull(),
 			() -> assertThat(savedAlarm.getManagerId()).isEqualTo("100"),
-			() -> assertThat(savedAlarm.getStatus()).isEqualTo(AlarmStatus.IN_PROGRESS)
+			() -> assertThat(savedAlarm.getStatus()).isEqualTo(AlarmStatus.INPROGRESS)
 		);
 	}
 
