@@ -153,4 +153,9 @@ public interface VehicleApi {
 	BaseResponse<List<SimpleVehicleInformationResponse>> searchVehicles(
 		@Parameter(description = "검색어", required = true, in = ParameterIn.QUERY)
 		@RequestParam("keyword") String keyword);
+
+	@Operation(summary = "차량번호 중복 검사", description = "차량등록 시 차량번호 중복 검사")
+	BaseResponse<Void> isExistVehicleNumber(
+		@RequestParam("vehicleNumber") String vehicleNumber
+	);
 }
