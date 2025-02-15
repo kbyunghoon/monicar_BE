@@ -1,5 +1,7 @@
 package org.controlcenter.alarm.presentation;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.controlcenter.alarm.application.AlarmService;
 import org.controlcenter.alarm.domain.AlarmStatus;
 import org.controlcenter.alarm.presentation.dto.AlarmResponse;
@@ -37,9 +39,12 @@ public class AlarmController implements AlarmApi {
 
 	private final AlarmService alarmService;
 
-	@GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	@GetMapping(value = "/subscribe")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public SseEmitter subscribe(@AuthenticationPrincipal CustomUserDetails user) {
+	public SseEmitter subscribe(
+		HttpServletResponse response,
+		@AuthenticationPrincipal CustomUserDetails user) {
+		response.setHeader("X-Accel-Buffering", "no");
 		return alarmService.subscribe(user.getId());
 	}
 
