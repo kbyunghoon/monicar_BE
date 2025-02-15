@@ -15,7 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,8 +37,7 @@ public class AlarmController implements AlarmApi {
 
 	private final AlarmService alarmService;
 
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping("/subscribe")
+	@GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public SseEmitter subscribe(@AuthenticationPrincipal CustomUserDetails user) {
 		return alarmService.subscribe(user.getId());
@@ -66,7 +64,6 @@ public class AlarmController implements AlarmApi {
 		alarmService.newAlarmRequest(alarmId);
 	}
 
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public BaseResponse<PageResponse<AlarmResponse>> list(

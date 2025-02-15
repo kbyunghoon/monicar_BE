@@ -136,16 +136,14 @@ public class AlarmService {
 
 	public void sendAll(SendAlarm sendAlarm) {
 		sseEmitters.forEach((userId, emitter) -> {
-			System.out.println("Attempting to send to userId = " + userId);
+			System.out.println("sendAll userId = " + userId);
 			try {
-				SseEmitter.SseEventBuilder event = SseEmitter.event()
-					.name(String.valueOf(sendAlarm.getStatus()))
-					.data(sendAlarm, MediaType.APPLICATION_JSON);
-				System.out.println("Event data: " + sendAlarm);
-				emitter.send(event);
-				System.out.println("Successfully sent to userId = " + userId);
+				emitter.send(
+					SseEmitter.event()
+						.name(String.valueOf(sendAlarm.getStatus()))
+						.data(sendAlarm, MediaType.APPLICATION_JSON)
+				);
 			} catch (IOException e) {
-				System.err.println("Error sending to userId = " + userId + ": " + e.getMessage());
 				sseEmitters.remove(userId);
 			}
 		});
