@@ -51,6 +51,7 @@ public class Scheduler {
 			alarmCreate = AlarmCreate.builder()
 				.vehicleId(1L)
 				.status(randomStatus)
+				.drivingDistance(10000)
 				.build();
 		} else {
 			alarmCreate = AlarmCreate.builder()
