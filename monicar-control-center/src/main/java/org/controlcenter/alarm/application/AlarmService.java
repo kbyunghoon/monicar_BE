@@ -39,6 +39,7 @@ public class AlarmService {
 	 * 특정 userId가 SSE 구독을 시작할 때 호출.
 	 */
 	public SseEmitter subscribe(String userId) {
+		System.out.println("subscribe : userId = " + userId);
 
 		SseEmitter sseEmitter = new SseEmitter(0L);
 
@@ -135,6 +136,7 @@ public class AlarmService {
 
 	public void sendAll(SendAlarm sendAlarm) {
 		sseEmitters.forEach((userId, emitter) -> {
+			System.out.println("sendAll userId = " + userId);
 			try {
 				emitter.send(
 					SseEmitter.event()
