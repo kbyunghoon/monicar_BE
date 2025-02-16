@@ -1,5 +1,7 @@
 package org.controlcenter.alarm.presentation;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.util.List;
 
 import org.controlcenter.alarm.application.AlarmService;
@@ -15,6 +17,7 @@ import org.controlcenter.common.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +44,10 @@ public class AlarmController implements AlarmApi {
 
 	@GetMapping("/subscribe")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public SseEmitter subscribe(@AuthenticationPrincipal CustomUserDetails user) {
+	public SseEmitter subscribe(
+		HttpServletResponse response,
+		@AuthenticationPrincipal CustomUserDetails user) {
+		response.setHeader("X-Accel-Buffering", "no");
 		return alarmService.subscribe(user.getId());
 	}
 

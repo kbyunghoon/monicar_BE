@@ -15,12 +15,14 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Tag(name = "실시간 알람 API", description = "실시간 알람 API")
 public interface AlarmApi {
 	@Operation(summary = "SSE 구독", description = "SSE 구독")
-	SseEmitter subscribe(@AuthenticationPrincipal CustomUserDetails user);
+	SseEmitter subscribe(
+		HttpServletResponse response, @AuthenticationPrincipal CustomUserDetails user);
 
 	@Operation(summary = "알람 승인 API", description = "점검 필요 -> 점검 예정 -> 점검 진행 -> 점검 완료로 순차적으로 상태 변경")
 	void next(

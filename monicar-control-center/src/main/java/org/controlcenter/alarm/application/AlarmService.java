@@ -42,6 +42,7 @@ public class AlarmService {
 	 * 특정 userId가 SSE 구독을 시작할 때 호출.
 	 */
 	public SseEmitter subscribe(String userId) {
+		System.out.println("subscribe : userId = " + userId);
 
 		SseEmitter sseEmitter = new SseEmitter(0L);
 
@@ -92,8 +93,13 @@ public class AlarmService {
 
 		String managerName = managerRepository.getUserProfile(managerId).getNickname();
 
-		SendAlarm newAlarm = SendAlarm.of(alarm.getId(), vehicleInformation.getVehicleNumber(), managerName,
-			nextStatus);
+		SendAlarm newAlarm = SendAlarm.builder()
+			.id(alarm.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.drivingDistance(vehicleInformation.getSum())
+			.managerName(managerName)
+			.status(nextStatus)
+			.build();
 
 		sendAll(newAlarm);
 	}
@@ -106,7 +112,12 @@ public class AlarmService {
 		VehicleInformation vehicleInformation = vehicleRepository.findById(alarm.getVehicleId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 
-		SendAlarm newAlarm = SendAlarm.of(alarm.getId(), vehicleInformation.getVehicleNumber(), alarm.getStatus());
+		SendAlarm newAlarm = SendAlarm.builder()
+			.id(alarm.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.drivingDistance(vehicleInformation.getSum())
+			.status(alarm.getStatus())
+			.build();
 
 		sendAll(newAlarm);
 	}
@@ -132,6 +143,7 @@ public class AlarmService {
 
 	public void sendAll(SendAlarm sendAlarm) {
 		sseEmitters.forEach((userId, emitter) -> {
+			System.out.println("sendAll userId = " + userId);
 			try {
 				emitter.send(
 					SseEmitter.event()

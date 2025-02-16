@@ -69,8 +69,13 @@ public class Scheduler {
 
 		String managerName = managerRepository.getUserProfile("1").getNickname();
 
-		SendAlarm newAlarm = SendAlarm.of(alarm.getId(), vehicleInformation.getVehicleNumber(), managerName,
-			alarm.getStatus());
+		SendAlarm newAlarm = SendAlarm.builder()
+			.id(alarm.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.drivingDistance(vehicleInformation.getSum())
+			.status(alarm.getStatus())
+			.managerName(managerName)
+			.build();
 
 		alarmService.sendAll(newAlarm);
 		scheduleNext();
