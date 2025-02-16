@@ -33,12 +33,12 @@ logging:
   file:
     path: ${user.dir}/logs
 
-management:
-  endpoints:
-    web:
-      base-path: /monitor
-      exposure:
-        include: health, metrics, threaddump
+#management:
+#  endpoints:
+#    web:
+#      base-path: /monitor
+#      exposure:
+#        include: health, metrics, threaddump
 
 api:
   key: ${API_KEY}
