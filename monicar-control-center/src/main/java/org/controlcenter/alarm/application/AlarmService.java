@@ -94,7 +94,7 @@ public class AlarmService {
 		SendAlarm newAlarm = SendAlarm.builder()
 			.id(alarm.getId())
 			.vehicleNumber(vehicleInformation.getVehicleNumber())
-			.drivingDistance(vehicleInformation.getSum())
+			.drivingDistance(nextStatus == AlarmStatus.COMPLETED ? vehicleInformation.getSum() : null)
 			.managerName(managerName)
 			.status(nextStatus)
 			.build();

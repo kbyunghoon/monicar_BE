@@ -72,7 +72,8 @@ public class Scheduler {
 		SendAlarm newAlarm = SendAlarm.builder()
 			.id(alarm.getId())
 			.vehicleNumber(vehicleInformation.getVehicleNumber())
-			.drivingDistance(vehicleInformation.getSum())
+			.drivingDistance((alarm.getStatus() == AlarmStatus.COMPLETED || alarm.getStatus() == AlarmStatus.REQUIRED) ?
+				vehicleInformation.getSum() : null)
 			.status(alarm.getStatus())
 			.managerName(managerName)
 			.build();
