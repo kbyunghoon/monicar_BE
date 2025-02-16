@@ -2,7 +2,7 @@ package org.emulator.device.domain;
 
 import java.time.LocalDateTime;
 
-import org.emulator.device.VehicleConstant;
+import org.emulator.device.VehicleInfoConstant;
 import org.emulator.sensor.dto.GpsTime;
 import org.emulator.device.infrastructure.external.command.vo.Direction;
 import org.emulator.device.infrastructure.external.command.vo.Geo;
@@ -37,7 +37,7 @@ public class CycleInfo {
 			.direction(new Direction(direction))
 			.speed(new Speed(speed))
 			.totalDistance(new TotalDistance(totalDistance))
-			.battery(VehicleConstant.BATTERY)
+			.battery(VehicleInfoConstant.BATTERY)
 			.build();
 	}
 }
