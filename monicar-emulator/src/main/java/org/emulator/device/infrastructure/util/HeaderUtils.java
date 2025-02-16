@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 
 public final class HeaderUtils {
 	private static final String CACHE_CONTROL_VALUE = "no-cache";
-	private static final String ACCEPT_ENCODING_VALUE = "gzip, deflate";
+	private static final String ACCEPT_ENCODING_VALUE = "identity";
 	private static final String KEY_VERSION_VALUE = "1.0";
 
 	public static Consumer<HttpHeaders> defaultHeaders() {
