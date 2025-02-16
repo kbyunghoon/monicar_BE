@@ -98,11 +98,8 @@ public class OnOffController {
 			request.offTime()
 		));
 
-		Optional<Long> alarmId = alarmService.saveAlarmIfNecessary(
-			vehicleInformation.getId(),
-			updatedTotalDistance
-		);
-		alarmId.ifPresent(alarmService::sendAlarm);
+		alarmService.saveAlarmIfNecessary(vehicleInformation.getId(), updatedTotalDistance)
+			.ifPresent(alarmService::sendAlarm);
 
 		return BaseResponse.success();
 	}

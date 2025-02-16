@@ -34,11 +34,10 @@ public class AlarmService {
 			.map(alarm -> checkBiggerThanIntervalDistance(totalDistance, alarm.getDrivingDistance()))
 			.orElse(true);
 
-		Optional<Long> alarmId = Optional.empty();
 		if (isNecessary) {
-			alarmId = Optional.ofNullable(alarmRepository.save(vehicleId));
+			return Optional.ofNullable(alarmRepository.save(vehicleId));
 		}
-		return alarmId;
+		return Optional.empty();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
