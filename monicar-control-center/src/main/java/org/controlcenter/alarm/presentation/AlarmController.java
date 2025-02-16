@@ -2,9 +2,12 @@ package org.controlcenter.alarm.presentation;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 import org.controlcenter.alarm.application.AlarmService;
 import org.controlcenter.alarm.domain.AlarmStatus;
 import org.controlcenter.alarm.presentation.dto.AlarmResponse;
+import org.controlcenter.alarm.presentation.dto.AlarmStatusStatsResponse;
 import org.controlcenter.alarm.presentation.swagger.AlarmApi;
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.BaseResponse;
@@ -39,7 +42,7 @@ public class AlarmController implements AlarmApi {
 
 	private final AlarmService alarmService;
 
-	@GetMapping(value = "/subscribe")
+	@GetMapping("/subscribe")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public SseEmitter subscribe(
 		HttpServletResponse response,
@@ -79,5 +82,12 @@ public class AlarmController implements AlarmApi {
 
 		return BaseResponse.success(
 			new PageResponse<>(alarmResponse));
+	}
+
+	@GetMapping("/status/stats")
+	public BaseResponse<List<AlarmStatusStatsResponse>> getAlarmStatusStats() {
+		return BaseResponse.success(
+			alarmService.getAlarmStatusCounts()
+		);
 	}
 }

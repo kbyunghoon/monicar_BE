@@ -1,6 +1,7 @@
 package org.controlcenter.alarm.application;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,9 +10,11 @@ import org.controlcenter.alarm.domain.Alarm;
 import org.controlcenter.alarm.domain.AlarmCreate;
 import org.controlcenter.alarm.domain.AlarmInfo;
 import org.controlcenter.alarm.domain.AlarmStatus;
+import org.controlcenter.alarm.domain.AlarmStatusStats;
 import org.controlcenter.alarm.domain.SendAlarm;
 import org.controlcenter.alarm.infrastructure.jpa.AlarmJpaRepository;
 import org.controlcenter.alarm.infrastructure.jpa.entity.AlarmEntity;
+import org.controlcenter.alarm.presentation.dto.AlarmStatusStatsResponse;
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.company.application.port.ManagerRepository;
@@ -39,8 +42,6 @@ public class AlarmService {
 	 * 특정 userId가 SSE 구독을 시작할 때 호출.
 	 */
 	public SseEmitter subscribe(String userId) {
-		System.out.println("subscribe : userId = " + userId);
-
 		SseEmitter sseEmitter = new SseEmitter(0L);
 
 		sseEmitters.put(userId, sseEmitter);
@@ -73,13 +74,9 @@ public class AlarmService {
 
 		AlarmStatus nextStatus = currentStatus.next();
 
-		Integer drivingDistance = null;
-
-		if (currentStatus == AlarmStatus.INPROGRESS) {
-			VehicleInformation vehicleInformation = vehicleRepository.findById(previousAlarm.getVehicleId())
-				.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
-			drivingDistance = vehicleInformation.getSum();
-		}
+		VehicleInformation vehicleInformation = vehicleRepository.findById(previousAlarm.getVehicleId())
+			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
+		Integer drivingDistance = vehicleInformation.getSum();
 
 		alarmEntity.checked();
 
@@ -91,13 +88,16 @@ public class AlarmService {
 			.build();
 
 		var alarm = alarmRepository.save(Alarm.create(alarmCreate));
-		VehicleInformation vehicleInformation = vehicleRepository.findById(previousAlarm.getVehicleId())
-			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 
 		String managerName = managerRepository.getUserProfile(managerId).getNickname();
 
-		SendAlarm newAlarm = SendAlarm.of(alarm.getId(), vehicleInformation.getVehicleNumber(), managerName,
-			nextStatus);
+		SendAlarm newAlarm = SendAlarm.builder()
+			.id(alarm.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.drivingDistance(nextStatus == AlarmStatus.COMPLETED ? vehicleInformation.getSum() : null)
+			.managerName(managerName)
+			.status(nextStatus)
+			.build();
 
 		sendAll(newAlarm);
 	}
@@ -110,7 +110,12 @@ public class AlarmService {
 		VehicleInformation vehicleInformation = vehicleRepository.findById(alarm.getVehicleId())
 			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 
-		SendAlarm newAlarm = SendAlarm.of(alarm.getId(), vehicleInformation.getVehicleNumber(), alarm.getStatus());
+		SendAlarm newAlarm = SendAlarm.builder()
+			.id(alarm.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.drivingDistance(vehicleInformation.getSum())
+			.status(alarm.getStatus())
+			.build();
 
 		sendAll(newAlarm);
 	}
@@ -136,7 +141,6 @@ public class AlarmService {
 
 	public void sendAll(SendAlarm sendAlarm) {
 		sseEmitters.forEach((userId, emitter) -> {
-			System.out.println("sendAll userId = " + userId);
 			try {
 				emitter.send(
 					SseEmitter.event()
@@ -147,5 +151,25 @@ public class AlarmService {
 				sseEmitters.remove(userId);
 			}
 		});
+	}
+
+	@Transactional(readOnly = true)
+	public List<AlarmStatusStatsResponse> getAlarmStatusCounts() {
+		List<AlarmStatusStats> rawData = alarmJpaRepository.findStatusCounts();
+		return rawData.stream()
+			.map(arr -> new AlarmStatusStatsResponse(
+				convertToKoreanName(arr.getName()),
+				arr.getCount()
+			)).toList();
+	}
+
+	// AlarmStatus -> 한글명 맵핑
+	private String convertToKoreanName(AlarmStatus status) {
+		return switch (status) {
+			case REQUIRED -> "점검요구";
+			case SCHEDULED -> "점검예정";
+			case INPROGRESS -> "점검진행중";
+			case COMPLETED -> "점검완료";
+		};
 	}
 }

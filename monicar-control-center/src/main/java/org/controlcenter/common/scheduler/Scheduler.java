@@ -51,6 +51,7 @@ public class Scheduler {
 			alarmCreate = AlarmCreate.builder()
 				.vehicleId(1L)
 				.status(randomStatus)
+				.drivingDistance(10000)
 				.build();
 		} else {
 			alarmCreate = AlarmCreate.builder()
@@ -68,8 +69,14 @@ public class Scheduler {
 
 		String managerName = managerRepository.getUserProfile("1").getNickname();
 
-		SendAlarm newAlarm = SendAlarm.of(alarm.getId(), vehicleInformation.getVehicleNumber(), managerName,
-			alarm.getStatus());
+		SendAlarm newAlarm = SendAlarm.builder()
+			.id(alarm.getId())
+			.vehicleNumber(vehicleInformation.getVehicleNumber())
+			.drivingDistance((alarm.getStatus() == AlarmStatus.COMPLETED || alarm.getStatus() == AlarmStatus.REQUIRED) ?
+				vehicleInformation.getSum() : null)
+			.status(alarm.getStatus())
+			.managerName(managerName)
+			.build();
 
 		alarmService.sendAll(newAlarm);
 		scheduleNext();
