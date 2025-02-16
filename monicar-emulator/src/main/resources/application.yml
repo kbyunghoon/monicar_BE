@@ -13,12 +13,16 @@ logging:
     path: ${user.dir}/logs
 
 api:
-  base-url: http://localhost:8082/api/v1/event-hub/
-  #  에뮬레이터를 컨테이너로 만든 상태에서 로컬 event-hub 서버에 요청 보낼 때
-  #  base-url: http://host.docker.internal:8082/api/v1/event-hub/
   transmission-time: 60
+  base-url: http://localhost:8082/api/v1/event-hub/
+  # 에뮬레이터를 컨테이너로 만든 상태에서 로컬 event-hub 서버에 요청 보낼 때
+#  base-url: http://host.docker.internal:8082/api/v1/event-hub/
 
 file-name: suwon-daejon-gumi-optimized.gpx
+
+fixed:
+  vehicle-mdn: 1234567890
+  vehicle-number: 123나1234
 
 ---
 server:
@@ -33,6 +37,10 @@ spring:
 
 file-name: yangyang-to-daegu_formatted.gpx
 
+fixed:
+  vehicle-mdn: 1234567891
+  vehicle-number: 657가5202
+
 ---
 server:
   port: 8092
@@ -46,6 +54,10 @@ spring:
 
 file-name: yeosu-to-cheonan_formatted.gpx
 
+fixed:
+  vehicle-mdn: 1234567892
+  vehicle-number: 309가9777
+
 ---
 server:
   port: 8093
@@ -58,3 +70,7 @@ spring:
     name: monicar-emulator-apple
 
 file-name: gwangju-to-muju_formatted.gpx
+
+fixed:
+  vehicle-mdn: 1234567893
+  vehicle-number: 530가4820
