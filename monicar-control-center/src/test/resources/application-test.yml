@@ -46,3 +46,5 @@ swagger:
   server:
     prod-url: ${PROD_URL}
     dev-url: ${DEV_URL}
+alarm:
+  secret-key: ${ALARM_SECRET}

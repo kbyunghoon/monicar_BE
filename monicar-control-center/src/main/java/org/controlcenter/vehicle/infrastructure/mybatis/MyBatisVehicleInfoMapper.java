@@ -2,6 +2,7 @@ package org.controlcenter.vehicle.infrastructure.mybatis;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -40,7 +41,7 @@ public interface MyBatisVehicleInfoMapper {
 			where vi.vehicle_number = #{vehicleNumber}
 			  and vi.deleted_at is null;
 		""")
-	VehicleInfoResponse selectVehicleInfo(@Param("vehicleNumber") String vehicleNumber);
+	Optional<VehicleInfoResponse> selectVehicleInfo(@Param("vehicleNumber") String vehicleNumber);
 
 	/**
 	 * 1억개 데이터 기준
@@ -150,13 +151,7 @@ public interface MyBatisVehicleInfoMapper {
 			select
 				vi.vehicle_id,
 				vi.vehicle_number,
-				(
-					select ve2.type
-					from vehicle_event ve2
-					where ve2.vehicle_id = #{vehicleId}
-					order by ve2.event_at desc
-					limit 1
-				) as status,
+				vi.status,
 				max(case when ve.type = 'on' then ve.event_at end) as last_on_time,
 				max(case when ve.type = 'off' then ve.event_at end) as last_off_time
 			from
@@ -166,7 +161,7 @@ public interface MyBatisVehicleInfoMapper {
 			where
 				vi.vehicle_id = #{vehicleId};
 		""")
-	VehicleModalResponse.RecentVehicleInfo getRecentVehicleInfo(@Param("vehicleId") Long vehicleId);
+	Optional<VehicleModalResponse.RecentVehicleInfo> getRecentVehicleInfo(@Param("vehicleId") Long vehicleId);
 
 	@Select("""
 		select
@@ -179,16 +174,17 @@ public interface MyBatisVehicleInfoMapper {
 		order by ci.interval_at DESC
 		limit 1
 		""")
-	VehicleModalResponse.RecentCycleInfo getRecentCycleInfo(@Param("vehicleId") Long vehicleId);
+	Optional<VehicleModalResponse.RecentCycleInfo> getRecentCycleInfo(@Param("vehicleId") Long vehicleId);
 
 	@Select("""
 		select
-			sum(driving_distance),
-			sum(timestampdiff(second, start_time, end_time))
+			IFNULL(sum(di.driving_distance), 0),
+			IFNULL(sum(timestampdiff(second, di.start_time, di.end_time)), 0)
 		from
-			driving_history
+			driving_history di
 		where
-			date(end_time) = curdate();
+			di.vehicle_id = #{vehicleId}
+			and date(end_time) = curdate();
 		""")
 	VehicleModalResponse.TodayDrivingHistory getTodayDrivingHistory(@Param("vehicleId") Long vehicleId);
 

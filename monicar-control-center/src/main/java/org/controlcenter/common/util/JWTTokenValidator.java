@@ -15,10 +15,7 @@ public class JWTTokenValidator {
 	private final JWTUtil jwtUtil;
 
 	private static final ErrorCode EXPIRED_ACCESS_TOKEN_ERROR = ErrorCode.EXPIRED_ACCESS_TOKEN;
-	private static final ErrorCode INVALID_ACCESS_TOKEN_ERROR = ErrorCode.INVALID_ACCESS_TOKEN;
 	private static final ErrorCode EXPIRED_REFRESH_TOKEN_ERROR = ErrorCode.EXPIRED_REFRESH_TOKEN;
-	private static final ErrorCode INVALID_REFRESH_TOKEN_ERROR = ErrorCode.INVALID_REFRESH_TOKEN;
-	private static final ErrorCode EXPIRED_TOKENS_ERROR = ErrorCode.EXPIRED_TOKENS;
 	private static final ErrorCode FORBIDDEN_ERROR = ErrorCode.FORBIDDEN_ACCESS;
 
 	/**
@@ -26,6 +23,10 @@ public class JWTTokenValidator {
 	 */
 	public void validateTokens(String accessToken, String refreshToken) {
 		if (refreshToken == null) {
+			throw new BusinessException(FORBIDDEN_ERROR);
+		}
+
+		if (!redisUtil.isRefreshTokenValid(extractUserIdFromAccessToken(refreshToken))) {
 			throw new BusinessException(FORBIDDEN_ERROR);
 		}
 

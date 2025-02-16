@@ -38,7 +38,6 @@ public class ClusterCreateCommand {
 
 	private static void validateZoomLevel(Integer zoomLevel) {
 		if (zoomLevel < MIN_ZOOM_LEVEL || MAX_ZOOM_LEVEL < zoomLevel) {
-			System.out.println("test");
 			throw new BusinessException(ErrorCode.INVALID_INPUT_VALUE);
 		}
 	}

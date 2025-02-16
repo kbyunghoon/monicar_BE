@@ -30,7 +30,7 @@ public record VehicleModalResponse(
 	}
 
 	public record TodayDrivingHistory(
-		Double distance,
+		Integer distance,
 		Integer drivingTime
 	) {
 	}

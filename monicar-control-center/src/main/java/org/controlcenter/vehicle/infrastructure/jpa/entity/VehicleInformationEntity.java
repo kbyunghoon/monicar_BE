@@ -81,6 +81,8 @@ public class VehicleInformationEntity {
 		vehicleInformationEntity.did = vehicleInformation.getDid();
 		vehicleInformationEntity.drivingDays = vehicleInformation.getDrivingDays();
 		vehicleInformationEntity.sum = vehicleInformation.getSum();
+		vehicleInformationEntity.lat = vehicleInformation.getLat();
+		vehicleInformationEntity.lng = vehicleInformation.getLat();
 		vehicleInformationEntity.status = vehicleInformation.getStatus();
 		vehicleInformationEntity.deliveryDate = vehicleInformation.getDeliveryDate();
 		vehicleInformationEntity.createdAt = vehicleInformation.getCreatedAt();
@@ -102,6 +104,8 @@ public class VehicleInformationEntity {
 			.did(did)
 			.drivingDays(drivingDays)
 			.sum(sum)
+			.lat(lat)
+			.lng(lng)
 			.status(status)
 			.deliveryDate(deliveryDate)
 			.createdAt(createdAt)

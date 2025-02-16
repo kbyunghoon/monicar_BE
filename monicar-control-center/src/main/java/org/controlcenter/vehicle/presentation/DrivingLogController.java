@@ -7,11 +7,11 @@ import org.controlcenter.common.response.BaseResponse;
 import org.controlcenter.common.response.PageResponse;
 import org.controlcenter.vehicle.application.DrivingLogService;
 import org.controlcenter.vehicle.application.port.VehicleTypeRepository;
-import org.controlcenter.vehicle.domain.DailyDrivingSummary;
 import org.controlcenter.vehicle.domain.DrivingLog;
 import org.controlcenter.vehicle.domain.HourlyDrivingLogs;
 import org.controlcenter.vehicle.domain.Period;
 import org.controlcenter.vehicle.domain.VehicleSortType;
+import org.controlcenter.vehicle.presentation.dto.DailyDrivingLogsResponse;
 import org.controlcenter.vehicle.presentation.dto.DrivingLogResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleDrivingLogDetailsResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleTypeResponse;
@@ -70,7 +70,7 @@ public class DrivingLogController implements DrivingLogApi {
 
 	@Override
 	@GetMapping("/daily/{vehicle-id}")
-	public BaseResponse<List<DailyDrivingSummary>> getDailyDrivingSummary(
+	public BaseResponse<DailyDrivingLogsResponse> getDailyDrivingSummary(
 		@PathVariable("vehicle-id") Long vehicleId,
 		@RequestParam(required = false, defaultValue = "WEEK") Period period
 	) {

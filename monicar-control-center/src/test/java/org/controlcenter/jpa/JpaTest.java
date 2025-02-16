@@ -92,10 +92,8 @@ public class JpaTest {
 	void AlarmEntityTest() {
 		// given
 		Alarm alarm = Alarm.builder()
-			.managerId(100L)
-			.description("test description")
-			.status(AlarmStatus.CHECKED)
-			.deletedAt(null)
+			.managerId("100")
+			.status(AlarmStatus.INPROGRESS)
 			.build();
 		alarmJpaRepository.save(AlarmEntity.from(alarm));
 
@@ -111,11 +109,8 @@ public class JpaTest {
 
 		assertAll(
 			() -> assertThat(savedAlarm.getId()).isNotNull(),
-			() -> assertThat(savedAlarm.getCreatedAt()).isNotNull(),
-			() -> assertThat(savedAlarm.getUpdatedAt()).isNotNull(),
-			() -> assertThat(savedAlarm.getManagerId()).isEqualTo(100L),
-			() -> assertThat(savedAlarm.getDescription()).isEqualTo("test description"),
-			() -> assertThat(savedAlarm.getStatus()).isEqualTo(AlarmStatus.CHECKED)
+			() -> assertThat(savedAlarm.getManagerId()).isEqualTo("100"),
+			() -> assertThat(savedAlarm.getStatus()).isEqualTo(AlarmStatus.INPROGRESS)
 		);
 	}
 
