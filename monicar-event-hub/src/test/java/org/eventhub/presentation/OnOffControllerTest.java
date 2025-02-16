@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Optional;
 
+import org.eventhub.application.AlarmService;
 import org.eventhub.application.DrivingHistoryService;
 import org.eventhub.application.VehicleEventService;
 import org.eventhub.application.VehicleService;
@@ -37,6 +38,9 @@ class OnOffControllerTest {
 	private VehicleEventService vehicleEventService;
 	@MockBean
 	private DrivingHistoryService drivingHistoryService;
+
+	@MockBean
+	private AlarmService alarmService;
 
 	@DisplayName("on 요청 success 테스트")
 	@Test

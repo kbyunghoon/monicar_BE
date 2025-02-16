@@ -30,7 +30,7 @@ public class DrivingHistory {
 			.initialOdometer(dto.totalDistance() - dto.fromOnToOffDistance())
 			.finalOdometer(dto.totalDistance())
 			.drivingDistance(dto.fromOnToOffDistance())
-			.usePurpose(UsePurpose.COMMUTE)
+			.usePurpose(UsePurpose.NORMAL)
 			.startTime(dto.recentEventAt())
 			.endTime(dto.offTime())
 			.build();
