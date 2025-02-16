@@ -36,11 +36,12 @@ public class DrivingLogService {
 
 	public DailyDrivingLogsResponse getDailySummaries(Long vehicleId, Period period) {
 		LocalDate end = LocalDate.now();
-		LocalDate start = switch (period) {
-			case WEEK -> end.minusWeeks(1);
-			case MONTH -> end.minusMonths(1);
-			case THREE_MONTHS -> end.minusMonths(3);
-		};
+		LocalDate start = period.minus(end);
+		// LocalDate start = switch (period) {
+		// 	case WEEK -> end.minusWeeks(1);
+		// 	case MONTH -> end.minusMonths(1);
+		// 	case THREE_MONTHS -> end.minusMonths(3);
+		// };
 
 		var dailyDrivingLogs = drivingLogRepository.getDailySummaries(vehicleId, start, end.plusDays(1));
 		String vehicleNumber = vehicleService.getVehicleNumber(vehicleId);
