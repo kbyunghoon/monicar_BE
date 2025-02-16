@@ -2,6 +2,7 @@ package org.eventhub.presentation;
 
 import java.util.Optional;
 
+import org.eventhub.application.AlarmService;
 import org.eventhub.application.DrivingHistoryService;
 import org.eventhub.application.VehicleEventService;
 import org.eventhub.application.VehicleService;
@@ -35,6 +36,7 @@ public class OnOffController {
 	private final VehicleService vehicleService;
 	private final VehicleEventService vehicleEventService;
 	private final DrivingHistoryService drivingHistoryService;
+	private final AlarmService alarmService;
 
 	@PostMapping("/key-on")
 	public BaseResponse keyOn(
@@ -95,6 +97,9 @@ public class OnOffController {
 			VehicleEventType.OFF,
 			request.offTime()
 		));
+
+		alarmService.saveAlarmIfNecessary(vehicleInformation.getId(), updatedTotalDistance)
+			.ifPresent(alarmService::sendAlarm);
 
 		return BaseResponse.success();
 	}
