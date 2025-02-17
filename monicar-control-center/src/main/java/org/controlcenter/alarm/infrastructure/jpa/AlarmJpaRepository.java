@@ -22,6 +22,7 @@ public interface AlarmJpaRepository extends JpaRepository<AlarmEntity, Long> {
 		"LEFT JOIN manager m ON a.managerId = m.id " +
 		"WHERE (:status IS NULL OR a.status = :status) " +
 		"  AND (:status IS NULL OR :status <> 'REQUIRED' OR a.managerId IS NULL) " +
+		"  AND a.isChecked = FALSE " +
 		"ORDER BY a.createdAt DESC")
 	Page<AlarmInfo> findAlarmListByStatus(@Param("status") AlarmStatus status,
 		Pageable pageable);
@@ -29,6 +30,7 @@ public interface AlarmJpaRepository extends JpaRepository<AlarmEntity, Long> {
 	@Query("SELECT new org.controlcenter.alarm.domain.AlarmStatusStats(a.status, COUNT(a)) " +
 		"FROM alarm a " +
 		"WHERE a.deletedAt IS NULL " +
+		"  AND a.isChecked = FALSE  " +
 		"GROUP BY a.status"
 	)
 	List<AlarmStatusStats> findStatusCounts();
