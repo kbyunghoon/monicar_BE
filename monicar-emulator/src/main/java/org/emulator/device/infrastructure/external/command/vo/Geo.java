@@ -2,7 +2,7 @@ package org.emulator.device.infrastructure.external.command.vo;
 
 import lombok.Getter;
 
-import org.emulator.device.VehicleConstant;
+import org.emulator.device.VehicleInfoConstant;
 
 @Getter
 public class Geo {
@@ -20,7 +20,7 @@ public class Geo {
 	}
 
 	public Geo(double latitude, double longitude) {
-		this.latitude = Math.clamp((long)(latitude * VehicleConstant.MIL), LATITUDE_MIN, LATITUDE_MAX);
-		this.longitude = Math.clamp((long)(longitude * VehicleConstant.MIL), LONGITUDE_MIN, LONGITUDE_MAX);
+		this.latitude = Math.clamp((long)(latitude * VehicleInfoConstant.MIL), LATITUDE_MIN, LATITUDE_MAX);
+		this.longitude = Math.clamp((long)(longitude * VehicleInfoConstant.MIL), LONGITUDE_MIN, LONGITUDE_MAX);
 	}
 }

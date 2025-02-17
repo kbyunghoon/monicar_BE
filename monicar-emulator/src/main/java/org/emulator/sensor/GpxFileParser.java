@@ -7,6 +7,8 @@ import java.util.Queue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.emulator.device.common.exception.BusinessException;
 import org.emulator.device.common.response.ErrorCode;
 import org.emulator.sensor.dto.Gps;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class GpxFileParser {
 	@Value("${file-name}")
 	private String fileName;
@@ -58,6 +61,8 @@ public class GpxFileParser {
 			gpsList.offer(new Gps(lat, lng));
 		}
 
+		log.info("➡️ GPS 파일 이름: {}", fileName);
+		log.info("➡️ GPS 개수: {}", gpsList.size());
 		return gpsList;
 	}
 }
