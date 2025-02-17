@@ -6,38 +6,80 @@
     <link rel="stylesheet" href="/style/home.css">
 </head>
 <body>
-<h1 id="title"> 현재 접속 상태 :  X </h1>
+<h1 id="title"> 현재 차량 상태 : 정지 🚘 </h1>
+<h2 id="gps-info"> Gps 전송 대기중. . . </h2>
+<h3 id="gps-status"></h3>
 <div class="vehicle-event-button-container">
-    <h4>차량 접속</h4>
-    <button class="vehicle-event-button">차량 접속 요청</button>
+    <h4>차량 운행 시작</h4>
+    <button id="vehicle-on" class="vehicle-event-button">ON</button>
 </div>
 
 <div class="vehicle-event-button-container">
-    <h4>차량 반납</h4>
-    <button class="vehicle-event-button" disabled>차량 반납 요청</button>
+    <h4>차량 운행 종료</h4>
+    <button id="vehicle-off" class="vehicle-event-button">OFF</button>
 </div>
 
 <script>
-    document.getElementById("vehicle-access").addEventListener("click", function() {
+    const eventSource = new EventSource('/api/v1/emulator/sse/stream');
+
+    eventSource.addEventListener("gpsData", function (event) {
+        document.getElementById("gps-info").textContent = `📍 현재 위치: ${event.data}`;
+    });
+
+    eventSource.addEventListener("gpsStatus", function (event) {
+        document.getElementById("gps-status").textContent = `📡 ${event.data}`;
+
+        setTimeout(() => {
+            document.getElementById("gps-status").textContent = ""
+        }, 3000)
+    });
+</script>
+
+<script>
+    document.getElementById("vehicle-on").addEventListener("click", function () {
         fetch('/api/v1/emulator/key-on', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Accept': 'application/json'
             }
         })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('차량 접속 요청 결과:', data);
-                    if (data.status === 200) {
-                        document.getElementById("title").textContent = "현재 접속 상태 :  O"
+                    console.log('차량 운행 시작 요청 결과:', data);
+                    if (data.isSuccess) {
+                        document.getElementById("title").textContent = "현재 차량 상태 : 운행중 🚗💨";
+                    } else {
+                        document.getElementById("title").textContent = "❌ 차량 운행 시작 불가";
                     }
                 })
                 .catch(error => {
-                    console.error('차량 접속 요청 실패:', error);
+                    console.error('차량 운행 시작 실패:', error);
+                    document.getElementById("title").textContent = "❌ 알 수 없는 에러 발생"
                 });
     });
 
-    // TODO : off api 가 개발되면 요청 코드를 구현해야 합니다.
+    document.getElementById("vehicle-off").addEventListener("click", function () {
+        fetch('/api/v1/emulator/key-off', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('차량 운행 종료 요청 결과:', data);
+                    if (data.isSuccess) {
+                        document.getElementById("title").textContent = "현재 차량 상태 : 정지 🚘";
+                    } else {
+                        document.getElementById("title").textContent = "❌ 차량 운행 종료 불가";
+                    }
+                })
+                .catch(error => {
+                    console.error('차량 운행 종료 실패:', error);
+                    document.getElementById("title").textContent = "❌ 알 수 없는 에러 발생"
+                });
+    });
+
 </script>
 </body>
 </html>
