@@ -33,9 +33,9 @@ public class AlarmService {
 	public Optional<Long> saveAlarmIfNecessary(Long vehicleId, Long totalDistance) {
 		try {
 			Optional<Alarm> alarm = alarmRepository.findRecentOneByVehicleId(vehicleId);
-			int referenceDistance = alarm.map(Alarm::getDrivingDistance).orElse(0);
+			int targetDistance = alarm.map(Alarm::getDrivingDistance).orElse(0);
 
-			if (checkBiggerThanIntervalDistance(totalDistance, referenceDistance)) {
+			if (checkBiggerThanIntervalDistance(totalDistance, targetDistance)) {
 				if (alarm.isEmpty() || alarm.get().getStatus().equals(AlarmStatus.COMPLETED)) {
 					return Optional.ofNullable(alarmRepository.save(vehicleId));
 				}
