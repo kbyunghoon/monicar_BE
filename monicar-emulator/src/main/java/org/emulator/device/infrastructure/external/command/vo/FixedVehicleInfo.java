@@ -2,9 +2,10 @@ package org.emulator.device.infrastructure.external.command.vo;
 
 import lombok.Getter;
 
-import org.emulator.config.ApplicationContextProvider;
 import org.emulator.device.VehicleInfoConstant;
 import org.emulator.device.VehicleInfoDynamic;
+import org.emulator.device.common.exception.BusinessException;
+import org.emulator.device.common.response.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +34,7 @@ public class FixedVehicleInfo {
 
 	public static FixedVehicleInfo getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = ApplicationContextProvider.getApplicationContext().getBean(FixedVehicleInfo.class);
+			throw new BusinessException(ErrorCode.UTILITY_CLASS_NOT_INITIALIZED_YET);
 		}
 		return INSTANCE;
 	}
