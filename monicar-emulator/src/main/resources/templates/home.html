@@ -33,6 +33,17 @@
             document.getElementById("gps-status").textContent = ""
         }, 3000)
     });
+
+    eventSource.onerror = function (error) {
+        console.error("🚨 SSE 오류 발생:", error);
+        document.getElementById("gps-info").textContent = "❌ GPS 데이터 수신 불가";
+        document.getElementById("gps-status").textContent = "❌ 상태 스트림 오류";
+
+        setTimeout(() => {
+            document.getElementById("gps-info").textContent = "Gps 전송 대기중. . .";
+            document.getElementById("gps-status").textContent = "";
+        }, 3000);
+    };
 </script>
 
 <script>

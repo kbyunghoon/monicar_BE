@@ -13,7 +13,7 @@ public class SseSendWithKeepAliveEmitter implements GpsSseSender {
 	private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
 	public SseEmitter streamGpsTransmissionStatus() {
-		SseEmitter emitter = new SseEmitter(60 * 1000L);
+		SseEmitter emitter = new SseEmitter(0L);
 		emitters.add(emitter);
 
 		emitter.onCompletion(() -> emitters.remove(emitter));
