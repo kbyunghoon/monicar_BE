@@ -157,19 +157,6 @@ public class AlarmService {
 	public List<AlarmStatusStatsResponse> getAlarmStatusCounts() {
 		List<AlarmStatusStats> rawData = alarmJpaRepository.findStatusCounts();
 		return rawData.stream()
-			.map(arr -> new AlarmStatusStatsResponse(
-				convertToKoreanName(arr.getName()),
-				arr.getCount()
-			)).toList();
-	}
-
-	// AlarmStatus -> 한글명 맵핑
-	private String convertToKoreanName(AlarmStatus status) {
-		return switch (status) {
-			case REQUIRED -> "점검요구";
-			case SCHEDULED -> "점검예정";
-			case INPROGRESS -> "점검진행중";
-			case COMPLETED -> "점검완료";
-		};
+			.map(AlarmStatusStatsResponse::from).toList();
 	}
 }

@@ -1,17 +1,18 @@
 package org.controlcenter.alarm.presentation.dto;
 
+import org.controlcenter.alarm.domain.AlarmStatus;
 import org.controlcenter.alarm.domain.AlarmStatusStats;
 
 import lombok.Builder;
 
 @Builder
 public record AlarmStatusStatsResponse(
-	String name,
+	AlarmStatus status,
 	long count
 ) {
 	public static AlarmStatusStatsResponse from(AlarmStatusStats alarmStatusStats) {
 		return AlarmStatusStatsResponse.builder()
-			.name(String.valueOf(alarmStatusStats.getName()))
+			.status(alarmStatusStats.getStatus())
 			.count(alarmStatusStats.getCount())
 			.build();
 	}
