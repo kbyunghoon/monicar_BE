@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.eventhub.application.port.AlarmRepository;
 import org.eventhub.application.port.AlarmSender;
 import org.eventhub.domain.Alarm;
+import org.eventhub.domain.AlarmStatus;
 import org.eventhub.infrastructure.external.command.AlarmSend;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,20 +25,22 @@ public class AlarmService {
 	@Value("${alarm-interval-distance}")
 	private Integer alarmIntervalDistance;
 
-	public Optional<Alarm> findById(Long vehicleId) {
+	public Optional<Alarm> findByVehicleId(Long vehicleId) {
 		return alarmRepository.findByVehicleId(vehicleId);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Optional<Long> saveAlarmIfNecessary(Long vehicleId, Long totalDistance) {
 		try {
-			boolean isNecessary = alarmRepository.findByVehicleIdAlarmRequired(vehicleId)
-				.map(alarm -> checkBiggerThanIntervalDistance(totalDistance, alarm.getDrivingDistance()))
-				.orElse(true);
+			Optional<Alarm> alarm = alarmRepository.findRecentOneByVehicleId(vehicleId);
+			int referenceDistance = alarm.map(Alarm::getDrivingDistance).orElse(0);
 
-			if (isNecessary) {
-				return Optional.ofNullable(alarmRepository.save(vehicleId));
+			if (checkBiggerThanIntervalDistance(totalDistance, referenceDistance)) {
+				if (alarm.isEmpty() || alarm.get().getStatus().equals(AlarmStatus.COMPLETED)) {
+					return Optional.ofNullable(alarmRepository.save(vehicleId));
+				}
 			}
+			return Optional.empty();
 		} catch (Exception e) {
 			log.error("Alarm 쿼리 예외 발생", e);
 		}

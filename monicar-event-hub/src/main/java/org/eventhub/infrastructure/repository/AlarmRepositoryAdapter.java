@@ -26,13 +26,12 @@ public class AlarmRepositoryAdapter implements AlarmRepository {
 	}
 
 	@Override
-	public Optional<Alarm> findByVehicleIdAlarmRequired(Long vehicleId) {
+	public Optional<Alarm> findRecentOneByVehicleId(Long vehicleId) {
 		QAlarmEntity alarmEntity = QAlarmEntity.alarmEntity;
 
 		Optional<AlarmEntity> alarm = Optional.ofNullable(jpaQueryFactory.select(alarmEntity)
 			.from(alarmEntity)
-			.where(alarmEntity.id.eq(vehicleId)
-				.and(alarmEntity.status.eq(AlarmStatus.COMPLETED)))
+			.where(alarmEntity.vehicleId.eq(vehicleId))
 			.orderBy(alarmEntity.createdAt.desc())
 			.fetchFirst()
 		);
