@@ -30,12 +30,16 @@ public class AlarmService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Optional<Long> saveAlarmIfNecessary(Long vehicleId, Long totalDistance) {
-		boolean isNecessary = findById(vehicleId)
-			.map(alarm -> checkBiggerThanIntervalDistance(totalDistance, alarm.getDrivingDistance()))
-			.orElse(true);
+		try {
+			boolean isNecessary = alarmRepository.findByVehicleIdAlarmRequired(vehicleId)
+				.map(alarm -> checkBiggerThanIntervalDistance(totalDistance, alarm.getDrivingDistance()))
+				.orElse(true);
 
-		if (isNecessary) {
-			return Optional.ofNullable(alarmRepository.save(vehicleId));
+			if (isNecessary) {
+				return Optional.ofNullable(alarmRepository.save(vehicleId));
+			}
+		} catch (Exception e) {
+			log.error("Alarm 쿼리 예외 발생", e);
 		}
 		return Optional.empty();
 	}
