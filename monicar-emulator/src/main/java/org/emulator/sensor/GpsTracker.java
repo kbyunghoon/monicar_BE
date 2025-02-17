@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import org.emulator.device.application.port.EmulatorRepository;
 import org.emulator.device.application.port.LocationReceiver;
+import org.emulator.device.application.port.GpsSseSender;
 import org.emulator.device.application.port.VehicleEventSender;
 import org.emulator.device.common.response.BaseResponse;
 import org.emulator.device.domain.CycleInfo;
@@ -29,6 +30,7 @@ public class GpsTracker implements SensorTracker {
 	private final EmulatorRepository emulatorRepository;
 	private final LocationReceiver locationReceiver;
 	private final VehicleEventSender vehicleEventSender;
+	private final GpsSseSender gpsSseSender;
 	private final Map<String, MovementCalculator> calculators;
 
 	private final CycleTimeProvider timeProvider;
@@ -46,6 +48,8 @@ public class GpsTracker implements SensorTracker {
 
 			log.info("POST request complete with response : {}", response.isSuccess());
 			// TODO: 장애 처리 - deque 앞으로 다시 밀어 넣기, 재시도 등
+
+			gpsSseSender.sendGpsTransmissionStatus("Gps 데이터 " + cycleInfoList.size() + "개 전송 완료");
 		}
 
 		GpsTime currentLocation = locationReceiver.fetchLocationNow();
@@ -74,6 +78,8 @@ public class GpsTracker implements SensorTracker {
 		);
 		cycleInfos.offerLast(currentCycleInfo);
 		recentCycleInfo = currentCycleInfo;
+
+		gpsSseSender.sendGps(currentCycleInfo);
 
 		log.info("collecting GPS. . .");
 		log.info(" 💌cycle info lat: {}, lng: {}", currentLocation.location().lat(), currentLocation.location().lng());
