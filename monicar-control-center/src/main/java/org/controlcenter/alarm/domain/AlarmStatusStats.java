@@ -6,6 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AlarmStatusStats {
-	private AlarmStatus status;
-	private long count;
+	private Long required;
+	private Long scheduled;
+	private Long inProgress;
+	private Long completed;
 }

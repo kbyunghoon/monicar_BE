@@ -1,7 +1,6 @@
 package org.controlcenter.alarm.application;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,7 +13,6 @@ import org.controlcenter.alarm.domain.AlarmStatusStats;
 import org.controlcenter.alarm.domain.SendAlarm;
 import org.controlcenter.alarm.infrastructure.jpa.AlarmJpaRepository;
 import org.controlcenter.alarm.infrastructure.jpa.entity.AlarmEntity;
-import org.controlcenter.alarm.presentation.dto.AlarmStatusStatsResponse;
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
 import org.controlcenter.company.application.port.ManagerRepository;
@@ -154,9 +152,7 @@ public class AlarmService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<AlarmStatusStatsResponse> getAlarmStatusCounts() {
-		List<AlarmStatusStats> rawData = alarmJpaRepository.findStatusCounts();
-		return rawData.stream()
-			.map(AlarmStatusStatsResponse::from).toList();
+	public AlarmStatusStats getAlarmStatusCounts() {
+		return alarmJpaRepository.findStatusCounts();
 	}
 }

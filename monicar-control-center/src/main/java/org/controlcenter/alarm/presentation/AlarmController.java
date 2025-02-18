@@ -1,9 +1,5 @@
 package org.controlcenter.alarm.presentation;
 
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
-
 import org.controlcenter.alarm.application.AlarmService;
 import org.controlcenter.alarm.domain.AlarmStatus;
 import org.controlcenter.alarm.presentation.dto.AlarmResponse;
@@ -17,7 +13,6 @@ import org.controlcenter.common.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -85,9 +81,10 @@ public class AlarmController implements AlarmApi {
 	}
 
 	@GetMapping("/status/stats")
-	public BaseResponse<List<AlarmStatusStatsResponse>> getAlarmStatusStats() {
+	public BaseResponse<AlarmStatusStatsResponse> getAlarmStatusStats() {
+		var alarmStatusStats = alarmService.getAlarmStatusCounts();
 		return BaseResponse.success(
-			alarmService.getAlarmStatusCounts()
+			AlarmStatusStatsResponse.from(alarmStatusStats)
 		);
 	}
 }
