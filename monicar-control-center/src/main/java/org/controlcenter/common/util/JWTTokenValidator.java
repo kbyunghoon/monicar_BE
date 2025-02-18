@@ -26,7 +26,7 @@ public class JWTTokenValidator {
 			throw new BusinessException(FORBIDDEN_ERROR);
 		}
 
-		if (!redisUtil.isRefreshTokenValid(extractUserIdFromAccessToken(refreshToken))) {
+		if (!redisUtil.getRefreshToken(extractUserIdFromAccessToken(refreshToken)).equals(refreshToken)) {
 			throw new BusinessException(FORBIDDEN_ERROR);
 		}
 

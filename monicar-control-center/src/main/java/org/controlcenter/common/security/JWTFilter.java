@@ -70,8 +70,7 @@ public class JWTFilter extends OncePerRequestFilter {
 			return;
 		} catch (BusinessException e) {
 			response.addHeader("Set-Cookie", cookieUtil.createAccessTokenCookie("", 0L).toString());
-			response.addHeader("Set-Cookie",
-				cookieUtil.createRefreshTokenCookie("", 0L).toString());
+			response.addHeader("Set-Cookie", cookieUtil.createRefreshTokenCookie("", 0L).toString());
 			errorHandler.writeErrorResponse(response, e.getErrorCode());
 			return;
 
