@@ -34,11 +34,11 @@ spring:
 logging:
   config: classpath:logback-spring-dev.xml
   file:
-    path: /var/log/app-logs
+    path: ${PROD_LOG_FILE_PATH}
 
 api:
   key: ${API_KEY}
-  base-url: http://localhost:8081/api/v1/alarm/
+  base-url: ${PROD_API_BASE_URL}
 
 
 alarm-interval-distance: 5000

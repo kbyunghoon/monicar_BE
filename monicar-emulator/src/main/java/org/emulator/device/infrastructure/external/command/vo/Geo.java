@@ -23,4 +23,10 @@ public class Geo {
 		this.latitude = Math.clamp((long)(latitude * VehicleInfoConstant.MIL), LATITUDE_MIN, LATITUDE_MAX);
 		this.longitude = Math.clamp((long)(longitude * VehicleInfoConstant.MIL), LONGITUDE_MIN, LONGITUDE_MAX);
 	}
+
+	@Override
+	public String toString() {
+		return "latitude= " + (double)latitude / VehicleInfoConstant.MIL +
+			", longitude=" + (double)longitude / VehicleInfoConstant.MIL;
+	}
 }
