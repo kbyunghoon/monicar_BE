@@ -31,7 +31,7 @@ public interface AlarmJpaRepository extends JpaRepository<AlarmEntity, Long> {
 		    SELECT new org.controlcenter.alarm.domain.AlarmStatusStats(
 		        SUM(CASE WHEN a.status = 'REQUIRED' THEN 1 ELSE 0 END),
 		        SUM(CASE WHEN a.status = 'SCHEDULED' THEN 1 ELSE 0 END),
-		        SUM(CASE WHEN a.status = 'IN_PROGRESS' THEN 1 ELSE 0 END),
+		        SUM(CASE WHEN a.status = 'INPROGRESS' THEN 1 ELSE 0 END),
 		        SUM(CASE WHEN a.status = 'COMPLETED' THEN 1 ELSE 0 END)
 		    )
 		    FROM alarm a
