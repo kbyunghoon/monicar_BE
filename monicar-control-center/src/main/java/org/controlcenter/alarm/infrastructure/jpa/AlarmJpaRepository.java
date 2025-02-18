@@ -27,12 +27,14 @@ public interface AlarmJpaRepository extends JpaRepository<AlarmEntity, Long> {
 	Page<AlarmInfo> findAlarmListByStatus(@Param("status") AlarmStatus status,
 		Pageable pageable);
 
-	@Query("SELECT new org.controlcenter.alarm.domain.AlarmStatusStats(a.status, COUNT(a)) " +
-		"FROM alarm a " +
-		"WHERE a.deletedAt IS NULL " +
-		"  AND a.isChecked = FALSE  " +
-		"GROUP BY a.status"
-	)
-	List<AlarmStatusStats> findStatusCounts();
-
+	@Query("""
+		    SELECT new org.controlcenter.alarm.domain.AlarmStatusStats(
+		        SUM(CASE WHEN a.status = 'REQUIRED' THEN 1 ELSE 0 END),
+		        SUM(CASE WHEN a.status = 'SCHEDULED' THEN 1 ELSE 0 END),
+		        SUM(CASE WHEN a.status = 'INPROGRESS' THEN 1 ELSE 0 END),
+		        SUM(CASE WHEN a.status = 'COMPLETED' THEN 1 ELSE 0 END)
+		    )
+		    FROM alarm a
+		""")
+	AlarmStatusStats findStatusCounts();
 }
