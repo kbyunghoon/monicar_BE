@@ -1,14 +1,14 @@
 # Monicar 
 
 ## 렌터카 차량 관제 서비스 (테크돔 기업 연계 프로젝트)
-[모니카 서비스](www.monicar.store)
+[모니카 서비스](https://www.monicar.store)
 
 ![login-page.png](img/login-page.png)
 
 ## 서비스 소개
 저희 `monicar`는 렌터카 차량 관제 서비스입니다.
 적어도 15000대 이상의 애뮬레이터가 시동on, GPS정보, 시동off를 http로 요청합니다.
-특히, GPS 정보는 http 연결 비용을 줄이기 위해 60초마다 60개의 데이터를 요청합니다.
+특히, GPS 정보는 http 연결 비용을 줄이기 위해 1초마다가 아닌, 60초마다 60개의 데이터를 요청합니다.
 카프카를 통해 차량의 정보가 올바르게 저장이 되면 업체별로 차량의 운행정보, 위치, 과거 경로 조회, 실시간 경로 조회 등을 기반으로 차량을 관제할 수 있습니다.
 
 ## 주요 기능
@@ -16,6 +16,9 @@
 ## 시스템 아키텍처
 ![아키텍처.png](img/아키텍처.png)
 
+---
+
+## 위 아키텍처를 도입한 이유
 ![흐름.png](img/흐름.png)
 요청한 데이터를 단일 수집서버로는 한계가 있으며, [부하테스트의 결과]()로 인해 메시지 큐를 도입할 수 밖에 없었습니다.
 
@@ -31,7 +34,7 @@ Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통
       <td align="center">
         <a href="https://github.com/Suxxxxhyun">
           <img src="img/수현.png" width="100px;" alt="팀장 프로필"/><br />
-          <sub><b>팀장 : 박수현</b></sub>
+          <sub><b>팀장(BE, Infra) : 박수현</b></sub>
         </a>
       </td>
       <td align="center">
@@ -76,13 +79,14 @@ Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통
 ### BE
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=github,docker,spring,java,kafka,aws,mysql,redis,elasticsearch" />
+    <img src="https://skillicons.dev/icons?i=github,docker,spring,java,kafka,aws,mysql,redis,elasticsearch,jwt" />
   </a>
 </p>
 
 <p align="center">
-  ⚡ Tech Stack: Spring Boot, Spring Data JPA, Spring Security, QueryDSL, MyBatis, AWS EC2, AWS RDS, AWS ALB
+  ⚡ Tech Stack: Spring Boot, Spring Data JPA, Spring Security, QueryDSL, MyBatis, JWT, SSE, AWS EC2, AWS RDS, AWS ALB
 </p>
+
 
 ### FE
 <p align="center">
