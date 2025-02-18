@@ -27,47 +27,6 @@ CPU70 이상이 되면 Scale Out, 30이하면 Scale in이 되도록 Auto Scaling
 Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통해 저장하여, 업체별로 차량의 정보를 조회할 수 있습니다.
 실시간 차량을 보여주기 위해, Consumer서버 한대로는 한계가 있어 향후 Consumer서버를 여러대 늘릴 예정입니다.
 
-## 팀원소개
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <a href="https://github.com/Suxxxxhyun">
-          <img src="img/수현.png" width="100px;" alt="팀장 프로필"/><br />
-          <sub><b>팀장(BE, Infra) : 박수현</b></sub>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/kbyunghoon">
-          <img src="img/병훈.png" width="100px;" alt="BE 팀원 프로필"/><br />
-          <sub><b>BE 팀원 : 김병훈</b></sub>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/tomatozil">
-          <img src="img/지윤.png" width="100px;" alt="BE 팀원 프로필"/><br />
-          <sub><b>BE 팀원 : 윤지윤</b></sub>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/red-dev-Mark">
-          <img src="img/혁준.png" width="100px;" alt="FE 팀원 프로필"/><br />
-          <sub><b>FE 팀원 : 권혁준</b></sub>
-        </a>
-      </td>
-      <td align="center">
-        <a href="https://github.com/nanafromjeju">
-          <img src="img/난아.png" width="100px;" alt="FE 팀원 프로필"/><br />
-          <sub><b>FE 팀원 : 김난아</b></sub>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-
-
-
 ## 프로젝트 기획
 - [피그마 링크]()
 - [API명세서](https://www.notion.so/API-2651629b10674069b0500e3ea8aa1a0f?pvs=4)
@@ -107,6 +66,44 @@ Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통
 ## 기술 세미나
 - [확장가능한 시스템 설계 - 박수현](https://docs.google.com/presentation/d/179fQnnWuqpqkAJLTbvhTNh4YNEe4cjSUiS6bVxZVHAY/edit?usp=sharing)
 - [동기 비동기 HTTP 요청 - 윤지윤](https://docs.google.com/presentation/d/1aIru1TdHdLZ956GhZVdg9CFyTxlelEdOxnKPFwaDa2M/edit?usp=sharing)
+
+## 팀원소개
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Suxxxxhyun">
+          <img src="img/수현.png" width="100px;" alt="팀장 프로필"/><br />
+          <sub><b>팀장(BE, Infra) : 박수현</b></sub>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/kbyunghoon">
+          <img src="img/병훈.png" width="100px;" alt="BE 팀원 프로필"/><br />
+          <sub><b>BE 팀원 : 김병훈</b></sub>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/tomatozil">
+          <img src="img/지윤.png" width="100px;" alt="BE 팀원 프로필"/><br />
+          <sub><b>BE 팀원 : 윤지윤</b></sub>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/red-dev-Mark">
+          <img src="img/혁준.png" width="100px;" alt="FE 팀원 프로필"/><br />
+          <sub><b>FE 팀원 : 권혁준</b></sub>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/nanafromjeju">
+          <img src="img/난아.png" width="100px;" alt="FE 팀원 프로필"/><br />
+          <sub><b>FE 팀원 : 김난아</b></sub>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 
 
