@@ -236,6 +236,7 @@ public interface MyBatisVehicleInfoMapper {
 			) latest
 			ON ve.vehicle_id = latest.vehicle_id
 			AND ve.event_at = latest.latest_event_at
+				GROUP BY ve.vehicle_id
 		)
 		SELECT
 			COUNT(vi.vehicle_id) AS allVehicles,
