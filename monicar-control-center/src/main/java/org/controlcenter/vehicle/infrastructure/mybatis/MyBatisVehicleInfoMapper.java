@@ -128,19 +128,19 @@ public interface MyBatisVehicleInfoMapper {
 	);
 
 	@Select("""
-		SELECT
-		  ci.lat,
-		  ci.lng,
-		  ci.spd,
-		  vi.status,
-		  ci.interval_at
-  		FROM cycle_info ci
-           JOIN vehicle_information vi ON ci.vehicle_id = vi.vehicle_id
-  		WHERE ci.vehicle_id = #{vehicleId}
-    		AND vi.status = 'IN_OPERATION'
-    		AND ci.interval_at <= DATE_SUB(#{currentTime}, INTERVAL 2 MINUTE)
-      	ORDER BY ci.interval_at DESC
-       	LIMIT 65;
+		    SELECT
+		      ci.lat,
+		      ci.lng,
+		      ci.ang,
+		      vi.status,
+		      ci.interval_at
+		    FROM cycle_info ci
+		         JOIN vehicle_information vi ON ci.vehicle_id = vi.vehicle_id
+		    WHERE ci.vehicle_id = #{vehicleId}
+		        AND vi.status = 'IN_OPERATION'
+		        AND ci.interval_at BETWEEN DATE_SUB(#{currentTime}, INTERVAL 180 SECOND)
+		                             AND DATE_SUB(#{currentTime}, INTERVAL 120 SECOND)
+		    ORDER BY ci.interval_at ASC;
 		""")
 	List<RouteResponseWithStatus> getRecentRoutesByVehicle(
 		@Param("vehicleId") Long vehicleId,
