@@ -7,12 +7,12 @@ import org.controlcenter.vehicle.infrastructure.elasticsearch.document.VehicleIn
 
 @Builder
 public record SimpleVehicleInformationResponse(
-	long id,
+	long vehicleId,
 	String vehicleNumber
 ) {
 	public static SimpleVehicleInformationResponse from(VehicleInformationDocument doc) {
 		return SimpleVehicleInformationResponse.builder()
-			.id(doc.getId())
+			.vehicleId(doc.getId())
 			.vehicleNumber(doc.getVehicleNumber())
 			.build();
 	}
