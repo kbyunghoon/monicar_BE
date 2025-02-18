@@ -20,7 +20,7 @@
 
 ## 위 아키텍처를 도입한 이유
 ![흐름.png](img/흐름.png)
-요청한 데이터를 단일 수집서버로는 한계가 있으며, [부하테스트의 결과]()로 인해 메시지 큐를 도입할 수 밖에 없었습니다.
+요청한 데이터를 단일 수집서버로는 한계가 있으며, [부하테스트의 결과](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)로 인해 메시지 큐를 도입할 수 밖에 없었습니다.
 
 ![최종데이터흐름.png](img/최종데이터흐름.png)
 CPU70 이상이 되면 Scale Out, 30이하면 Scale in이 되도록 Auto Scaling을 설정하였습니다.
@@ -59,9 +59,9 @@ Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통
 </p>
 
 ## BE Trouble Shooting
-- [카프카 도입이유](img/Kafka도입이유.md)
+- [카프카 도입이유](https://github.com/Kernel360/KDEV3_monicar_BE/blob/develop/img/Kafa도입이유.md)
 - [Route53 동작이 제대로 안될 때가 있다.](https://github.com/Kernel360/blog/pull/131)
-- [부하테스트 - 메시지 큐를 도입할 수 밖에 없었던 이유](img/부하테스트.md)
+- [부하테스트 - 메시지 큐를 도입할 수 밖에 없었던 이유](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## 기술 세미나
 - [확장가능한 시스템 설계 - 박수현](https://docs.google.com/presentation/d/179fQnnWuqpqkAJLTbvhTNh4YNEe4cjSUiS6bVxZVHAY/edit?usp=sharing)
