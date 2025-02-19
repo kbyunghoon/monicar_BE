@@ -36,6 +36,10 @@ public class AlarmService {
 	private final VehicleRepository vehicleRepository;
 	private final ManagerRepository managerRepository;
 
+	public Map<String, SseEmitter> getSseEmitters() {
+		return sseEmitters;
+	}
+
 	/**
 	 * 특정 userId가 SSE 구독을 시작할 때 호출.
 	 */
