@@ -23,9 +23,9 @@
 요청한 데이터를 단일 수집서버로는 한계가 있으며, [부하테스트의 결과](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)로 인해 메시지 큐를 도입할 수 밖에 없었습니다.
 
 ![최종데이터흐름.png](img/최종데이터흐름.png)
-CPU70 이상이 되면 Scale Out, 30이하면 Scale in이 되도록 Auto Scaling을 설정하였습니다.
-Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통해 저장하여, 업체별로 차량의 정보를 조회할 수 있습니다.
-실시간 차량을 보여주기 위해, Consumer서버 한대로는 한계가 있어 향후 Consumer서버를 여러대 늘릴 예정입니다.
+CPU 70 이상이 되면 Scale Out, 30이하면 Scale in이 되도록 Auto Scaling을 설정하였습니다.
+애뮬레이터 서버가 60초마다 요청한 60개의 데이터가 카프카를 통해 저장하여, 업체별로 차량의 정보를 조회할 수 있습니다.
+실시간 차량을 보여주기 위해, Consumer서버에서 mybatis의 bulk insert기능을 활용하여 데이터를 더 빠르게 적재될 수 있도록 할 예정입니다.
 
 ## 프로젝트 기획
 - [피그마 링크]()
@@ -59,9 +59,9 @@ Event-hub 서버가 60초마다 요청한 60개의 데이터가 카프카를 통
 </p>
 
 ## BE Trouble Shooting
+- [부하테스트 - 메시지 큐를 도입할 수 밖에 없었던 이유](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 - [메시지 큐 중에 Kafka를 도입한 이유](https://github.com/Kernel360/KDEV3_monicar_BE/blob/develop/img/Kafa도입이유.md)
 - [Route53 동작이 제대로 안될 때가 있다.](https://github.com/Kernel360/blog/pull/131)
-- [부하테스트 - 메시지 큐를 도입할 수 밖에 없었던 이유](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## 기술 세미나
 - [확장가능한 시스템 설계 - 박수현](https://docs.google.com/presentation/d/179fQnnWuqpqkAJLTbvhTNh4YNEe4cjSUiS6bVxZVHAY/edit?usp=sharing)
