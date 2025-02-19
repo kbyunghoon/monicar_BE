@@ -29,7 +29,7 @@ public class AlarmEntity {
 	@Column(name = "alarm_id")
 	private Long id;
 
-	private Long managerId;
+	private String managerId;
 
 	private Long vehicleId;
 

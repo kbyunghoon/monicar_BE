@@ -41,4 +41,4 @@ api:
   base-url: ${PROD_API_BASE_URL}
 
 
-alarm-interval-distance: 5000
+alarm-interval-distance: 100
