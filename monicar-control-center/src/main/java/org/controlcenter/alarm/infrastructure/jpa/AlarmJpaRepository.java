@@ -1,6 +1,5 @@
 package org.controlcenter.alarm.infrastructure.jpa;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.controlcenter.alarm.domain.AlarmInfo;
@@ -35,6 +34,7 @@ public interface AlarmJpaRepository extends JpaRepository<AlarmEntity, Long> {
 		        SUM(CASE WHEN a.status = 'COMPLETED' THEN 1 ELSE 0 END)
 		    )
 		    FROM alarm a
+				    WHERE a.isChecked = FALSE
 		""")
 	AlarmStatusStats findStatusCounts();
 }
