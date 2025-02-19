@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class Alarm {
 	private Long id;
-	private Long managerId;
+	private String managerId;
 	private Long vehicleId;
 	private Integer drivingDistance;
 	private AlarmStatus status;
