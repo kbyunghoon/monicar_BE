@@ -8,8 +8,6 @@ dependencies {
     implementation "org.springframework.kafka:spring-kafka:3.3.0"
 
     testImplementation 'org.mock-server:mockserver-netty:5.15.0'
-
-    implementation project(':monicar-common')
 }
 
 tasks.bootJar {

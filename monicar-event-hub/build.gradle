@@ -17,8 +17,6 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers'
     testImplementation 'org.testcontainers:mysql'
     testImplementation 'org.testcontainers:junit-jupiter'
-
-    implementation project(':monicar-common')
 }
 
 tasks.bootJar {
