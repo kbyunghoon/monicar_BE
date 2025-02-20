@@ -3,6 +3,8 @@ package org.eventhub.infrastructure.messaging;
 import org.eventhub.application.port.CycleInfoEventPublisher;
 import org.eventhub.domain.CycleInfoList;
 import org.eventhub.infrastructure.messaging.command.CycleInfoListCommand;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,8 @@ public class KafkaCycleInfoEventPublisher implements CycleInfoEventPublisher {
 
 	@Override
 	@Async
+	@KafkaListener(topicPartitions = @TopicPartition(topic = "cycleInfo-json-topic",
+		partitions = "#{@finder.partitions('cycleInfo-json-topic')}"))
 	public void publishEvent(CycleInfoList cycleInfoList) {
 		CycleInfoListCommand message = CycleInfoListCommand.from(cycleInfoList);
 

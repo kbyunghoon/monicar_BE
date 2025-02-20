@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
-
-import org.eventhub.infrastructure.messaging.TypeIdInterceptor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -46,5 +45,10 @@ public class KafkaProducerConfig {
 	@Bean
 	public KafkaTemplate<String, Object> kafkaTemplate(KafkaProperties kafkaProperties) {
 		return new KafkaTemplate<>(producerFactory(kafkaProperties));
+	}
+
+	@Bean
+	public PartitionFinder finder(@Qualifier("producerFactory") ProducerFactory<String, Object> producerFactory) {
+		return new PartitionFinder(producerFactory);
 	}
 }
