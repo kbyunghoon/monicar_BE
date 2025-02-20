@@ -58,8 +58,8 @@
 
     eventSource.onerror = function (error) {
         console.error("🚨 SSE 오류 발생:", error);
-        showTemporaryMessage("gps-info", "❌ GPS 데이터 수신 불가", 3000);
-        showTemporaryMessage("gps-status", "❌ 상태 스트림 오류", 3000);
+        showTemporaryMessage("gps-info", "", 3000);
+        showTemporaryMessage("gps-status", "", 3000);
     };
 </script>
 
@@ -78,12 +78,12 @@
                     if (data.isSuccess) {
                         document.getElementById("title").textContent = "현재 차량 상태 : 운행중 🚗💨";
                     } else {
-                        showTemporaryMessage("title", "❌ 차량 운행 시작 불가", 3000);
+                        showTemporaryMessage("title", "❌ 차량 운행 시작 불가", 2000);
                     }
                 })
                 .catch(error => {
                     console.error('차량 운행 시작 실패:', error);
-                    showTemporaryMessage("title", "❌ 알 수 없는 에러 발생", 3000);
+                    showTemporaryMessage("title", "❌ 알 수 없는 에러 발생", 2000);
                 });
     });
 
@@ -100,12 +100,12 @@
                     if (data.isSuccess) {
                         document.getElementById("title").textContent = "현재 차량 상태 : 정지 🚘";
                     } else {
-                        showTemporaryMessage("title", "❌ 차량 운행 종료 불가", 3000);
+                        showTemporaryMessage("title", "❌ 차량 운행 종료 불가", 2000);
                     }
                 })
                 .catch(error => {
                     console.error('차량 운행 종료 실패:', error);
-                    showTemporaryMessage("title", "❌ 알 수 없는 에러 발생", 3000);
+                    showTemporaryMessage("title", "❌ 알 수 없는 에러 발생", 2000);
                 });
     });
 

@@ -7,8 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.TimeZone;
+
 @Slf4j
-@SpringBootApplication(scanBasePackages = {"org.emulator", "org.common"})
+@SpringBootApplication(scanBasePackages = {"org.emulator"})
 public class EmulatorApplication {
 	private final GpsSensor gpsSensor;
 
@@ -22,6 +24,7 @@ public class EmulatorApplication {
 	}
 
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "EmulatorApplication run()");
 		SpringApplication.run(EmulatorApplication.class, args);
 	}
