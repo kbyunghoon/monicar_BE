@@ -21,8 +21,6 @@ public class KafkaCycleInfoEventPublisher implements CycleInfoEventPublisher {
 
 	@Override
 	@Async
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "cycleInfo-json-topic",
-		partitions = "#{@finder.partitions('cycleInfo-json-topic')}"))
 	public void publishEvent(CycleInfoList cycleInfoList) {
 		CycleInfoListCommand message = CycleInfoListCommand.from(cycleInfoList);
 
