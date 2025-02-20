@@ -60,7 +60,7 @@ CPU 70 이상이 되면 Scale Out, 30이하면 Scale in이 되도록 Auto Scalin
 
 ## BE Trouble Shooting
 - [부하테스트 - 메시지 큐를 도입할 수 밖에 없었던 이유](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
-- [메시지 큐 중에 Kafka를 도입한 이유](https://github.com/Kernel360/KDEV3_monicar_BE/blob/develop/img/Kafa도입이유.md)
+- [메시지 큐 중에 Kafka를 도입한 이유 - 구체적으로 업로드 예정](https://github.com/Kernel360/KDEV3_monicar_BE/blob/develop/img/Kafa도입이유.md)
 - [Route53 동작이 제대로 안될 때가 있다.](https://github.com/Kernel360/blog/pull/131)
 - [SSE 응답이 계속 대기 중(Pending)으로 유지되는 문제](https://github.com/Kernel360/KDEV3_monicar_BE/wiki/SSE-%EC%9D%91%EB%8B%B5%EC%9D%B4-%EA%B3%84%EC%86%8D-%EB%8C%80%EA%B8%B0-%EC%A4%91(Pending)%EC%9C%BC%EB%A1%9C-%EC%9C%A0%EC%A7%80%EB%90%98%EB%8A%94-%EB%AC%B8%EC%A0%9C)
 

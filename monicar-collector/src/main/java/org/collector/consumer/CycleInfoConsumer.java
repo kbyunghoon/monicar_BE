@@ -19,7 +19,7 @@ public class CycleInfoConsumer {
 	@KafkaListener(topicPartitions = @TopicPartition(topic = "cycleInfo-json-topic",
 		partitions = "#{@finder.partitions('cycleInfo-json-topic')}"))
 	public void accept(ConsumerRecord<String, CycleInfoRequest> message) {
-		System.out.println("[Main Consumer] Message arrived! - " + message.value());
 		cycleInfoService.cycleInfoSave(message.value());
+		log.info("[Main Consumer] Message arrived! - " + message.key());
 	}
 }
