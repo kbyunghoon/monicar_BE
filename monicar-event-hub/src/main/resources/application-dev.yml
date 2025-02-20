@@ -44,4 +44,4 @@ api:
   key: ${API_KEY}
   base-url: http://localhost:8081/api/v1/alarm/
 
-alarm-interval-distance: 5000
+alarm-interval-distance: 100

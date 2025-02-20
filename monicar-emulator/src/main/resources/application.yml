@@ -10,7 +10,7 @@ spring:
 logging:
   config: classpath:logback-spring-dev.xml
   file:
-    path: ${user.dir}/logs
+    path: ./logs
 
 api:
   transmission-time: 60
@@ -18,7 +18,7 @@ api:
   # 에뮬레이터를 컨테이너로 만든 상태에서 로컬 event-hub 서버에 요청 보낼 때
 #  base-url: http://host.docker.internal:8082/api/v1/event-hub/
 
-file-name: suwon-daejon-gumi-optimized.gpx
+file-name: seoul-to-gyeongju_formatted.gpx
 
 fixed:
   vehicle-mdn: 1234567890
@@ -37,8 +37,9 @@ spring:
 
 file-name: yangyang-to-daegu_formatted.gpx
 
+# rds vehicle_information 데이터 기준
 fixed:
-  vehicle-mdn: 1234567891
+  vehicle-mdn: 2254690422
   vehicle-number: 657가5202
 
 ---
@@ -54,8 +55,9 @@ spring:
 
 file-name: yeosu-to-cheonan_formatted.gpx
 
+# rds vehicle_information 데이터 기준
 fixed:
-  vehicle-mdn: 1234567892
+  vehicle-mdn: 5246479703
   vehicle-number: 309가9777
 
 ---
@@ -71,6 +73,25 @@ spring:
 
 file-name: gwangju-to-muju_formatted.gpx
 
+# rds vehicle_information 데이터 기준
 fixed:
-  vehicle-mdn: 1234567893
+  vehicle-mdn: 6459804235
   vehicle-number: 530가4820
+
+---
+server:
+  port: 8093
+
+spring:
+  config:
+    activate:
+      on-profile: peach
+  application:
+    name: monicar-emulator-peach
+
+file-name: suwon-daejon-gumi-optimized.gpx
+
+# rds vehicle_information 데이터 기준
+fixed:
+  vehicle-mdn: 4443625351
+  vehicle-number: 762나5310
