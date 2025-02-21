@@ -13,6 +13,37 @@
 
 ## 주요 기능
 
+**대시보드**
+
+![대시보드](https://github.com/user-attachments/assets/73b6af4b-ebc6-43d6-b4ba-0e3752ea90d1)
+
+**공지사항**
+
+![공지사항](https://github.com/user-attachments/assets/25e366aa-22a2-476b-ab1b-f7f0f00b5db5)
+
+**위치조회**
+
+![위치조회](https://github.com/user-attachments/assets/242e15a2-3265-48d5-b4d1-0f498434296d)
+
+**경로조회**
+
+![경로조회](https://github.com/user-attachments/assets/11655278-c573-4f72-8db1-5d548055fcc8)
+
+
+**운행기록>운행일지**
+
+![운행기록 운행일지](https://github.com/user-attachments/assets/fdade107-2486-4d20-9385-3451934cdc4e)
+
+**운행기록>차량등록**
+
+![운행기록 차량등록](https://github.com/user-attachments/assets/ed03ab16-d288-4bce-b326-5af7ce355dfa)
+
+**알림창>점검현황**
+
+![알림창 점검현황](https://github.com/user-attachments/assets/65f19cc4-3acc-42ed-a835-5cf3ce635870)
+
+
+
 ## 시스템 아키텍처
 ![아키텍처.png](img/아키텍처.png)
 
