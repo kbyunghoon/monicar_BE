@@ -1,0 +1,8 @@
+### POST request to example server
+
+# 에뮬레이터 controller로 요청 보내기
+POST http://localhost:8090/api/v1/emulator/key-on
+
+###
+
+POST http://localhost:8090/api/v1/emulator/key-off

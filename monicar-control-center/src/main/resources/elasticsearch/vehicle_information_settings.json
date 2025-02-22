@@ -1,0 +1,33 @@
+{
+  "number_of_shards": 1,
+  "number_of_replicas": 0,
+  "index.max_ngram_diff": 30,
+  "analysis": {
+    "filter": {
+      "ngram_filter": {
+        "type": "ngram",
+        "min_gram": 1,
+        "max_gram": 20
+      }
+    },
+    "analyzer": {
+      "jamo_analyzer": {
+        "type": "custom",
+        "tokenizer": "standard",
+        "filter": [
+          "lowercase",
+          "hanhinsam_jamo"
+        ]
+      },
+      "ngram_jamo_analyzer": {
+        "type": "custom",
+        "tokenizer": "standard",
+        "filter": [
+          "lowercase",
+          "hanhinsam_jamo",
+          "ngram_filter"
+        ]
+      }
+    }
+  }
+}

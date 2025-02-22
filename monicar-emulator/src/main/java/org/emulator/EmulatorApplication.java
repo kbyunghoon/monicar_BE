@@ -1,29 +1,31 @@
 package org.emulator;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.emulator.sensor.GpsSensor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.common.TestBean;
-
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 
-@SpringBootApplication(scanBasePackages = {"org.emulator", "org.common"})
+import java.util.TimeZone;
+
+@Slf4j
+@SpringBootApplication(scanBasePackages = {"org.emulator"})
 public class EmulatorApplication {
+	private final GpsSensor gpsSensor;
 
-    private final TestBean testBean;
+	public EmulatorApplication(GpsSensor gpsSensor) {
+		this.gpsSensor = gpsSensor;
+	}
 
-    @Autowired
-    public EmulatorApplication(TestBean testBean) {
-        this.testBean = testBean;
-    }
+	@PostConstruct
+	public void initSensor() {
+		gpsSensor.activate();
+	}
 
-    @PostConstruct
-    public void dependencyTest() {
-        testBean.dependencyTest();
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(EmulatorApplication.class, args);
-    }
+	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		log.info("[Thread: {}] {}", Thread.currentThread().getName(), "EmulatorApplication run()");
+		SpringApplication.run(EmulatorApplication.class, args);
+	}
 }

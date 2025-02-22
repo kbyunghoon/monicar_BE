@@ -1,0 +1,55 @@
+spring:
+  elasticsearch:
+    uris: ${ELASTIC_SEARCH_URI}
+  datasource:
+    url: jdbc:tc:mysql:8.0.36:///?useSSL=false&serverTimezone=Asia/Seoul
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    hibernate:
+      ddl-auto: none
+
+  test:
+    database:
+      replace: none
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:/schema/init-schema.sql
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration:
+    access: ${ACCESS_EXPIRATION}
+    refresh: ${REFRESH_EXPIRATION}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:}
+
+cookie:
+  domain: ${COOKIE_DOMAIN}
+
+logging:
+  config: classpath:logback-spring-dev.xml
+  file:
+    path: ${user.dir}/logs
+
+swagger:
+  server:
+    prod-url: ${PROD_URL}
+    dev-url: ${DEV_URL}
+alarm:
+  secret-key: ${ALARM_SECRET}

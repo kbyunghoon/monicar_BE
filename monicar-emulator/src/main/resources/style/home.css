@@ -1,0 +1,15 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vehicle-event-button-container {
+    display: flex;
+    margin: 10px;
+}
+
+.vehicle-event-button {
+    margin-left: 20px;
+    padding: 10PX
+}
