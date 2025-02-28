@@ -52,7 +52,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew clean build -x test
+        run: ./gradlew :monicar-control-center:clean :monicar-control-center:build -x test
 
       - name: Build and Image Deploy to DockHub
         if: success()
