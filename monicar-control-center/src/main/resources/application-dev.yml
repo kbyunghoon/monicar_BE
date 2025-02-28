@@ -8,6 +8,7 @@ spring:
   config:
     activate:
       on-profile: dev
+    import: classpath:properties/env.properties
   elasticsearch:
     uris: ${ELASTIC_SEARCH_URI}
   datasource:
