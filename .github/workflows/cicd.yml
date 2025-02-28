@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Control Center CI/CD Pipeline
 
 on:
   pull_request_target:
@@ -10,10 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'Test scenario tags'
+        description: ''
 
 env:
-  SPRING_PROFILES_ACTIVE: prod
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
@@ -29,7 +28,23 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
 
-      - uses: actions/checkout@v3
+      - name: apply control-center application.yml
+        run: |
+          cd monicar-control-center/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_YML }}" > ./application.yml
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_YML }}"
+        shell: bash
+
+      - name: make control-center env.properties
+        run: |
+          mkdir monicar-control-center/src/main/resources/properties
+          cd monicar-control-center/src/main/resources/properties
+          touch ./env.properties
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}" > ./env.properties
+          echo "${{ secrets.MONICAR_CONTROL_CENTER_ENV }}"
+        shell: bash
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
 
@@ -98,6 +113,6 @@ jobs:
 
             # 5️⃣ 새로운 컨테이너 실행 (Redis와 같은 네트워크 사용)
             echo "새로운 monicar-control-center 컨테이너 실행..."
-            sudo docker run -d --name monicar-control-center --network host -p 8081:8081 -v /app/logs:/var/log/app-logs -e SPRING_PROFILES_ACTIVE=prod bhoonk/monicar-control-center:latest
+            sudo docker run -d --name monicar-control-center --network host -p 8081:8081 -v /app/logs:/var/log/app-logs bhoonk/monicar-control-center:latest
 
             echo "=== [배포 완료] Monicar Control Center가 실행되었습니다! ==="
