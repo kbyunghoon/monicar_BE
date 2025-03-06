@@ -124,7 +124,7 @@ public interface VehicleApi {
 		@RequestParam("swLng") int swLng,
 		@Parameter(description = "줌 레벨 (최소 1 ~ 최대 13)", required = true, in = ParameterIn.QUERY)
 		@RequestParam("zoomLevel") int zoomLevel,
-		@Parameter(description = "조회할 차량 상태 (예: NOT_REGISTERED, NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
+		@Parameter(description = "조회할 차량 상태 (예: NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
 		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
 
 	@Operation(summary = "현재 운행중인 차량인지 조회", description = "차량 고유 ID를 통해 현재 차량이 운행중인지 조회")
@@ -142,7 +142,7 @@ public interface VehicleApi {
 		@RequestParam("swLat") int swLat,
 		@Parameter(description = "남서 좌표 경도 (정수, 원래 값 * 1,000,000)", required = true, in = ParameterIn.QUERY)
 		@RequestParam("swLng") int swLng,
-		@Parameter(description = "조회할 차량 상태 (예: NOT_REGISTERED, NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
+		@Parameter(description = "조회할 차량 상태 (예: NOT_DRIVEN, IN_OPERATION). 값이 없으면 모든 상태 조회", required = false, in = ParameterIn.QUERY)
 		@RequestParam(value = "status", defaultValue = "") VehicleStatus status);
 
 	@Operation(summary = "차량 고유 아이디로 차량 정보 조회 API", description = "차량 고유 번호를 사용하여 최신 정보를 조회")
