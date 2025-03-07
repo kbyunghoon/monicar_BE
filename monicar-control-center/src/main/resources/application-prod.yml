@@ -63,3 +63,5 @@ swagger:
     dev-url: ${DEV_URL}
 alarm:
   secret-key: ${ALARM_SECRET}
+security:
+  secret-key: ${SESSION_SECRET}
