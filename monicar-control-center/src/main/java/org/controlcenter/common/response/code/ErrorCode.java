@@ -33,12 +33,6 @@ public enum ErrorCode {
 	INVALID_ZOOM_LEVEL(2004, "지도의 줌 레벨은 1~13 사이여야합니다."),
 
 	AUTHORIZATION_DENIED(9000, "권한이 없습니다."),
-	EXPIRED_TOKENS(9993, "토큰 만료로 인해 로그아웃 되었습니다. 다시 로그인해 주세요."),
-	EXPIRED_REFRESH_TOKEN(9994, "만료된 리프레시 토큰입니다."),
-	EXPIRED_ACCESS_TOKEN(9995, "만료된 액세스 토큰입니다."),
-	INVALID_REFRESH_TOKEN(9996, "유효하지 않은 리프레시 토큰입니다."),
-	INVALID_ACCESS_TOKEN(9997, "유효하지 않은 액세스 토큰입니다."),
-	REFRESH_TOKEN_STILL_VALID(9998, "유효한 리프레시 토큰입니다."),
 	LOGIN_FAILED(9999, "등록되지 않은 아이디이거나, 아이디 혹은 비밀번호를 잘못 입력하였습니다.");
 
 	private final int code;
