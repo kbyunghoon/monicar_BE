@@ -7,7 +7,7 @@ spring:
 
   config:
     activate:
-      on-profile: prod
+      on-profile: dev
   elasticsearch:
     uris: ${ELASTIC_SEARCH_URI}
 
