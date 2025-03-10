@@ -6,13 +6,11 @@ import org.controlcenter.company.domain.ManagerInformation;
 import org.controlcenter.company.presentation.dto.LoginRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Tag(name = "사용자 기본 API", description = "사용자 관련 기본 기능 API")
 public interface ManagerApi {
@@ -29,14 +27,6 @@ public interface ManagerApi {
 	@PostMapping("/sign-in")
 	default void login(@RequestBody LoginRequest loginRequest) {
 	}
-
-	@Operation(summary = "로그아웃 기능",
-		description = "로그아웃 기능")
-	@PostMapping("/logout")
-	BaseResponse<Void> logout(
-		@CookieValue(value = "access_token", required = false, defaultValue = "") String accessToken,
-		@CookieValue(value = "refresh_token", required = false, defaultValue = "") String refreshToken,
-		HttpServletResponse response);
 
 	@Operation(summary = "사용자 정보 조회",
 		description = "클라이언트에 보여질 사용자 정보")
