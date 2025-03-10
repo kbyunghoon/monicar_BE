@@ -43,7 +43,6 @@ public class ManagerController implements ManagerApi {
 	public BaseResponse<ManagerInformation> getProfile(
 		@AuthenticationPrincipal CustomUserDetails userPrincipal
 	) {
-		managerService.updateLastLoginAt(userPrincipal.getUserId());
 		return BaseResponse.success(managerService.getProfile(userPrincipal.getId()));
 	}
 }

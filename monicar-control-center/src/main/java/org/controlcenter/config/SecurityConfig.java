@@ -2,6 +2,7 @@ package org.controlcenter.config;
 
 import java.util.List;
 
+import org.controlcenter.common.security.CustomAuthenticationSuccessHandler;
 import org.controlcenter.common.security.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,7 @@ public class SecurityConfig {
 	String secretKey;
 
 	private final CorsProperties corsProperties;
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -51,7 +53,8 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, CustomUserDetailService customUserDetailService) throws Exception {
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+		CustomUserDetailService customUserDetailService) throws Exception {
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> auth
@@ -62,7 +65,7 @@ public class SecurityConfig {
 					.loginProcessingUrl("/loginProc")
 					.usernameParameter("userId")
 					.passwordParameter("password")
-					.defaultSuccessUrl("/api/v1/me")
+					.successHandler(customAuthenticationSuccessHandler)
 					.failureUrl("/loginFail")
 			)
 			.logout(logout ->
