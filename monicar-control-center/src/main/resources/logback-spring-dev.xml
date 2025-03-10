@@ -1,0 +1,39 @@
+<configuration>
+
+    <springProperty name="LOG_PATH" source="logging.file.path"/>
+    <property name="SERVER_NAME" value="${server.name:-control-center}" />
+
+    <!-- 콘솔 출력 Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss, Asia/Seoul} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <!-- 파일 로그 Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 로그 파일 경로 -->
+        <file>${LOG_PATH}/${SERVER_NAME}-dev.log</file>
+
+        <!-- 롤링 정책: 날짜별 로그 파일 생성 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 로그 파일 이름 패턴 -->
+            <fileNamePattern>${LOG_PATH}/${SERVER_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 로그 파일 최대 유지 개수 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <!-- 로그 출력 포맷 -->
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss, Asia/Seoul}:%-3relative][%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- INFO 이상(INFO, WARN, ERROR)의 로그만 출력 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

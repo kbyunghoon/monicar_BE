@@ -1,0 +1,36 @@
+package org.controlcenter.company.presentation;
+
+import org.controlcenter.common.response.BaseResponse;
+import org.controlcenter.company.application.CompanyService;
+import org.controlcenter.company.presentation.dto.CompanyCreateRequest;
+import org.controlcenter.company.presentation.dto.SimpleCompanyResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/v1")
+@PreAuthorize("hasRole('ROLE_USER')")
+public class CompanyController {
+	private final CompanyService companyService;
+
+	/**
+	 * 업체(회사) 등록 api
+	 *
+	 * @param companyCreateRequest 업체(회사) 등록 요청 데이터
+	 * @return 등록된 업체 데이터를 반환
+	 */
+	@PostMapping("/company")
+	public BaseResponse<SimpleCompanyResponse> register(
+		@Valid @RequestBody CompanyCreateRequest companyCreateRequest
+	) {
+		var company = companyService.register(companyCreateRequest.toDomain());
+		return BaseResponse.success(SimpleCompanyResponse.from(company));
+	}
+}

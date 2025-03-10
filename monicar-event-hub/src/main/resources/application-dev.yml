@@ -1,0 +1,47 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: monicar-event-hub
+
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: 1
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/monicar_db
+    username: local_user
+    password: local_password
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          time_zone: Asia/Seoul
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+logging:
+  config: classpath:logback-spring-dev.xml
+  file:
+    path: ${user.dir}/logs
+
+#management:
+#  endpoints:
+#    web:
+#      base-path: /monitor
+#      exposure:
+#        include: health, metrics, threaddump
+
+api:
+  key: ${API_KEY}
+  base-url: http://localhost:8081/api/v1/alarm/
+
+alarm-interval-distance: 100

@@ -1,0 +1,44 @@
+server:
+  port: 8082
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: monicar-event-hub
+
+  kafka:
+    bootstrap-servers: ${KAFKA_CLUSTER_1}, ${KAFKA_CLUSTER_2}, ${KAFKA_CLUSTER_3}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: 1
+
+  datasource:
+    url: ${PROD_DB_URL}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          time_zone: Asia/Seoul
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
+logging:
+  config: classpath:logback-spring-dev.xml
+  file:
+    path: ${PROD_LOG_FILE_PATH}
+
+api:
+  key: ${API_KEY}
+  base-url: ${PROD_API_BASE_URL}
+
+
+alarm-interval-distance: 100
