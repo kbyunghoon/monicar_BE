@@ -76,8 +76,8 @@ jobs:
             echo "=== [배포 시작] Monicar Control Center ==="
 
             # 1️⃣ Redis와 Elasticsearch 컨테이너가  실행 중인지 확인
-            if [ ! "$(sudo docker ps -q -f name=redis-container-dev)" ]; then
-                if [ "$(sudo docker ps -aq -f status=exited -f name=redis-container-dev)" ]; then
+            if [ -z "$(sudo docker ps -q --filter 'name=^/redis-container-dev$')" ]; then
+                if [ -n "$(sudo docker ps -aq -f status=exited --filter 'name=^/redis-container-dev$')" ]; then
                     echo "기존 Redis 컨테이너 제거 중..."
                     sudo docker rm redis-container-dev
                 fi
