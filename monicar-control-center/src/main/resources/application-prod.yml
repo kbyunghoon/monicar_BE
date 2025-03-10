@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   application:
@@ -54,12 +54,14 @@ cookie:
   domain: ${COOKIE_DOMAIN}
 
 logging:
-  config: classpath:logback-spring-dev.xml
+  config: classpath:logback-spring-prod.xml
   file:
     path: /var/log/app-logs
-swagger:
-  server:
-    prod-url: ${PROD_URL}
-    dev-url: ${DEV_URL}
 alarm:
   secret-key: ${ALARM_SECRET}
+security:
+  secret-key: ${SESSION_SECRET}
+
+springdoc:
+  swagger-ui:
+    enabled: false

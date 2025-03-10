@@ -14,7 +14,7 @@
     <!-- 파일 로그 Appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 로그 파일 경로 -->
-        <file>${LOG_PATH}/${SERVER_NAME}-dev.log</file>
+        <file>${LOG_PATH}/${SERVER_NAME}-prod.log</file>
 
         <!-- 롤링 정책: 날짜별 로그 파일 생성 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
