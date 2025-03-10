@@ -1,7 +1,7 @@
 # Monicar 
 
 ## 렌터카 차량 관제 서비스 (테크돔 기업 연계 프로젝트)
-[모니카 서비스](https://www.monicar.store)
+[모니카 서비스](https://www.monicar.kr)
 
 ![login-page.png](img/login-page.png)
 
@@ -110,32 +110,32 @@ Consumer Server가 현재 JPA saveall로 구현되어있어, 6시간 지연되�
     <tr>
       <td align="center">
         <a href="https://github.com/Suxxxxhyun">
-          <img src="img/수현.png" width="100px;" alt="팀장 프로필"/><br />
-          <sub><b>팀장(BE, Infra) : 박수현</b></sub>
+          <img src="img/수현.png" width="100px;" height="100px;" alt="팀장 프로필"/><br />
+          <sub><b>BE : 박수현</b></sub>
         </a>
       </td>
       <td align="center">
         <a href="https://github.com/kbyunghoon">
-          <img src="img/병훈.png" width="100px;" alt="BE 팀원 프로필"/><br />
-          <sub><b>BE 팀원 : 김병훈</b></sub>
+          <img src="img/병훈.png" width="100px;" height="100px;" alt="BE 팀원 프로필"/><br />
+          <sub><b>BE : 김병훈</b></sub>
         </a>
       </td>
       <td align="center">
         <a href="https://github.com/tomatozil">
-          <img src="img/지윤.png" width="100px;" alt="BE 팀원 프로필"/><br />
-          <sub><b>BE 팀원 : 윤지윤</b></sub>
+          <img src="img/지윤.png" width="100px;" height="100px;" alt="BE 팀원 프로필"/><br />
+          <sub><b>BE : 윤지윤</b></sub>
         </a>
       </td>
       <td align="center">
         <a href="https://github.com/red-dev-Mark">
-          <img src="img/혁준.png" width="100px;" alt="FE 팀원 프로필"/><br />
-          <sub><b>FE 팀원 : 권혁준</b></sub>
+          <img src="img/혁준.png" width="100px;" height="100px;" alt="FE 팀원 프로필"/><br />
+          <sub><b>FE : 권혁준</b></sub>
         </a>
       </td>
       <td align="center">
         <a href="https://github.com/nanafromjeju">
-          <img src="img/난아.png" width="100px;" alt="FE 팀원 프로필"/><br />
-          <sub><b>FE 팀원 : 김난아</b></sub>
+          <img src="img/난아.png" width="100px;" height="100px;" alt="FE 팀원 프로필"/><br />
+          <sub><b>FE : 김난아</b></sub>
         </a>
       </td>
     </tr>

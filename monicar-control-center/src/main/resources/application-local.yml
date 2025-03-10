@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 8081
 
 spring:
   application:
@@ -7,28 +7,28 @@ spring:
 
   config:
     activate:
-      on-profile: dev
+      on-profile: local
   elasticsearch:
     uris: ${ELASTIC_SEARCH_URI}
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  jackson:
+    time-zone: Asia/Seoul
   jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: none
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
         jdbc:
           time_zone: Asia/Seoul
-      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+    hibernate:
+      ddl-auto: none
 
   sql:
     init:
-      mode: never
+      mode: always
       schema-locations: classpath:/schema/init-schema.sql
       data-locations: classpath:/data/init-data.sql
   data:
@@ -37,9 +37,15 @@ spring:
         one-indexed-parameters: true
     redis:
       host: localhost
-      port: 6380
+      port: 6379
       username: ${REDIS_USERNAME}
       password: ${REDIS_PASSWORD}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration:
+    access: ${ACCESS_EXPIRATION}
+    refresh: ${REFRESH_EXPIRATION}
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS:}
@@ -50,7 +56,7 @@ cookie:
 logging:
   config: classpath:logback-spring-dev.xml
   file:
-    path: /var/log/app-logs
+    path: ${user.dir}/logs
 swagger:
   server:
     prod-url: ${PROD_URL}
