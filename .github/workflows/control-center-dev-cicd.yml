@@ -1,4 +1,4 @@
-name: Control Center CI/CD Pipeline
+name: Control Center develop CI/CD Pipeline
 
 on:
   pull_request_target:
@@ -98,21 +98,21 @@ jobs:
                 echo "Elasticsearch 컨테이너가 이미 실행 중입니다."
             fi
 
-            # 2️⃣ 기존 `monicar-control-center` 컨테이너 중지 및 삭제
-            echo "기존 monicar-control-center 컨테이너 중지 및 삭제..."
-            sudo docker stop monicar-control-center || true
-            sudo docker rm monicar-control-center || true
+            # 2️⃣ 기존 `monicar-control-center-dev` 컨테이너 중지 및 삭제
+            echo "기존 monicar-control-center-dev 컨테이너 중지 및 삭제..."
+            sudo docker stop monicar-control-center-dev || true
+            sudo docker rm monicar-control-center-dev || true
 
             # 3️⃣ 기존 이미지 삭제
-            echo "기존 monicar-control-center 이미지 삭제..."
+            echo "기존 monicar-control-center-dev 이미지 삭제..."
             sudo docker rmi -f ${{ secrets.CONTROL_CENTER_DEV_TAG }} || true
 
             # 4️⃣ 최신 이미지 Pull
-            echo "최신 monicar-control-center 이미지 가져오는 중..."
+            echo "최신 monicar-control-center-dev 이미지 가져오는 중..."
             sudo docker pull ${{ secrets.CONTROL_CENTER_DEV_TAG }}
 
             # 5️⃣ 새로운 컨테이너 실행 (Redis와 같은 네트워크 사용)
-            echo "새로운 monicar-control-center 컨테이너 실행..."
+            echo "새로운 monicar-control-center-dev 컨테이너 실행..."
             sudo docker run -d --name monicar-control-center-dev --network host -p 8083:8083 -v /app/logs:/var/log/app-logs ${{ secrets.CONTROL_CENTER_DEV_TAG }}
 
             echo "=== [배포 완료] Monicar Control Center가 실행되었습니다! ==="
