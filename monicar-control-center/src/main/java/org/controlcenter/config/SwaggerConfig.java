@@ -33,7 +33,7 @@ public class SwaggerConfig {
 	}
 
 	private List<Server> getServers(Environment env) {
-		if (Arrays.asList(env.getActiveProfiles()).contains("prod")) {
+		if (Arrays.asList(env.getActiveProfiles()).contains("dev")) {
 			return List.of(
 				new Server()
 					.url(prodUrl)

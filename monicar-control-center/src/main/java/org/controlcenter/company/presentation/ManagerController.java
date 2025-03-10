@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -35,7 +36,7 @@ public class ManagerController implements ManagerApi {
 
 	@Override
 	@PostMapping("/sign-in")
-	public void login(@RequestBody LoginRequest loginRequest) {
+	public void login(@RequestParam String userId, @RequestParam String password) {
 	}
 
 	@GetMapping("/me")
