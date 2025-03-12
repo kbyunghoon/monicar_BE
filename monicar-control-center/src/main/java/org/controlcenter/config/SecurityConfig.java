@@ -32,6 +32,12 @@ public class SecurityConfig {
 	@Value("${security.secret-key}")
 	String secretKey;
 
+	@Value("${security.rememberme.cookieName}")
+	private String rememberMeCookieName;
+
+	@Value("${security.rememberme.cookieDomain:}")
+	private String rememberMeCookieDomain;
+
 	private final CorsProperties corsProperties;
 	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
@@ -77,6 +83,8 @@ public class SecurityConfig {
 			.rememberMe(rememberMe ->
 				rememberMe
 					.userDetailsService(customUserDetailService)
+					.rememberMeCookieName(rememberMeCookieName)
+					.rememberMeCookieDomain(rememberMeCookieDomain)
 					.key(secretKey)
 			)
 			.addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -66,6 +66,9 @@ alarm:
   secret-key: ${ALARM_SECRET}
 security:
   secret-key: ${SESSION_SECRET}
+  rememberme:
+    cookieName: ${REMEMBERME_NAME}
+    cookieDomain: ${REMEMBERME_DOMAIN}
 
 springdoc:
   swagger-ui:
