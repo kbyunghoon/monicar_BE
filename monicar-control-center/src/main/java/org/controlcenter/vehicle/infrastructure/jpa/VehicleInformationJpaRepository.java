@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.controlcenter.vehicle.domain.Cluster;
 import org.controlcenter.vehicle.domain.ClusterDetail;
-import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.infrastructure.jpa.entity.VehicleInformationEntity;
 import org.controlcenter.vehicle.presentation.dto.SimpleRankResponse;
+import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,6 +26,14 @@ public interface VehicleInformationJpaRepository extends JpaRepository<VehicleIn
 	@Modifying
 	@Query("UPDATE vehicle_information v SET v.deletedAt = :deletedAt WHERE v.id = :id")
 	void softDeleteById(@Param("id") Long id, @Param("deletedAt") LocalDateTime deletedAt);
+
+	@Query("SELECT new org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse(" +
+		"COUNT(vi.id), " +
+		"SUM(CASE WHEN vi.status = 'IN_OPERATION' THEN 1 ELSE 0 END), " +
+		"SUM(CASE WHEN vi.status = 'NOT_DRIVEN' THEN 1 ELSE 0 END)) " +
+		"FROM vehicle_information vi " +
+		"WHERE vi.companyId = :companyId ")
+	VehicleEngineStatusResponse getVehicleEngineStatus(@Param("companyId") Long companyId);
 
 	@Query("SELECT new org.controlcenter.vehicle.domain.Cluster(AVG(vi.lat), AVG(vi.lng), COUNT(vi)) " +
 		"FROM vehicle_information vi " +
