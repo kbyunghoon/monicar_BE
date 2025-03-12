@@ -278,7 +278,7 @@ public class VehicleController implements VehicleApi {
 		 */
 		Long companyId = 1L;
 
-		VehicleEngineStatusResponse engineStatusResponse = vehicleQueryRepository.getVehicleEngineStatus(companyId);
+		VehicleEngineStatusResponse engineStatusResponse = vehicleInformationJpaRepository.getVehicleEngineStatus(companyId);
 
 		VehicleEngineStatusResponse response = VehicleEngineStatusResponse.builder()
 			.allVehicles(engineStatusResponse.allVehicles())

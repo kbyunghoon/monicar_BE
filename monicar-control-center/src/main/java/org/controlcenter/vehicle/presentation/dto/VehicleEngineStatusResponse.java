@@ -4,8 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record VehicleEngineStatusResponse(
-	Integer allVehicles,
-	Integer engineOnVehicles,
-	Integer engineOffVehicles
+	Long allVehicles,
+	Long engineOnVehicles,
+	Long engineOffVehicles
 ) {
 }

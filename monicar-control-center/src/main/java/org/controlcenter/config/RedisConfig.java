@@ -10,9 +10,13 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 
 @Configuration
 @EnableRedisRepositories
+@EnableRedisHttpSession
 public class RedisConfig {
 
 	@Value("${spring.data.redis.host}")
@@ -46,5 +50,14 @@ public class RedisConfig {
 		redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
 		return redisTemplate;
+	}
+
+	@Bean
+	public CookieSerializer cookieSerializer() {
+		DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+		serializer.setCookieName("SESSION");
+		serializer.setCookiePath("/");
+		serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+		return serializer;
 	}
 }

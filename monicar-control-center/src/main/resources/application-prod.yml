@@ -1,5 +1,6 @@
 server:
   port: 8080
+  forward-headers-strategy: FRAMEWORK
 
 spring:
   application:
@@ -65,6 +66,9 @@ alarm:
   secret-key: ${ALARM_SECRET}
 security:
   secret-key: ${SESSION_SECRET}
+  rememberme:
+    cookieName: ${REMEMBERME_NAME}
+    cookieDomain: ${REMEMBERME_DOMAIN}
 
 springdoc:
   swagger-ui:

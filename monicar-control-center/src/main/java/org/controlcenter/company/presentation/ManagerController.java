@@ -5,23 +5,19 @@ import org.controlcenter.common.security.CustomUserDetails;
 import org.controlcenter.company.application.ManagerService;
 import org.controlcenter.company.domain.Manager;
 import org.controlcenter.company.domain.ManagerInformation;
-import org.controlcenter.company.infrastructure.jpa.ManagerJpaRepository;
-import org.controlcenter.company.infrastructure.jpa.entity.ManagerEntity;
 import org.controlcenter.company.presentation.dto.LoginRequest;
 import org.controlcenter.company.presentation.dto.SignUpRequest;
 import org.controlcenter.company.presentation.swagger.ManagerApi;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -40,19 +36,7 @@ public class ManagerController implements ManagerApi {
 
 	@Override
 	@PostMapping("/sign-in")
-	public void login(@RequestBody LoginRequest loginRequest) {
-	}
-
-	@Override
-	@PostMapping("/logout")
-	public BaseResponse<Void> logout(
-		@CookieValue(value = "access_token", required = false, defaultValue = "") String accessToken,
-		@CookieValue(value = "refresh_token", required = false, defaultValue = "") String refreshToken,
-		HttpServletResponse response
-	) {
-		managerService.logout(accessToken, refreshToken, response);
-
-		return BaseResponse.success();
+	public void login(@RequestParam String userId, @RequestParam String password) {
 	}
 
 	@GetMapping("/me")
