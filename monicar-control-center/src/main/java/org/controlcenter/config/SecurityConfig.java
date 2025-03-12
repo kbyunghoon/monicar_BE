@@ -3,6 +3,7 @@ package org.controlcenter.config;
 import java.util.List;
 
 import org.controlcenter.common.security.CustomAuthenticationSuccessHandler;
+import org.controlcenter.common.security.CustomLogoutSuccessHandler;
 import org.controlcenter.common.security.CustomUserDetailService;
 import org.controlcenter.common.security.NoSessionAuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,7 @@ public class SecurityConfig {
 	private final CorsProperties corsProperties;
 	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 	private final NoSessionAuthenticationFailureHandler noSessionAuthenticationFailureHandler;
+	private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -77,8 +79,8 @@ public class SecurityConfig {
 					.failureHandler(noSessionAuthenticationFailureHandler)
 			)
 			.logout(logout ->
-				logout.logoutUrl("/logout")
-					.logoutSuccessUrl("/logoutOk")
+				logout.logoutUrl("/api/v1/logout")
+					.logoutSuccessHandler(customLogoutSuccessHandler)
 			)
 			.sessionManagement(auth ->
 				auth.sessionFixation().changeSessionId())
