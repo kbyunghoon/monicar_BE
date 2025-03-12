@@ -222,35 +222,6 @@ public interface MyBatisVehicleInfoMapper {
 	String getRecentVehicleStatus(@Param("vehicleId") Long vehicleId);
 
 	@Select("""
-		WITH filtered_events AS (
-			SELECT
-				ve.vehicle_id,
-				ve.type
-			FROM vehicle_event ve
-			JOIN (
-				SELECT
-					vehicle_id,
-					MAX(event_at) AS latest_event_at
-				FROM vehicle_event
-				GROUP BY vehicle_id
-			) latest
-			ON ve.vehicle_id = latest.vehicle_id
-			AND ve.event_at = latest.latest_event_at
-				GROUP BY ve.vehicle_id
-		)
-		SELECT
-			COUNT(vi.vehicle_id) AS allVehicles,
-			COUNT(CASE WHEN fe.type = 'on' THEN vi.vehicle_id END) AS engineOnVehicles,
-			COUNT(CASE WHEN fe.type = 'off' THEN vi.vehicle_id END) AS engineOffVehicles
-		FROM
-			vehicle_information vi
-		JOIN filtered_events fe ON vi.vehicle_id = fe.vehicle_id
-		WHERE
-			vi.company_id = #{companyId};
-		""")
-	VehicleEngineStatusResponse getVehicleEngineStatus(Long companyId);
-
-	@Select("""
 		select
 		  vi.vehicle_id,
 				  vi.vehicle_number,
