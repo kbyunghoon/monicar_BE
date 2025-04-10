@@ -15,12 +15,13 @@ import org.controlcenter.company.application.port.ManagerRepository;
 import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.VehicleInformation;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
-// @Component
+@Component
 @RequiredArgsConstructor
 public class Scheduler {
 	private final AlarmRepository alarmRepository;
@@ -35,7 +36,7 @@ public class Scheduler {
 	}
 
 	private void scheduleNext() {
-		long delay = ThreadLocalRandom.current().nextLong(1000, 5001);
+		long delay = ThreadLocalRandom.current().nextLong(10000, 20001);
 		Instant nextExecutionTime = Instant.now().plusMillis(delay);
 		taskScheduler.schedule(this::runTask, nextExecutionTime);
 	}
