@@ -1,0 +1,95 @@
+name: RabbitMQ Collector prod CI/CD Pipeline
+
+on:
+  pull_request_target:
+    branches:
+      - "develop"
+    types: [closed]
+    paths:
+      - 'monicar-rabbitmq-collector/**'
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: ''
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: apply rabbitmq-collector application.yml
+        run: |
+          cd monicar-rabbitmq-collector/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_YML }}" > ./application.yml
+          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_YML }}"
+        shell: bash
+
+      - name: make rabbitmq-collector env.properties
+        run: |
+          mkdir monicar-rabbitmq-collector/src/main/resources/properties
+          cd monicar-rabbitmq-collector/src/main/resources/properties
+          touch ./env.properties
+          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}" > ./env.properties
+          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}"
+        shell: bash
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew :monicar-rabbitmq-collector:clean :monicar-rabbitmq-collector:build -x test
+
+      - name: Build and Image Deploy to DockHub
+        if: success()
+        run: |
+          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+          cd ./monicar_rabbitmq_collector
+          sudo docker build --platform linux/amd64 -t monicar_rabbitmq_collector .
+          IMAGE_TAG=${{ secrets.COLLECTOR_PROD_TAG }}
+          echo "Image Tag: $IMAGE_TAG"
+          sudo docker tag monicar_rabbitmq_collector $IMAGE_TAG
+          sudo docker push $IMAGE_TAG
+
+      - name: Connect to WAS & Execute Application (monicar-rabbitmq-collector)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.COLLECTOR_HOST }}
+          username: ${{ secrets.COLLECTOR_USER }}
+          key: ${{ secrets.COLLECTOR_PRIVATE_KEY }}
+          script: |
+            echo "=== [배포 시작] COLLECTOR ==="
+
+            # 2️⃣ 기존 `monicar-rabbitmq-collector` 컨테이너 중지 및 삭제
+            echo "기존 monicar-rabbitmq-collector 컨테이너 중지 및 삭제..."
+            sudo docker stop monicar-rabbitmq-collector || true
+            sudo docker rm monicar-rabbitmq-collector || true
+
+            # 3️⃣ 기존 이미지 삭제
+            echo "기존 monicar-rabbitmq-collector 이미지 삭제..."
+            sudo docker rmi -f ${{ secrets.COLLECTOR_PROD_TAG }} || true
+
+            # 4️⃣ 최신 이미지 Pull
+            echo "최신 monicar-rabbitmq-collector 이미지 가져오는 중..."
+            sudo docker pull ${{ secrets.COLLECTOR_PROD_TAG }}
+
+            # 5️⃣ 새로운 컨테이너 실행 (Redis와 같은 네트워크 사용)
+            echo "새로운 monicar-rabbitmq-collector 컨테이너 실행..."
+            sudo docker run -d --name monicar-rabbitmq-collector-prod --network host -p 8080:8080 ${{ secrets.COLLECTOR_PROD_TAG }}
+
+            echo "=== [배포 완료] Monicar RabbitMQ Collector가 실행되었습니다! ==="
