@@ -77,8 +77,8 @@ jobs:
 
             # 2️⃣ 기존 `monicar-rabbitmq-collector` 컨테이너 중지 및 삭제
             echo "기존 monicar-rabbitmq-collector 컨테이너 중지 및 삭제..."
-            sudo docker stop monicar-rabbitmq-collector || true
-            sudo docker rm monicar-rabbitmq-collector || true
+            sudo docker stop monicar-rabbitmq-collector-prod || true
+            sudo docker rm monicar-rabbitmq-collector-prod || true
 
             # 3️⃣ 기존 이미지 삭제
             echo "기존 monicar-rabbitmq-collector 이미지 삭제..."
