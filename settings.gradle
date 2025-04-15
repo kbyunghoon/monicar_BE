@@ -3,4 +3,4 @@ include 'monicar-emulator'
 include 'monicar-control-center'
 include 'monicar-collector'
 include 'monicar-event-hub'
-
+include 'monicar-rabbitmq-collector'
