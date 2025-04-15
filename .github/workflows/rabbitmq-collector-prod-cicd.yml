@@ -59,11 +59,11 @@ jobs:
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-          cd ./monicar_rabbitmq_collector
-          sudo docker build --platform linux/amd64 -t monicar_rabbitmq_collector .
+          cd ./monicar-rabbitmq-collector
+          sudo docker build --platform linux/amd64 -t monicar-rabbitmq-collector .
           IMAGE_TAG=${{ secrets.COLLECTOR_PROD_TAG }}
           echo "Image Tag: $IMAGE_TAG"
-          sudo docker tag monicar_rabbitmq_collector $IMAGE_TAG
+          sudo docker tag monicar-rabbitmq-collector $IMAGE_TAG
           sudo docker push $IMAGE_TAG
 
       - name: Connect to WAS & Execute Application (monicar-rabbitmq-collector)

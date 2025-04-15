@@ -50,3 +50,6 @@ env.properties
 ### 로그 파일
 logs/
 *.log
+
+keystore.p12
+keystore.txt
