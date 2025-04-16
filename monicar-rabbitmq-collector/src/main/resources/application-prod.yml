@@ -1,0 +1,45 @@
+server:
+  port: 8080
+  forward-headers-strategy: FRAMEWORK
+
+spring:
+  application:
+    name: monicar-control-center
+
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jackson:
+    time-zone: Asia/Seoul
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+
+websocket:
+  allowed-origins: ${WEBSOCKET_ALLOWED_ORIGINS}
+
+rabbitmq:
+  queue:
+    car-location: ${RABBITMQ_QUEUE}
