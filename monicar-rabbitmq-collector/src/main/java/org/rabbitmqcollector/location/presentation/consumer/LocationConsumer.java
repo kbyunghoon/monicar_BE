@@ -16,13 +16,10 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class LocationConsumer {
-	@Value("${rabbitmq.queue.car-location}")
-	private String carLocationQueue;
-
 	private final ObjectMapper objectMapper;
 	private final LocationService locationService;
 
-	@RabbitListener(queues = "#{@carLocationQueue}")
+	@RabbitListener(queues = "${rabbitmq.queue.car-location}")
 	public void handleMessage(String message) {
 		try {
 			CarLocationMessage msg = objectMapper.readValue(message, CarLocationMessage.class);
