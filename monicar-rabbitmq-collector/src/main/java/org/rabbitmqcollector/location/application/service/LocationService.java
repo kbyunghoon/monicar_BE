@@ -1,6 +1,7 @@
 package org.rabbitmqcollector.location.application.service;
 
-import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import org.rabbitmqcollector.location.application.port.VehicleRepository;
 import org.rabbitmqcollector.location.application.port.out.LocationJpaRepository;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LocationService {
@@ -25,31 +28,27 @@ public class LocationService {
 	@Transactional
 	public void handleLocation(CarLocationMessage message) {
 		long carId = message.id();
-		redisRepository.pushHistory(carId, message);
+		int lat = message.lat();
+		int lng = message.lng();
 
-		List<CarLocationMessage> history = redisRepository.getHistory(carId);
+		LocalDateTime now = LocalDateTime.now();
+		Duration diff = Duration.between(message.timestamp(), now);
 
-		if (history.size() >= 60) {
-			publisherPort.publishLocation(carId, history);
+		var cycleInfo = CarLocationMessage.toDomain(message);
 
-			List<CycleInfoEntity> entities = history.stream()
-				.map(CycleInfoEntity::from)
-				.toList();
+		locationJpaRepository.save(CycleInfoEntity.from(cycleInfo));
 
-			locationJpaRepository.saveAll(entities);
+		var vehicle = vehicleRepository.findVehicleById(carId);
 
-			var vehicle = vehicleRepository.findVehicleById(carId);
-			CarLocationMessage last = history.getLast();
-			int lastLat = last.lat();
-			int lastLng = last.lng();
-
-			if (vehicle.getStatus() == VehicleStatus.NOT_DRIVEN) {
-				vehicle.updateVehicleStatusAndLocation(lastLat, lastLng);
-			} else {
-				vehicle.updateVehicleLocation(lastLat, lastLng);
-			}
-
-			redisRepository.clearHistory(String.valueOf(carId));
+		if (vehicle.getStatus() == VehicleStatus.NOT_DRIVEN) {
+			vehicle.updateVehicleStatusAndLocation(lat, lng);
 		}
+
+		if (diff.getSeconds() > 1) {
+			log.warn("[무시됨] 너무 오래된 메시지 ({}초 전)", diff.getSeconds());
+			return;
+		}
+
+		publisherPort.publishLocation(message.id(), message);
 	}
 }
