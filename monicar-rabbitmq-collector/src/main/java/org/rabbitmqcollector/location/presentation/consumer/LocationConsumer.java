@@ -9,17 +9,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.rabbitmqcollector.location.application.service.LocationService;
 import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class LocationConsumer {
+	@Value("${rabbitmq.queue.car-location}")
+	private String carLocationQueue;
 
 	private final ObjectMapper objectMapper;
 	private final LocationService locationService;
 
-	@RabbitListener(queues = "car.location.group1")
+	@RabbitListener(queues = "#{@carLocationQueue}")
 	public void handleMessage(String message) {
 		try {
 			CarLocationMessage msg = objectMapper.readValue(message, CarLocationMessage.class);
