@@ -10,6 +10,7 @@ import org.rabbitmqcollector.location.application.port.out.LocationRedisReposito
 import org.rabbitmqcollector.location.domain.VehicleStatus;
 import org.rabbitmqcollector.location.infrastructure.jpa.entity.CycleInfoEntity;
 import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
+import org.rabbitmqcollector.location.presentation.dto.CarLocationSocketMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,16 @@ public class LocationService {
 			return;
 		}
 
-		publisherPort.publishLocation(message.id(), message);
+		var vehicleNumber = vehicleRepository.findVehicleIdByVehicleNumber(carId);
+		var socketMessage = CarLocationSocketMessage.builder()
+			.id(carId)
+			.vehicleNumber(vehicleNumber)
+			.lat(lat)
+			.lng(lng)
+			.timestamp(now)
+			.build();
+
+		redisRepository.pushHistory(carId, socketMessage);
+		publisherPort.publishLocation(message.id(), socketMessage);
 	}
 }
