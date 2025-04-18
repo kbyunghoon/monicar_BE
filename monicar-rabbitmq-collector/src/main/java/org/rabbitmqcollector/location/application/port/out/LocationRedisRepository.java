@@ -1,20 +1,19 @@
 package org.rabbitmqcollector.location.application.port.out;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
-import lombok.RequiredArgsConstructor;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
+import org.rabbitmqcollector.location.presentation.dto.CarLocationSocketMessage;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
@@ -28,7 +27,7 @@ public class LocationRedisRepository {
 		return "car:history:" + carId;
 	}
 
-	public void pushHistory(long carId, CarLocationMessage msg) {
+	public void pushHistory(long carId, CarLocationSocketMessage msg) {
 		try {
 			String json = objectMapper.writeValueAsString(msg);
 			redisTemplate.opsForList().rightPush(historyKey(String.valueOf(carId)), json);
@@ -37,20 +36,6 @@ public class LocationRedisRepository {
 			log.error("[Redis 저장 실패]", e);
 		}
 	}
-
-	public List<CarLocationMessage> getHistory(long carId) {
-		List<String> messages = redisTemplate.opsForList().range(historyKey(String.valueOf(carId)), 0, -1);
-		if (messages == null) return Collections.emptyList();
-
-		return messages.stream().map(msg -> {
-			try {
-				return objectMapper.readValue(msg, CarLocationMessage.class);
-			} catch (Exception e) {
-				return null;
-			}
-		}).filter(Objects::nonNull).toList();
-	}
-
 	public void clearHistory(String carId) {
 		redisTemplate.delete(historyKey(carId));
 	}

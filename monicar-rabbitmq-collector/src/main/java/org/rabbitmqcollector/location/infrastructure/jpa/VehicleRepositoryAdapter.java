@@ -17,4 +17,9 @@ public class VehicleRepositoryAdapter implements VehicleRepository {
 	public VehicleInformationEntity findVehicleById(Long id) {
 		return vehicleJpaRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 	}
+
+	@Override
+	public String findVehicleIdByVehicleNumber(Long id) {
+		return vehicleJpaRepository.findVehicleNumberById(id).orElseThrow(EntityNotFoundException::new);
+	}
 }
