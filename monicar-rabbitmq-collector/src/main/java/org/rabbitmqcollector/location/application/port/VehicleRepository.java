@@ -4,4 +4,6 @@ import org.rabbitmqcollector.location.infrastructure.jpa.entity.VehicleInformati
 
 public interface VehicleRepository {
 	VehicleInformationEntity findVehicleById(Long id);
+
+	String findVehicleIdByVehicleNumber(Long id);
 }
