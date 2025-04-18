@@ -1,16 +1,14 @@
 package org.rabbitmqcollector.location.presentation.consumer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.RequiredArgsConstructor;
-
-import lombok.extern.slf4j.Slf4j;
-
 import org.rabbitmqcollector.location.application.service.LocationService;
 import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
