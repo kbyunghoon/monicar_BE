@@ -1,4 +1,4 @@
-package org.rabbitmqcollector.location.application.port.out;
+package org.rabbitmqcollector.location.application.port;
 
 import org.rabbitmqcollector.location.presentation.dto.CarLocationSocketMessage;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
