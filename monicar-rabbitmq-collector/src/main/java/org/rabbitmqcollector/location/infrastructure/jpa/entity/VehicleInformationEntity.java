@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.SQLRestriction;
+import org.rabbitmqcollector.location.domain.VehicleInformation;
 import org.rabbitmqcollector.location.domain.VehicleStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -80,5 +81,29 @@ public class VehicleInformationEntity {
 	public void updateVehicleLocation(int lat, int lng) {
 		this.lat = lat;
 		this.lng = lng;
+	}
+
+	public void updateStatus(VehicleStatus status) {
+		this.status = status;
+	}
+
+	public VehicleInformation toDomain() {
+		return VehicleInformation.builder()
+			.id(id)
+			.companyId(companyId)
+			.vehicleTypeId(vehicleTypeId)
+			.vehicleNumber(vehicleNumber)
+			.mdn(mdn)
+			.tid(tid)
+			.mid(mid)
+			.pv(pv)
+			.did(did)
+			.drivingDays(drivingDays)
+			.sum(sum)
+			.deliveryDate(deliveryDate)
+			.createdAt(createdAt)
+			.updatedAt(updatedAt)
+			.deletedAt(deletedAt)
+			.build();
 	}
 }

@@ -1,11 +1,7 @@
-package org.rabbitmqcollector.location.application.port.out;
+package org.rabbitmqcollector.location.application.port;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 
-import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
 import org.rabbitmqcollector.location.presentation.dto.CarLocationSocketMessage;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;

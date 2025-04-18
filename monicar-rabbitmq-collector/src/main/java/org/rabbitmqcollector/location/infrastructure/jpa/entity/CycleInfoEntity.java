@@ -1,5 +1,15 @@
 package org.rabbitmqcollector.location.infrastructure.jpa.entity;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import org.rabbitmqcollector.location.domain.CycleInfo;
+import org.rabbitmqcollector.location.domain.GpsStatus;
+import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -8,20 +18,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import org.rabbitmqcollector.location.domain.CycleInfo;
-import org.rabbitmqcollector.location.domain.GpsStatus;
-import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
