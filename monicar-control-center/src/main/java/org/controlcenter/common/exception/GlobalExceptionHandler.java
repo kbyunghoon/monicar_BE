@@ -112,7 +112,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(AuthorizationDeniedException.class)
 	protected ResponseEntity<BaseResponse<Void>> authorizationDeniedException(
 		final AuthorizationDeniedException e) {
-		log.error("AuthorizationDeniedException 예외 처리 : {}", e.getMessage(), e);
+		log.error("AuthorizationDeniedException 예외 처리 : {}", e.getMessage());
 
 		return ResponseEntity
 			.status(HttpStatus.FORBIDDEN)

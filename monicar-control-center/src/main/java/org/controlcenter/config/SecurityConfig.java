@@ -5,6 +5,7 @@ import java.util.List;
 import org.controlcenter.common.security.CustomAuthenticationSuccessHandler;
 import org.controlcenter.common.security.CustomLogoutSuccessHandler;
 import org.controlcenter.common.security.CustomUserDetailService;
+import org.controlcenter.common.security.Filter;
 import org.controlcenter.common.security.NoSessionAuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -51,6 +52,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
+	public Filter customAuthenticationFilter() {
+		return new Filter();
+	}
+
+	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 		return configuration.getAuthenticationManager();
 	}
@@ -67,6 +73,7 @@ public class SecurityConfig {
 		CustomUserDetailService customUserDetailService) throws Exception {
 		http
 			.csrf(AbstractHttpConfigurer::disable)
+			.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // ✅ 추가
 			.authorizeHttpRequests(auth -> auth
 				.anyRequest().permitAll()
 			)
