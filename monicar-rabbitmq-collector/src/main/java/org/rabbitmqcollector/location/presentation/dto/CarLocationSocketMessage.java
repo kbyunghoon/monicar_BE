@@ -1,6 +1,8 @@
 package org.rabbitmqcollector.location.presentation.dto;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.rabbitmqcollector.location.domain.CycleInfo;
 import org.rabbitmqcollector.location.domain.GpsStatus;
@@ -23,7 +25,9 @@ public record CarLocationSocketMessage(
 			.lng(carLocationMessage.lng)
 			.ang(0)
 			.spd(80)
-			.intervalAt(carLocationMessage.timestamp)
+			.intervalAt(
+				LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp), ZoneId.of("Asia/Seoul"))
+					.withNano(0))
 			.build();
 	}
 }
