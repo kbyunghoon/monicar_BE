@@ -15,6 +15,6 @@ public class CycleInfo {
 	private int lng;
 	private Integer ang;
 	private Integer spd;
-	private LocalDateTime intervalAt;
+	private long intervalAt;
 	private LocalDateTime createdAt;
 }

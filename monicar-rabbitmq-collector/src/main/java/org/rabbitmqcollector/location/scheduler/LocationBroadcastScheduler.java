@@ -34,7 +34,6 @@ public class LocationBroadcastScheduler {
 				continue;
 			}
 			payloads.add(latest);
-			redisTemplate.delete(key);
 		}
 
 		if (!payloads.isEmpty()) {
