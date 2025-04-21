@@ -1,16 +1,16 @@
 package org.rabbitmqcollector.location.application.service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+
+import java.time.ZoneId;
 
 import org.rabbitmqcollector.location.application.port.CycleInfoRepository;
 import org.rabbitmqcollector.location.application.port.LocationPublisherPort;
 import org.rabbitmqcollector.location.application.port.LocationRedisRepository;
 import org.rabbitmqcollector.location.application.port.VehicleEventRepository;
 import org.rabbitmqcollector.location.application.port.VehicleInformationRepository;
-import org.rabbitmqcollector.location.domain.VehicleEvent;
-import org.rabbitmqcollector.location.domain.VehicleEventType;
-import org.rabbitmqcollector.location.domain.VehicleStatus;
 import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
 import org.rabbitmqcollector.location.presentation.dto.CarLocationSocketMessage;
 import org.springframework.stereotype.Service;
@@ -34,35 +34,10 @@ public class LocationService {
 		long carId = message.id();
 		int lat = message.lat();
 		int lng = message.lng();
-		LocalDateTime timestamp = message.timestamp();
+		LocalDateTime timestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(message.timestamp()), ZoneId.of("Asia/Seoul"));
 
 		LocalDateTime now = LocalDateTime.now();
-		Duration diff = Duration.between(message.timestamp(), now);
-
-		var cycleInfo = CarLocationMessage.toDomain(message);
-
-		cycleInfoRepository.save(cycleInfo);
-
-		var vehicle = vehicleInformationRepository.findVehicleById(carId);
-
-		if (vehicle.getStatus() == VehicleStatus.NOT_DRIVEN) {
-			vehicle.updateVehicleStatusAndLocation(lat, lng);
-
-			var vehicleEvent = VehicleEvent.builder()
-				.vehicleId(carId)
-				.type(VehicleEventType.ON)
-				.eventAt(timestamp)
-				.build();
-
-			vehicleEventRepository.save(vehicleEvent);
-		} else {
-			vehicle.updateVehicleLocation(lat, lng);
-		}
-
-		if (diff.getSeconds() > 1) {
-			log.warn("[무시됨] 너무 오래된 메시지 ({}초 전)", diff.getSeconds());
-			return;
-		}
+		Duration diff = Duration.between(timestamp, now);
 
 		var vehicleNumber = vehicleInformationRepository.findVehicleIdByVehicleNumber(carId);
 		var socketMessage = CarLocationSocketMessage.builder()
@@ -70,10 +45,16 @@ public class LocationService {
 			.vehicleNumber(vehicleNumber)
 			.lat(lat)
 			.lng(lng)
-			.timestamp(now)
+			.timestamp(message.timestamp())
 			.build();
 
 		redisRepository.pushHistory(carId, socketMessage);
+
+		if (diff.getSeconds() > 1) {
+			log.warn("[무시됨] 너무 오래된 메시지 ({}초 전)", diff.getSeconds());
+			return;
+		}
+
 		publisherPort.publishLocation(message.id(), socketMessage);
 	}
 }

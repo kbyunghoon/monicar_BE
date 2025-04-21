@@ -12,7 +12,7 @@ public record CarLocationMessage(
 	Long id,
 	int lat,
 	int lng,
-	LocalDateTime timestamp
+	long timestamp
 ) {
 	public static CycleInfo toDomain(CarLocationMessage carLocationMessage) {
 		return CycleInfo.builder()

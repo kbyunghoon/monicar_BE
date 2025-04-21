@@ -13,7 +13,7 @@ public record CarLocationSocketMessage(
 	String vehicleNumber,
 	int lat,
 	int lng,
-	LocalDateTime timestamp
+	long timestamp
 ) {
 	public static CycleInfo toDomain(CarLocationSocketMessage carLocationMessage) {
 		return CycleInfo.builder()
