@@ -2,7 +2,7 @@ package org.rabbitmqcollector.location.presentation.dto;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import org.rabbitmqcollector.location.domain.CycleInfo;
 import org.rabbitmqcollector.location.domain.GpsStatus;
@@ -26,7 +26,7 @@ public record CarLocationSocketMessage(
 			.ang(0)
 			.spd(80)
 			.intervalAt(
-				LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp), ZoneId.of("Asia/Seoul"))
+				LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp), ZoneOffset.UTC)
 					.withNano(0))
 			.build();
 	}
