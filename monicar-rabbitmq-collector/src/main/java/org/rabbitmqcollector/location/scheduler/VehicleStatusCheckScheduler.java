@@ -35,7 +35,7 @@ public class VehicleStatusCheckScheduler {
 	@Scheduled(fixedRate = 30000)
 	@Transactional
 	public void updateInactiveVehicles() {
-		LocalDateTime threshold = LocalDateTime.now().minusSeconds(30);
+		LocalDateTime threshold = LocalDateTime.now().minusSeconds(120);
 
 		List<VehicleInformationEntity> vehicles = vehicleInformationRepository.findByStatus(VehicleStatus.IN_OPERATION);
 		for (VehicleInformationEntity vehicleEntity : vehicles) {
@@ -44,7 +44,7 @@ public class VehicleStatusCheckScheduler {
 			CycleInfo latestCycleInfo = cycleInfoRepository
 				.findTopByVehicleIdOrderByCreatedAtDesc(vehicle.getId());
 
-			if (latestCycleInfo == null || latestCycleInfo.getCreatedAt().isBefore(threshold)) {
+			if (latestCycleInfo == null || latestCycleInfo.getIntervalAt().isBefore(threshold)) {
 				vehicleEntity.updateStatus(VehicleStatus.NOT_DRIVEN);
 
 				var vehicleEvent = VehicleEvent.builder()

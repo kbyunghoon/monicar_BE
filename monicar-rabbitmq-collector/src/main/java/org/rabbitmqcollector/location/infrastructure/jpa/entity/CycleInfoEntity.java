@@ -2,15 +2,10 @@ package org.rabbitmqcollector.location.infrastructure.jpa.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
-
-import java.time.ZoneId;
 
 import org.rabbitmqcollector.location.domain.CycleInfo;
 import org.rabbitmqcollector.location.domain.GpsStatus;
-import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
-import org.rabbitmqcollector.location.presentation.dto.CarLocationSocketMessage;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -63,31 +58,7 @@ public class CycleInfoEntity implements Serializable {
 		cycleInfoEntity.lng = cycleInfo.getLng();
 		cycleInfoEntity.ang = cycleInfo.getAng();
 		cycleInfoEntity.spd = cycleInfo.getSpd();
-		cycleInfoEntity.intervalAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(cycleInfo.getIntervalAt()), ZoneId.of("Asia/Seoul"));
-		return cycleInfoEntity;
-	}
-
-	public static CycleInfoEntity from(CarLocationMessage carLocationMessage) {
-		CycleInfoEntity cycleInfoEntity = new CycleInfoEntity();
-		cycleInfoEntity.vehicleId = carLocationMessage.id();
-		cycleInfoEntity.status = GpsStatus.A;
-		cycleInfoEntity.lat = carLocationMessage.lat();
-		cycleInfoEntity.lng = carLocationMessage.lng();
-		cycleInfoEntity.ang = 0;
-		cycleInfoEntity.spd = 80;
-		cycleInfoEntity.intervalAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp()), ZoneId.of("Asia/Seoul"));
-		return cycleInfoEntity;
-	}
-
-	public static CycleInfoEntity from(CarLocationSocketMessage carLocationMessage) {
-		CycleInfoEntity cycleInfoEntity = new CycleInfoEntity();
-		cycleInfoEntity.vehicleId = carLocationMessage.id();
-		cycleInfoEntity.status = GpsStatus.A;
-		cycleInfoEntity.lat = carLocationMessage.lat();
-		cycleInfoEntity.lng = carLocationMessage.lng();
-		cycleInfoEntity.ang = 0;
-		cycleInfoEntity.spd = 80;
-		cycleInfoEntity.intervalAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp()), ZoneId.of("Asia/Seoul"));
+		cycleInfoEntity.intervalAt = cycleInfo.getIntervalAt();
 		return cycleInfoEntity;
 	}
 
@@ -100,7 +71,7 @@ public class CycleInfoEntity implements Serializable {
 			.lng(lng)
 			.ang(ang)
 			.spd(spd)
-			.intervalAt(intervalAt.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())
+			.intervalAt(intervalAt)
 			.createdAt(createdAt)
 			.build();
 	}
