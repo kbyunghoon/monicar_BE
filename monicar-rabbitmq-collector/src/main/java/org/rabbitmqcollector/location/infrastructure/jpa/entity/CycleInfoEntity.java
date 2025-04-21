@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 import org.rabbitmqcollector.location.domain.CycleInfo;
 import org.rabbitmqcollector.location.domain.GpsStatus;
-import org.rabbitmqcollector.location.presentation.dto.CarLocationMessage;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -60,20 +59,6 @@ public class CycleInfoEntity implements Serializable {
 		cycleInfoEntity.ang = cycleInfo.getAng();
 		cycleInfoEntity.spd = cycleInfo.getSpd();
 		cycleInfoEntity.intervalAt = cycleInfo.getIntervalAt();
-		cycleInfoEntity.createdAt = cycleInfo.getCreatedAt();
-		return cycleInfoEntity;
-	}
-
-	public static CycleInfoEntity from(CarLocationMessage carLocationMessage) {
-		CycleInfoEntity cycleInfoEntity = new CycleInfoEntity();
-		cycleInfoEntity.vehicleId = carLocationMessage.id();
-		cycleInfoEntity.status = GpsStatus.A;
-		cycleInfoEntity.lat = carLocationMessage.lat();
-		cycleInfoEntity.lng = carLocationMessage.lng();
-		cycleInfoEntity.ang = 0;
-		cycleInfoEntity.spd = 80;
-		cycleInfoEntity.intervalAt = carLocationMessage.timestamp();
-		cycleInfoEntity.createdAt = carLocationMessage.timestamp();
 		return cycleInfoEntity;
 	}
 

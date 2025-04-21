@@ -29,12 +29,10 @@ public class LocationBroadcastScheduler {
 		List<String> payloads = new ArrayList<>();
 
 		for (String key : keys) {
-			String latest = redisTemplate.opsForList().rightPop(key);
-			if (latest == null) {
-				continue;
+			List<String> latestList = redisTemplate.opsForList().range(key, -1, -1);
+			if (latestList != null && !latestList.isEmpty()) {
+				payloads.add(latestList.getFirst());
 			}
-			payloads.add(latest);
-			redisTemplate.delete(key);
 		}
 
 		if (!payloads.isEmpty()) {

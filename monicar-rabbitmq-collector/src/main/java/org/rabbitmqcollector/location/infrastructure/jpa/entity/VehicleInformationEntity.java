@@ -72,13 +72,10 @@ public class VehicleInformationEntity {
 		return status;
 	}
 
-	public void updateVehicleStatusAndLocation(int lat, int lng) {
-		this.status = VehicleStatus.IN_OPERATION;
-		this.lat = lat;
-		this.lng = lng;
-	}
-
-	public void updateVehicleLocation(int lat, int lng) {
+	public void updateStatusAndLocationIfNeeded(int lat, int lng) {
+		if (this.status == VehicleStatus.NOT_DRIVEN) {
+			this.status = VehicleStatus.IN_OPERATION;
+		}
 		this.lat = lat;
 		this.lng = lng;
 	}
