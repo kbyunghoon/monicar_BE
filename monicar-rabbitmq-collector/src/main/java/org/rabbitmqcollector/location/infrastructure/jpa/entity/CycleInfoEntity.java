@@ -2,7 +2,10 @@ package org.rabbitmqcollector.location.infrastructure.jpa.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
+
+import java.time.ZoneId;
 
 import org.rabbitmqcollector.location.domain.CycleInfo;
 import org.rabbitmqcollector.location.domain.GpsStatus;
@@ -46,7 +49,7 @@ public class CycleInfoEntity implements Serializable {
 
 	private Integer spd;
 
-	private long intervalAt;
+	private LocalDateTime intervalAt;
 
 	@CreatedDate
 	private LocalDateTime createdAt;
@@ -60,7 +63,7 @@ public class CycleInfoEntity implements Serializable {
 		cycleInfoEntity.lng = cycleInfo.getLng();
 		cycleInfoEntity.ang = cycleInfo.getAng();
 		cycleInfoEntity.spd = cycleInfo.getSpd();
-		cycleInfoEntity.intervalAt = cycleInfo.getIntervalAt();
+		cycleInfoEntity.intervalAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(cycleInfo.getIntervalAt()), ZoneId.of("Asia/Seoul"));
 		return cycleInfoEntity;
 	}
 
@@ -72,7 +75,7 @@ public class CycleInfoEntity implements Serializable {
 		cycleInfoEntity.lng = carLocationMessage.lng();
 		cycleInfoEntity.ang = 0;
 		cycleInfoEntity.spd = 80;
-		cycleInfoEntity.intervalAt = carLocationMessage.timestamp();
+		cycleInfoEntity.intervalAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp()), ZoneId.of("Asia/Seoul"));
 		return cycleInfoEntity;
 	}
 
@@ -84,7 +87,7 @@ public class CycleInfoEntity implements Serializable {
 		cycleInfoEntity.lng = carLocationMessage.lng();
 		cycleInfoEntity.ang = 0;
 		cycleInfoEntity.spd = 80;
-		cycleInfoEntity.intervalAt = carLocationMessage.timestamp();
+		cycleInfoEntity.intervalAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(carLocationMessage.timestamp()), ZoneId.of("Asia/Seoul"));
 		return cycleInfoEntity;
 	}
 
@@ -97,7 +100,7 @@ public class CycleInfoEntity implements Serializable {
 			.lng(lng)
 			.ang(ang)
 			.spd(spd)
-			.intervalAt(intervalAt)
+			.intervalAt(intervalAt.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli())
 			.createdAt(createdAt)
 			.build();
 	}

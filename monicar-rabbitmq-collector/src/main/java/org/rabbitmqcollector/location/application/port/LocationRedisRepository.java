@@ -32,8 +32,5 @@ public class LocationRedisRepository {
 			log.error("[Redis 저장 실패]", e);
 		}
 	}
-	public void clearHistory(String carId) {
-		redisTemplate.delete(historyKey(carId));
-	}
 }
 
