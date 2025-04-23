@@ -1,7 +1,9 @@
 package org.controlcenter.alarm.domain;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,5 +28,21 @@ class AlarmTest {
 		assertThat(alarm.getVehicleId()).isEqualTo(1L);
 		assertThat(alarm.getDrivingDistance()).isEqualTo(10000);
 		assertThat(alarm.getStatus()).isEqualTo(AlarmStatus.REQUIRED);
+	}
+
+	@Test
+	@DisplayName("AlarmStatus가 순차적 변경 테스트")
+	void alarmStatus_transition_success() {
+		// Given & When & Then
+		assertThat(AlarmStatus.REQUIRED.next()).isEqualTo(AlarmStatus.SCHEDULED);
+		assertThat(AlarmStatus.SCHEDULED.next()).isEqualTo(AlarmStatus.INPROGRESS);
+		assertThat(AlarmStatus.INPROGRESS.next()).isEqualTo(AlarmStatus.COMPLETED);
+	}
+
+	@Test
+	@DisplayName("AlarmStatus가 COMPLETED인 경우 next 호출 시 예외 발생 테스트")
+	void alarmStatus_completed_throwsException() {
+		// Expect
+		assertThrows(BusinessException.class, AlarmStatus.COMPLETED::next);
 	}
 }
