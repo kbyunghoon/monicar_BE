@@ -1,9 +1,11 @@
 spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
   elasticsearch:
     uris: ${ELASTIC_SEARCH_URI}
-  datasource:
-    url: jdbc:tc:mysql:8.0.36:///?useSSL=false&serverTimezone=Asia/Seoul
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     show-sql: true
     properties:
@@ -12,7 +14,7 @@ spring:
         jdbc:
           time_zone: Asia/Seoul
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
 
   test:
     database:
@@ -57,3 +59,6 @@ alarm:
   secret-key: ${ALARM_SECRET}
 security:
   secret-key: ${SESSION_SECRET}
+  rememberme:
+    cookieName: ${REMEMBERME_NAME}
+    cookieDomain: ${REMEMBERME_DOMAIN}

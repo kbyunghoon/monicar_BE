@@ -44,7 +44,7 @@ public class VehicleStatusCheckScheduler {
 			CycleInfo latestCycleInfo = cycleInfoRepository
 				.findTopByVehicleIdOrderByCreatedAtDesc(vehicle.getId());
 
-			if (latestCycleInfo == null || latestCycleInfo.getIntervalAt().isBefore(threshold)) {
+			if (latestCycleInfo == null || latestCycleInfo.getCreatedAt().isBefore(threshold)) {
 				vehicleEntity.updateStatus(VehicleStatus.NOT_DRIVEN);
 
 				var vehicleEvent = VehicleEvent.builder()
