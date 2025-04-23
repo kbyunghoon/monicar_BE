@@ -15,9 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("[service 통합테스트] ClusterService")
+@DisplayName("[service 단위 테스트] ClusterService")
 class ClusterServiceTest {
-
 	private VehicleInformationJpaRepository vehicleInformationJpaRepository;
 	private ClusterService clusterService;
 

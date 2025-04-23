@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 @DataJpaTest
 @ActiveProfiles("test")
 @Import({AlarmRepositoryAdapter.class})
+@DisplayName("[repository 단위 테스트] AlarmRepository")
 class AlarmRepositoryTest {
 	@Autowired
 	private AlarmRepository alarmRepository;
