@@ -32,6 +32,7 @@ dependencies {
     // test container
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:mysql")
+    testImplementation 'com.h2database:h2'
 }
 
 tasks.bootJar {
