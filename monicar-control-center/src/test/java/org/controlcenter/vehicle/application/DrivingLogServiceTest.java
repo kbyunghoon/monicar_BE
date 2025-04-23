@@ -1,6 +1,7 @@
 package org.controlcenter.vehicle.application;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.vehicle.application.port.DrivingLogRepository;
 import org.controlcenter.vehicle.application.port.VehicleRepository;
 import org.controlcenter.vehicle.domain.DailyDrivingSummary;
@@ -136,5 +138,18 @@ class DrivingLogServiceTest {
 		assertThat(result.vehicleInfo().getVehicleNumber()).isEqualTo("123가4567");
 		assertThat(result.businessInfo().getBusinessName()).isEqualTo("카카오");
 		assertThat(result.taxPeriodDistance()).isEqualTo(1000);
+	}
+
+	@DisplayName("시작일이 종료일보다 이후일 경우 예외 발생 테스트")
+	@Test
+	void getVehicleDrivingLogDetails_invalidDate() {
+		// Given
+		Long vehicleId = 1L;
+		LocalDate start = LocalDate.of(2025, 1, 1);
+		LocalDate end = LocalDate.of(2024, 1, 1);
+
+		// When & Then
+		assertThrows(BusinessException.class,
+			() -> drivingLogService.getVehicleDrivingLogDetails(vehicleId, start, end));
 	}
 }
