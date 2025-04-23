@@ -1,10 +1,12 @@
 package org.controlcenter.vehicle.application;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
 
+import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.vehicle.domain.Cluster;
 import org.controlcenter.vehicle.domain.VehicleStatus;
 import org.controlcenter.vehicle.infrastructure.jpa.VehicleInformationJpaRepository;
@@ -42,5 +44,20 @@ class ClusterServiceTest {
 
 		// Then
 		assertThat(result).isEqualTo(expected);
+	}
+
+	@DisplayName("줌 레벨이 유효하지 않을 경우 예외 테스트")
+	@Test
+	void getClusters_invalidZoomLevel() {
+		// Given
+		int neLat = 1270000, neLng = 370000, swLat = 1260000, swLng = 360000;
+		int zoomLevel = 0;
+		VehicleStatus status = VehicleStatus.IN_OPERATION;
+
+		// When & Then
+		assertThrows(BusinessException.class, () ->
+				clusterService.getClusters(neLat, neLng, swLat, swLng, zoomLevel, status),
+			"줌 레벨이 유효하지 않을 경우 예외 발생"
+		);
 	}
 }
