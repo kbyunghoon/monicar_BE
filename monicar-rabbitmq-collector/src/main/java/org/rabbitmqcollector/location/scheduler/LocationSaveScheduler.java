@@ -3,27 +3,29 @@ package org.rabbitmqcollector.location.scheduler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.rabbitmqcollector.location.application.port.CycleInfoRepository;
 import org.rabbitmqcollector.location.application.service.RedisService;
 import org.rabbitmqcollector.location.domain.CycleInfo;
+import org.rabbitmqcollector.location.infrastructure.jpa.entity.CycleInfoEntity;
 import org.rabbitmqcollector.location.infrastructure.jpa.entity.VehicleInformationEntity;
 import org.rabbitmqcollector.location.infrastructure.jpa.entity.VehicleInformationJpaRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.transaction.annotation.Transactional;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class LocationSaveScheduler {
+
 	private final RedisTemplate<String, String> redisTemplate;
 	private final SimpMessagingTemplate messagingTemplate;
 	private final CycleInfoRepository cycleInfoRepository;
@@ -34,8 +36,13 @@ public class LocationSaveScheduler {
 	@Transactional
 	public void persistToDatabase() {
 		List<CycleInfo> batch = redisService.fetchAll();
-		if (batch.isEmpty())
+		if (batch.isEmpty()) {
 			return;
+		}
+
+		List<CycleInfoEntity> entities = batch.stream()
+			.map(CycleInfoEntity::from)
+			.toList();
 
 		Map<Long, CycleInfo> latestInfoMap = new HashMap<>();
 		for (CycleInfo info : batch) {
@@ -63,7 +70,7 @@ public class LocationSaveScheduler {
 			}
 		}
 
-		cycleInfoRepository.saveAll(batch);
-		log.info("MySQL 적재 완료: {}건", batch.size());
+		cycleInfoRepository.saveAll(entities);
+		log.info("MySQL 적재 완료: {}건", entities.size());
 	}
 }
