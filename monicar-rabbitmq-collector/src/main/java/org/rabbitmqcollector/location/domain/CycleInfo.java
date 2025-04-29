@@ -8,7 +8,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class CycleInfo {
-	private long id;
+	private Long id;
 	private long vehicleId;
 	private GpsStatus status;
 	private int lat;
