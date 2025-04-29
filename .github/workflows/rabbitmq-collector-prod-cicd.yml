@@ -33,17 +33,16 @@ jobs:
           cd monicar-rabbitmq-collector/src/main/resources
           touch ./application.yml
           echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_YML }}" > ./application.yml
-          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_YML }}"
         shell: bash
-
-      - name: make rabbitmq-collector env.properties
-        run: |
-          mkdir monicar-rabbitmq-collector/src/main/resources/properties
-          cd monicar-rabbitmq-collector/src/main/resources/properties
-          touch ./env.properties
-          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}" > ./env.properties
-          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}"
-        shell: bash
+#
+#      - name: make rabbitmq-collector env.properties
+#        run: |
+#          mkdir monicar-rabbitmq-collector/src/main/resources/properties
+#          cd monicar-rabbitmq-collector/src/main/resources/properties
+#          touch ./env.properties
+#          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}" > ./env.properties
+#          echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}"
+#        shell: bash
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
@@ -54,19 +53,17 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew :monicar-rabbitmq-collector:clean :monicar-rabbitmq-collector:build -x test
 
-      - name: Build and Image Deploy to DockHub
+      - name: Build and Push Docker Image
         if: success()
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
           cd ./monicar-rabbitmq-collector
           sudo docker build --platform linux/amd64 -t monicar-rabbitmq-collector .
           IMAGE_TAG=${{ secrets.COLLECTOR_PROD_TAG }}
-          echo "Image Tag: $IMAGE_TAG"
           sudo docker tag monicar-rabbitmq-collector $IMAGE_TAG
           sudo docker push $IMAGE_TAG
 
-      - name: Connect to WAS & Execute Application (monicar-rabbitmq-collector)
+      - name: Connect to WAS & Deploy Application (monicar-rabbitmq-collector-prod)
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.COLLECTOR_HOST }}
@@ -74,6 +71,11 @@ jobs:
           key: ${{ secrets.COLLECTOR_PRIVATE_KEY }}
           script: |
             echo "=== [배포 시작] COLLECTOR ==="
+            
+            # ✅ 0. .env 파일 준비
+            echo "서버에 .env 파일 생성..."
+            mkdir -p /home/ubuntu/rabbitmq-collector-prod
+            echo "${{ secrets.MONICAR_RABBITMQ_COLLECTOR_PROD_ENV }}" > /home/ubuntu/rabbitmq-collector-prod/.env
             
             # 1️⃣ Redis 컨테이너가  실행 중인지 확인
             if [ -z "$(sudo docker ps -q --filter 'name=^/redis-container-prod$')" ]; then
@@ -87,7 +89,7 @@ jobs:
                 echo "Redis 컨테이너가 이미 실행 중입니다."
             fi
 
-            # 2️⃣ 기존 `monicar-rabbitmq-collector` 컨테이너 중지 및 삭제
+            # 2️⃣ 기존 monicar-rabbitmq-collector 컨테이너 중지 및 삭제
             echo "기존 monicar-rabbitmq-collector 컨테이너 중지 및 삭제..."
             sudo docker stop monicar-rabbitmq-collector-prod || true
             sudo docker rm monicar-rabbitmq-collector-prod || true
@@ -99,9 +101,14 @@ jobs:
             # 4️⃣ 최신 이미지 Pull
             echo "최신 monicar-rabbitmq-collector 이미지 가져오는 중..."
             sudo docker pull ${{ secrets.COLLECTOR_PROD_TAG }}
-
-            # 5️⃣ 새로운 컨테이너 실행 (Redis와 같은 네트워크 사용)
-            echo "새로운 monicar-rabbitmq-collector 컨테이너 실행..."
-            sudo docker run -d --name monicar-rabbitmq-collector-prod --network host -p 8080:8080 ${{ secrets.COLLECTOR_PROD_TAG }}
+            
+            # 5️⃣ 새로운 컨테이너 실행 (with .env)
+            echo "새로운 monicar-rabbitmq-collector-prod 컨테이너 실행..."
+            sudo docker run -d \
+              --name monicar-rabbitmq-collector-prod \
+              --network host \
+              --env-file /home/ubuntu/rabbitmq-collector-prod/.env \
+              -p 8080:8080 \
+              ${{ secrets.COLLECTOR_PROD_TAG }}
 
             echo "=== [배포 완료] Monicar RabbitMQ Collector가 실행되었습니다! ==="
