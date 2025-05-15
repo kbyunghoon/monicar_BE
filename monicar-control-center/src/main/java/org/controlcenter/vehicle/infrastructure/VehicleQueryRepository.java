@@ -2,7 +2,6 @@ package org.controlcenter.vehicle.infrastructure;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.controlcenter.common.exception.BusinessException;
 import org.controlcenter.common.response.code.ErrorCode;
@@ -10,7 +9,6 @@ import org.controlcenter.vehicle.infrastructure.mybatis.MyBatisVehicleInfoMapper
 import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
-import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoSearchRequest;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
@@ -18,9 +16,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class VehicleQueryRepository {
@@ -31,18 +32,28 @@ public class VehicleQueryRepository {
 			.orElseThrow(() -> new BusinessException(ErrorCode.VEHICLE_NOT_FOUND));
 	}
 
+	@Transactional(readOnly = true)
 	public List<RouteResponseWithAng> getVehicleRouteFrom(
 		Long vehicleId,
 		LocalDateTime startTime,
 		LocalDateTime endTime,
 		Integer interval
 	) {
-		return myBatisVehicleInfoMapper.getVehicleRouteFrom(
-			vehicleId,
-			startTime,
-			endTime,
-			interval
-		);
+		try {
+			return myBatisVehicleInfoMapper.getOptimizedVehicleRouteFrom(
+				vehicleId,
+				startTime,
+				endTime,
+				interval
+			);
+		} catch (Exception e) {
+			return myBatisVehicleInfoMapper.getVehicleRouteFrom(
+				vehicleId,
+				startTime,
+				endTime,
+				interval
+			);
+		}
 	}
 
 	public Page<RouteResponse> getVehicleRouteFromWithPagination(
@@ -53,7 +64,7 @@ public class VehicleQueryRepository {
 		Pageable pageable
 	) {
 		int size = pageable.getPageSize();
-		int offset = (int) pageable.getOffset();
+		int offset = (int)pageable.getOffset();
 
 		List<RouteResponse> routes = myBatisVehicleInfoMapper.getVehicleRouteFromWithPagination(
 			vehicleId, startTime, endTime, interval, size, offset

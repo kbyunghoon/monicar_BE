@@ -51,7 +51,6 @@ public class CycleInfoEntity implements Serializable {
 
 	public static CycleInfoEntity from(CycleInfo cycleInfo) {
 		CycleInfoEntity cycleInfoEntity = new CycleInfoEntity();
-		cycleInfoEntity.id = cycleInfo.getId();
 		cycleInfoEntity.vehicleId = cycleInfo.getVehicleId();
 		cycleInfoEntity.status = cycleInfo.getStatus();
 		cycleInfoEntity.lat = cycleInfo.getLat();

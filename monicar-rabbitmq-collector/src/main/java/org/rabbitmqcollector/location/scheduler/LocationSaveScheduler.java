@@ -11,6 +11,7 @@ import org.rabbitmqcollector.location.infrastructure.jpa.entity.VehicleInformati
 import org.rabbitmqcollector.location.infrastructure.jpa.entity.VehicleInformationJpaRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +64,19 @@ public class LocationSaveScheduler {
 			}
 		}
 
-		cycleInfoRepository.saveAll(batch);
-		log.info("MySQL 적재 완료: {}건", batch.size());
+		try {
+			cycleInfoRepository.saveAll(batch);
+			log.info("MySQL 적재 완료: {}건", batch.size());
+		} catch (ObjectOptimisticLockingFailureException e) {
+			log.warn("낙관적 락 충돌 발생, 개별 저장 시도");
+			// 개별 저장 시도
+			for (CycleInfo info : batch) {
+				try {
+					cycleInfoRepository.save(info);
+				} catch (Exception ex) {
+					log.error("개별 저장 실패: vehicleId={}, error={}", info.getVehicleId(), ex.getMessage());
+				}
+			}
+		}
 	}
 }
