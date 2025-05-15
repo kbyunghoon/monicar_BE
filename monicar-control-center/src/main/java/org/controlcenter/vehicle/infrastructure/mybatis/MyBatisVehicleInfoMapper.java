@@ -12,7 +12,6 @@ import org.controlcenter.vehicle.infrastructure.mybatis.dto.GeoCoordinateDto;
 import org.controlcenter.vehicle.presentation.RouteResponseWithStatus;
 import org.controlcenter.vehicle.presentation.dto.RouteResponse;
 import org.controlcenter.vehicle.presentation.dto.RouteResponseWithAng;
-import org.controlcenter.vehicle.presentation.dto.VehicleEngineStatusResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleInfoResponse;
 import org.controlcenter.vehicle.presentation.dto.VehicleModalResponse;
 
@@ -102,6 +101,32 @@ public interface MyBatisVehicleInfoMapper {
 		@Param("interval") Integer interval,
 		@Param("size") Integer size,
 		@Param("offset") Integer offset
+	);
+
+	@Select("""
+		SELECT
+		    ci.lat,
+		    ci.lng,
+		    ci.ang,
+		    ci.interval_at
+		FROM cycle_info ci
+		JOIN (
+		    SELECT 
+		        cycle_info_id,
+		        @rownum := @rownum + 1 AS row_num
+		    FROM cycle_info, (SELECT @rownum := 0) r
+		    WHERE vehicle_id = #{vehicleId}
+		      AND interval_at BETWEEN #{startTime} AND #{endTime}
+		    ORDER BY interval_at
+		) AS filtered_ids ON ci.cycle_info_id = filtered_ids.cycle_info_id
+		WHERE MOD(filtered_ids.row_num - 1, #{interval}) = 0
+		ORDER BY ci.interval_at;
+		""")
+	List<RouteResponseWithAng> getOptimizedVehicleRouteFrom(
+		@Param("vehicleId") Long vehicleId,
+		@Param("startTime") LocalDateTime startTime,
+		@Param("endTime") LocalDateTime endTime,
+		@Param("interval") Integer interval
 	);
 
 	/**
